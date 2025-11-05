@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={styles.content}>
-        <p>&copy; {currentYear} Portfolio. All rights reserved.</p>
+        <p>&copy; {currentYear} Portfolio. 모든 권리 보유.</p>
       </div>
     </footer>
   );

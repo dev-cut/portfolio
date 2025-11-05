@@ -1,5 +1,3 @@
-'use client';
-
 import { projects } from '@/lib/data';
 import Link from 'next/link';
 import styles from './Projects.module.scss';

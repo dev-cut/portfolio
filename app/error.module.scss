@@ -1,0 +1,44 @@
+@import '../styles/variables';
+
+.error {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  text-align: center;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: $text-primary;
+  
+  @media (min-width: 768px) {
+    font-size: 2rem;
+  }
+}
+
+.message {
+  color: $text-gray-600;
+  margin-bottom: 1rem;
+}
+
+.button {
+  padding: 0.5rem 1rem;
+  background-color: $blue-500;
+  color: #ffffff;
+  border-radius: 0.25rem;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  
+  &:hover {
+    background-color: $primary-hover;
+  }
+}
+

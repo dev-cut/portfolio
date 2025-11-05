@@ -1,0 +1,29 @@
+@import '../styles/variables';
+
+.notFound {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  text-align: center;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: $text-primary;
+  
+  @media (min-width: 768px) {
+    font-size: 2rem;
+  }
+}
+
+.message {
+  color: $text-gray-600;
+  margin-bottom: 1rem;
+}
+
