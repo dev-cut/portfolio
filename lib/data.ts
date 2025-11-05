@@ -1,4 +1,4 @@
-import { Project, Skill, SocialLink, Experience } from '@/types';
+import { Project, Skill, SocialLink } from '@/types';
 
 export const skills: Skill[] = [
   // Frontend
@@ -55,20 +55,5 @@ export const socialLinks: SocialLink[] = [
   { name: 'GitHub', url: 'https://github.com', icon: 'github' },
   { name: 'LinkedIn', url: 'https://linkedin.com', icon: 'linkedin' },
   { name: 'Email', url: 'mailto:your@email.com', icon: 'email' },
-];
-
-export const experiences: Experience[] = [
-  {
-    id: '1',
-    company: 'Tech Company',
-    position: 'Frontend Developer',
-    period: '2022 - Present',
-    description: [
-      'Next.js 기반 웹 애플리케이션 개발 및 유지보수',
-      '성능 최적화 및 사용자 경험 개선',
-      '팀과 협업하여 프로젝트 기획 및 구현',
-    ],
-    technologies: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS'],
-  },
 ];
 

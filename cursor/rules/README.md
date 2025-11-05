@@ -6,13 +6,12 @@
 
 규칙은 주제별로 분리되어 있으며, 각 파일은 `.mdc` 확장자와 frontmatter 메타데이터를 포함합니다:
 
-- **[일반 규칙](./00-general.mdc)** - 언어 설정, 커밋 메시지 기본 규칙
 - **[기본 설정](./01-basics.mdc)** - Next.js 버전, TypeScript, 프로젝트 구조
 - **[컴포넌트](./02-components.mdc)** - Server/Client Components, 아키텍처
 - **[성능 최적화](./03-performance.mdc)** - 이미지, 폰트, 번들 최적화
 - **[데이터 페칭](./04-data-fetching.mdc)** - 데이터 페칭 패턴, 서버 액션
 - **[라우팅 & 레이아웃](./05-routing.mdc)** - 라우팅, 레이아웃 패턴
-- **[스타일링](./06-styling.mdc)** - SCSS, CSS Modules, Tailwind CSS
+- **[스타일링](./06-styling.mdc)** - SCSS, CSS Modules
 - **[타입 안정성](./07-typescript.mdc)** - TypeScript 설정 및 사용법
 - **[품질 & 최적화](./08-quality.mdc)** - 코드 품질, 배포, 보안
 - **[접근성 & SEO](./09-a11y-seo.mdc)** - 접근성, SEO 최적화

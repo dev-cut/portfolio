@@ -22,12 +22,3 @@ export interface SocialLink {
   icon: string;
 }
 
-export interface Experience {
-  id: string;
-  company: string;
-  position: string;
-  period: string;
-  description: string[];
-  technologies?: string[];
-}
-
