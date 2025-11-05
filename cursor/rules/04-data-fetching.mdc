@@ -1,0 +1,46 @@
+---
+description: Next.js 데이터 페칭 패턴, 서버 액션, 캐싱 전략 규칙
+globs: ["**/*.tsx", "**/*.ts", "**/actions/**"]
+alwaysApply: true
+---
+
+# 데이터 페칭
+
+## Server Components에서 데이터 페칭
+
+- `fetch` API 사용 (React 19+ 자동 캐싱)
+- `async/await` 사용
+- 캐싱 전략 명시:
+  - `cache: 'force-cache'` (기본, SSG)
+  - `cache: 'no-store'` (SSR)
+  - `next: { revalidate: 3600 }` (ISR)
+
+```typescript
+// Server Component
+export default async function Page() {
+  const res = await fetch('https://api.example.com/data', {
+    next: { revalidate: 3600 }, // ISR: 1시간마다 재검증
+  });
+  const data = await res.json();
+  return <div>{data}</div>;
+}
+```
+
+## 서버 액션
+
+- 폼 제출 및 데이터 변경은 서버 액션 사용
+- `'use server'` 지시어 사용
+- `app/actions/` 디렉토리에 분리
+
+```typescript
+'use server'
+export async function submitForm(formData: FormData) {
+  // 서버에서 실행되는 코드
+}
+```
+
+## 데이터 페칭 패턴
+
+- Server Components에서 직접 데이터 페칭
+- 클라이언트에서 데이터 페칭이 필요한 경우 SWR 또는 React Query 사용 고려
+- 에러 처리: try-catch 또는 에러 바운더리 사용

@@ -1,0 +1,42 @@
+---
+description: Next.js 스타일링 규칙 - CSS Modules, Tailwind CSS 사용법
+globs: ["**/*.tsx", "**/*.css", "**/*.module.css"]
+alwaysApply: true
+---
+
+# 스타일링
+
+## CSS Modules 또는 Tailwind CSS
+
+- CSS Modules: `*.module.css` 사용
+- Tailwind CSS 사용 시 `tailwind.config.ts` 설정
+- 전역 스타일은 `app/globals.css`에만
+
+## 스타일링 권장사항
+
+- CSS-in-JS 라이브러리 사용 시 Client Component로 제한
+- Server Components에서는 CSS Modules 또는 Tailwind 사용
+
+## 스타일링 패턴
+
+### CSS Modules 예시
+```typescript
+// component.module.css
+.container {
+  padding: 1rem;
+}
+
+// component.tsx
+import styles from './component.module.css';
+
+export default function Component() {
+  return <div className={styles.container}>Content</div>;
+}
+```
+
+### Tailwind CSS 예시
+```typescript
+export default function Component() {
+  return <div className="p-4 bg-blue-500">Content</div>;
+}
+```

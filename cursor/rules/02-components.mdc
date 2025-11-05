@@ -1,0 +1,46 @@
+---
+description: Server Components와 Client Components 사용 규칙, 컴포넌트 아키텍처 패턴
+globs: ["**/*.tsx", "**/*.ts", "**/*.jsx", "**/*.js"]
+alwaysApply: true
+---
+
+# 컴포넌트 아키텍처
+
+## Server Components 기본
+
+- **기본적으로 Server Components 사용**
+- Server Components는 `async/await` 지원
+- 데이터 페칭은 Server Components에서 수행
+
+## Client Components
+
+- `'use client'` 지시어는 필요할 때만 사용
+- 인터랙티브 기능이 필요한 경우에만 사용:
+  - 이벤트 리스너 (`onClick`, `onChange` 등)
+  - React Hooks (`useState`, `useEffect` 등)
+  - 브라우저 전용 API 사용
+  - Context API 사용
+
+## 컴포넌트 구조
+
+```typescript
+// Server Component (기본)
+export default async function MyComponent() {
+  const data = await fetchData();
+  return <div>{data}</div>;
+}
+
+// Client Component (필요시)
+'use client'
+export default function InteractiveComponent() {
+  const [state, setState] = useState();
+  return <button onClick={...}>Click</button>;
+}
+```
+
+## 컴포넌트 설계 원칙
+
+- 단일 책임 원칙: 하나의 컴포넌트는 하나의 역할만 수행
+- 재사용성: 공통 컴포넌트는 `components/` 디렉토리에 분리
+- Props 타입 명시: TypeScript로 Props 타입 정의 필수
+- 컴포넌트 분리: 큰 컴포넌트는 작은 단위로 분리

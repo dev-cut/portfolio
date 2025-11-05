@@ -1,0 +1,44 @@
+---
+description: Next.js App Router 라우팅, 레이아웃, 네비게이션 패턴 규칙
+globs: ["app/**/*.tsx", "app/**/*.ts"]
+alwaysApply: true
+---
+
+# 라우팅 & 레이아웃
+
+## 파일 시스템 기반 라우팅
+
+- `app/` 디렉토리 구조로 라우트 생성
+- 동적 라우트: `[slug]` 또는 `[...slug]`
+- 라우트 그룹: `(group)` 괄호 사용
+
+## 레이아웃
+
+- 중첩 레이아웃 활용
+- `loading.tsx`: 로딩 UI
+- `error.tsx`: 에러 UI
+- `not-found.tsx`: 404 페이지
+
+## 네비게이션
+
+- `next/link` 사용 (클라이언트 사이드 네비게이션)
+- `next/navigation`의 `useRouter`, `usePathname` 사용 (Client Components)
+
+```typescript
+import Link from 'next/link';
+import { useRouter, usePathname } from 'next/navigation';
+
+// Server Component
+<Link href="/about">About</Link>
+
+// Client Component
+'use client'
+const router = useRouter();
+const pathname = usePathname();
+```
+
+## 라우팅 패턴
+
+- 중첩 라우팅 활용
+- 병렬 라우팅 (`@folder`) 필요시 사용
+- 인터셉팅 라우트 (`(.)folder`) 필요시 사용
