@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import styles from './Header.module.scss';
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -23,35 +24,27 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-white/80 backdrop-blur-md shadow-sm'
-          : 'bg-transparent'
+      className={`${styles.header} ${
+        isScrolled ? styles.scrolled : styles.transparent
       }`}
     >
-      <nav className="max-w-7xl mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
-          <Link
-            href="/"
-            className="text-xl font-bold text-gray-900 hover:text-blue-600 transition-colors"
-          >
+      <nav className={styles.nav}>
+        <div className={styles.navContent}>
+          <Link href="/" className={styles.logo}>
             Portfolio
           </Link>
-          <ul className="hidden md:flex items-center gap-8">
+          <ul className={styles.navList}>
             {navItems.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
-                >
+              <li key={item.href} className={styles.navItem}>
+                <Link href={item.href} className={styles.navLink}>
                   {item.label}
                 </Link>
               </li>
             ))}
           </ul>
-          <button className="md:hidden text-gray-900">
+          <button className={styles.menuButton}>
             <svg
-              className="w-6 h-6"
+              className={styles.icon}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

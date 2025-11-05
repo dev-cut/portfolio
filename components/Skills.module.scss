@@ -1,0 +1,106 @@
+@import '../styles/variables';
+
+.skills {
+  padding: 5rem 1.5rem;
+}
+
+.content {
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: $text-primary;
+  margin-bottom: 3rem;
+  text-align: center;
+  
+  @media (min-width: 768px) {
+    font-size: 2.5rem;
+  }
+}
+
+.grid {
+  display: grid;
+  gap: 3rem;
+  
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.category {
+  // Category styles
+}
+
+.categoryTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: $text-primary;
+  margin-bottom: 1.5rem;
+  
+  @media (min-width: 768px) {
+    font-size: 1.875rem;
+  }
+}
+
+.skillList {
+  > * + * {
+    margin-top: 1rem;
+  }
+}
+
+.skillItem {
+  // Skill item styles
+}
+
+.skillHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.skillName {
+  font-weight: 500;
+  color: $text-primary;
+}
+
+.skillLevel {
+  font-size: 0.875rem;
+  color: $text-gray-600;
+  text-transform: capitalize;
+}
+
+.progressBar {
+  width: 100%;
+  background-color: $bg-gray-200;
+  border-radius: 9999px;
+  height: 0.5rem;
+}
+
+.progressFill {
+  height: 0.5rem;
+  border-radius: 9999px;
+  
+  &.expert {
+    background-color: $green-500;
+    width: 100%;
+  }
+  
+  &.advanced {
+    background-color: $blue-500;
+    width: 80%;
+  }
+  
+  &.intermediate {
+    background-color: $yellow-500;
+    width: 60%;
+  }
+  
+  &.beginner {
+    background-color: $bg-gray-400;
+    width: 40%;
+  }
+}
+

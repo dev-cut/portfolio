@@ -1,9 +1,11 @@
+import styles from './About.module.scss';
+
 export default function About() {
   return (
-    <section id="about" className="py-20 px-6 bg-gray-50">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-4xl font-bold text-gray-900 mb-4">About</h2>
-        <div className="space-y-6 text-lg text-gray-700 leading-relaxed">
+    <section id="about" className={styles.about}>
+      <div className={styles.content}>
+        <h2 className={styles.title}>About</h2>
+        <div className={styles.text}>
           <p>
             프론트엔드 개발자로서 사용자 중심의 웹 애플리케이션을 개발하고
             있습니다. 깔끔한 코드와 훌륭한 사용자 경험을 추구합니다.
@@ -21,4 +23,3 @@ export default function About() {
     </section>
   );
 }
-

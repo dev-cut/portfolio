@@ -1,0 +1,14 @@
+@import '../styles/variables';
+
+.footer {
+  background-color: $bg-gray-900;
+  color: $text-gray-400;
+  padding: 2rem 1.5rem;
+}
+
+.content {
+  max-width: 80rem;
+  margin: 0 auto;
+  text-align: center;
+}
+

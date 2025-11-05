@@ -1,0 +1,84 @@
+@import '../styles/variables';
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  transition: all 0.3s ease;
+  
+  &.scrolled {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  }
+  
+  &.transparent {
+    background-color: transparent;
+  }
+}
+
+.nav {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+}
+
+.navContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: $text-primary;
+  text-decoration: none;
+  transition: color 0.15s ease;
+  
+  &:hover {
+    color: $text-blue-600;
+  }
+}
+
+.navList {
+  display: none;
+  
+  @media (min-width: 768px) {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+}
+
+.navItem {
+  list-style: none;
+}
+
+.navLink {
+  color: $text-gray-700;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.15s ease;
+  
+  &:hover {
+    color: $text-blue-600;
+  }
+}
+
+.menuButton {
+  display: block;
+  color: $text-primary;
+  
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+
+.icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+

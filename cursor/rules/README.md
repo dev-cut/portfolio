@@ -6,6 +6,7 @@
 
 규칙은 주제별로 분리되어 있으며, 각 파일은 `.mdc` 확장자와 frontmatter 메타데이터를 포함합니다:
 
+- **[일반 규칙](./00-general.mdc)** - 언어 설정, 커밋 메시지 기본 규칙
 - **[기본 설정](./01-basics.mdc)** - Next.js 버전, TypeScript, 프로젝트 구조
 - **[컴포넌트](./02-components.mdc)** - Server/Client Components, 아키텍처
 - **[성능 최적화](./03-performance.mdc)** - 이미지, 폰트, 번들 최적화

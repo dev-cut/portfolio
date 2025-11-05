@@ -2,54 +2,43 @@
 
 import { projects } from '@/lib/data';
 import Link from 'next/link';
+import styles from './Projects.module.scss';
 
 export default function Projects() {
   const featuredProjects = projects.filter((p) => p.featured);
   const otherProjects = projects.filter((p) => !p.featured);
 
   return (
-    <section id="projects" className="py-20 px-6 bg-gray-50">
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-4xl font-bold text-gray-900 mb-12 text-center">
-          Projects
-        </h2>
+    <section id="projects" className={styles.projects}>
+      <div className={styles.content}>
+        <h2 className={styles.title}>Projects</h2>
 
         {/* Featured Projects */}
-        <div className="grid md:grid-cols-2 gap-8 mb-16">
+        <div className={styles.featuredGrid}>
           {featuredProjects.map((project) => (
-            <div
-              key={project.id}
-              className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
-            >
-              <div className="relative h-64 bg-gradient-to-br from-blue-400 to-purple-500">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-white text-2xl font-bold">
-                    {project.title}
-                  </span>
+            <div key={project.id} className={styles.projectCard}>
+              <div className={styles.imageContainer}>
+                <div className={styles.imageContent}>
+                  <span className={styles.imageText}>{project.title}</span>
                 </div>
               </div>
-              <div className="p-6">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                  {project.title}
-                </h3>
-                <p className="text-gray-600 mb-4">{project.description}</p>
-                <div className="flex flex-wrap gap-2 mb-4">
+              <div className={styles.cardContent}>
+                <h3 className={styles.cardTitle}>{project.title}</h3>
+                <p className={styles.cardDescription}>{project.description}</p>
+                <div className={styles.techList}>
                   {project.technologies.map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
-                    >
+                    <span key={tech} className={styles.techTag}>
                       {tech}
                     </span>
                   ))}
                 </div>
-                <div className="flex gap-4">
+                <div className={styles.cardLinks}>
                   {project.liveUrl && (
                     <Link
                       href={project.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:text-blue-700 font-medium"
+                      className={styles.link}
                     >
                       Live Demo →
                     </Link>
@@ -59,7 +48,7 @@ export default function Projects() {
                       href={project.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gray-600 hover:text-gray-700 font-medium"
+                      className={`${styles.link} ${styles.secondary}`}
                     >
                       GitHub →
                     </Link>
@@ -72,24 +61,16 @@ export default function Projects() {
 
         {/* Other Projects */}
         {otherProjects.length > 0 && (
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className={styles.otherGrid}>
             {otherProjects.map((project) => (
-              <div
-                key={project.id}
-                className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
-              >
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  {project.title}
-                </h3>
-                <p className="text-gray-600 mb-4 text-sm">
+              <div key={project.id} className={styles.smallCard}>
+                <h3 className={styles.smallCardTitle}>{project.title}</h3>
+                <p className={styles.smallCardDescription}>
                   {project.description}
                 </p>
-                <div className="flex flex-wrap gap-2 mb-4">
+                <div className={styles.smallTechList}>
                   {project.technologies.slice(0, 3).map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs"
-                    >
+                    <span key={tech} className={styles.smallTechTag}>
                       {tech}
                     </span>
                   ))}
@@ -99,7 +80,7 @@ export default function Projects() {
                     href={project.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+                    className={styles.smallLink}
                   >
                     GitHub →
                   </Link>
@@ -112,4 +93,3 @@ export default function Projects() {
     </section>
   );
 }
-

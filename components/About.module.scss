@@ -1,0 +1,33 @@
+@import '../styles/variables';
+
+.about {
+  padding: 5rem 1.5rem;
+  background-color: $bg-gray-50;
+}
+
+.content {
+  max-width: 56rem;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: $text-primary;
+  margin-bottom: 1rem;
+  
+  @media (min-width: 768px) {
+    font-size: 2.5rem;
+  }
+}
+
+.text {
+  font-size: 1.125rem;
+  color: $text-gray-700;
+  line-height: 1.625;
+  
+  > * + * {
+    margin-top: 1.5rem;
+  }
+}
+
