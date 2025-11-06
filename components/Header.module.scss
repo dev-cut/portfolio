@@ -66,6 +66,10 @@
   &:hover {
     color: var(--color-text-blue-600);
   }
+
+  &.active {
+    color: var(--color-text-blue-600);
+  }
 }
 
 .actions {
@@ -169,4 +173,39 @@
   width: 1.5rem;
   height: 1.5rem;
   transition: color 0.15s ease;
+}
+
+.userEmail {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin-right: 0.5rem;
+  
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.authButton {
+  padding: 0.5rem 1rem;
+  background: var(--color-primary);
+  color: white;
+  text-decoration: none;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+  }
 }

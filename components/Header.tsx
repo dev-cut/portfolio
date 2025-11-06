@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import styles from './Header.module.scss';
 
@@ -9,6 +10,7 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
   const { theme, resolvedTheme, setTheme } = useTheme();
+  const pathname = usePathname();
   const currentTheme = resolvedTheme ?? theme ?? 'light';
 
   useEffect(() => {
@@ -46,13 +48,21 @@ export default function Header() {
             Portfolio
           </Link>
           <ul className={styles.navList}>
-            {navItems.map((item) => (
+            {navItems.map((item) => {
+              const isActive = item.href.startsWith('/')
+                ? pathname === item.href
+                : pathname === '/' && item.href.startsWith('#');
+              return (
               <li key={item.href} className={styles.navItem}>
-                <Link href={item.href} className={styles.navLink}>
+                  <Link
+                    href={item.href}
+                    className={`${styles.navLink} ${isActive ? styles.active : ''}`}
+                  >
                   {item.label}
                 </Link>
               </li>
-            ))}
+              );
+            })}
           </ul>
           <div className={styles.actions}>
             <button
