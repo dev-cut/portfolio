@@ -52,7 +52,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       await supabase.auth.signOut();
       setUser(null);
       setLoading(false);
-      router.push('/');
     } catch (error) {
       console.error('Error signing out:', error);
     }

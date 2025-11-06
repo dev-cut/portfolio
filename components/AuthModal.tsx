@@ -30,7 +30,7 @@ export default function AuthModal({
       setPassword('');
       setConfirmPassword('');
       setError(null);
-      
+
       // 모달이 열릴 때 body 스크롤만 방지
       document.body.style.overflow = 'hidden';
     } else {
@@ -98,8 +98,12 @@ export default function AuthModal({
       }
 
       if (data?.user) {
+        // 로그인 성공 - AuthProvider의 onAuthStateChange가 자동으로 상태 업데이트
         onClose();
-        window.location.reload();
+        // 폼 초기화
+        setEmail('');
+        setPassword('');
+        setError(null);
       } else {
         setError('로그인에 실패했습니다. 다시 시도해주세요.');
         setLoading(false);
