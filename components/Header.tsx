@@ -3,13 +3,18 @@
 import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import { usePathname } from 'next/navigation';
+import { useAuth } from './AuthProvider';
 import Link from 'next/link';
+import AuthModal from './AuthModal';
 import styles from './Header.module.scss';
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authModalTab, setAuthModalTab] = useState<'login' | 'signup'>('login');
   const { theme, resolvedTheme, setTheme } = useTheme();
+  const { user, signOut } = useAuth();
   const pathname = usePathname();
   const currentTheme = resolvedTheme ?? theme ?? 'light';
 
@@ -36,6 +41,15 @@ export default function Header() {
     setTheme(currentTheme === 'dark' ? 'light' : 'dark');
   };
 
+  const handleOpenAuthModal = (tab: 'login' | 'signup' = 'login') => {
+    setAuthModalTab(tab);
+    setAuthModalOpen(true);
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
+
   return (
     <header
       className={`${styles.header} ${
@@ -53,18 +67,33 @@ export default function Header() {
                 ? pathname === item.href
                 : pathname === '/' && item.href.startsWith('#');
               return (
-              <li key={item.href} className={styles.navItem}>
+                <li key={item.href} className={styles.navItem}>
                   <Link
                     href={item.href}
                     className={`${styles.navLink} ${isActive ? styles.active : ''}`}
                   >
-                  {item.label}
-                </Link>
-              </li>
+                    {item.label}
+                  </Link>
+                </li>
               );
             })}
           </ul>
           <div className={styles.actions}>
+            {user ? (
+              <>
+                <span className={styles.userEmail}>{user.email}</span>
+                <button onClick={handleSignOut} className={styles.authButton}>
+                  로그아웃
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={() => handleOpenAuthModal('login')}
+                className={styles.authButton}
+              >
+                로그인
+              </button>
+            )}
             <button
               className={styles.themeButton}
               onClick={toggleTheme}
@@ -122,6 +151,11 @@ export default function Header() {
           </div>
         </div>
       </nav>
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        initialTab={authModalTab}
+      />
     </header>
   );
 }
