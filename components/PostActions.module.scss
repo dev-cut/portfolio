@@ -8,6 +8,8 @@
 .editButton,
 .deleteButton {
   font-size: 0.9rem;
+  width: auto;
+  min-width: fit-content;
 }
 
 .confirm {
@@ -42,4 +44,3 @@
     }
   }
 }
-
