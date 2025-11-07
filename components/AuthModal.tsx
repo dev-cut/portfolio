@@ -1,7 +1,19 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { createClient } from '@/lib/supabase/client';
+import FormField from './ui/FormField';
+import ErrorMessage from './ui/ErrorMessage';
+import Button from './ui/Button';
+import {
+  validateEmail,
+  validatePassword,
+  validatePasswordMatch,
+} from '@/lib/utils/validation';
+import {
+  getLoginErrorMessage,
+  getSignupErrorMessage,
+} from '@/lib/utils/authMessages';
 import styles from './AuthModal.module.scss';
 
 interface AuthModalProps {
@@ -9,6 +21,8 @@ interface AuthModalProps {
   onClose: () => void;
   initialTab?: 'login' | 'signup';
 }
+
+const SIGNUP_SUCCESS_DELAY = 2000;
 
 export default function AuthModal({
   isOpen,
@@ -21,15 +35,23 @@ export default function AuthModal({
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const supabase = createClient();
+
+  // Supabase 클라이언트 메모이제이션
+  const supabase = useMemo(() => createClient(), []);
+
+  // 폼 초기화 함수
+  const resetForm = useCallback(() => {
+    setEmail('');
+    setPassword('');
+    setConfirmPassword('');
+    setError(null);
+    setLoading(false);
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
       setActiveTab(initialTab);
-      setEmail('');
-      setPassword('');
-      setConfirmPassword('');
-      setError(null);
+      resetForm();
 
       // 모달이 열릴 때 body 스크롤만 방지
       document.body.style.overflow = 'hidden';
@@ -42,15 +64,19 @@ export default function AuthModal({
       // 컴포넌트 언마운트 시에도 스크롤 복원
       document.body.style.overflow = '';
     };
-  }, [isOpen, initialTab]);
+  }, [isOpen, initialTab, resetForm]);
 
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
+  // ESC 키 핸들러 메모이제이션
+  const handleEscape = useCallback(
+    (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
         onClose();
       }
-    };
+    },
+    [isOpen, onClose]
+  );
 
+  useEffect(() => {
     if (isOpen) {
       document.addEventListener('keydown', handleEscape);
     }
@@ -58,147 +84,150 @@ export default function AuthModal({
     return () => {
       document.removeEventListener('keydown', handleEscape);
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, handleEscape]);
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setLoading(true);
+  const handleLogin = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+      setError(null);
+      setLoading(true);
 
-    try {
-      if (!email || !email.trim()) {
-        setError('이메일을 입력해주세요.');
+      try {
+        const emailValidation = validateEmail(email);
+        if (!emailValidation.isValid) {
+          setError(emailValidation.error!);
+          setLoading(false);
+          return;
+        }
+
+        const passwordValidation = validatePassword(password);
+        if (!passwordValidation.isValid) {
+          setError(passwordValidation.error!);
+          setLoading(false);
+          return;
+        }
+
+        const { data, error: authError } =
+          await supabase.auth.signInWithPassword({
+            email: email.trim(),
+            password: password.trim(),
+          });
+
+        if (authError) {
+          setError(getLoginErrorMessage(authError.message));
+          setLoading(false);
+          return;
+        }
+
+        if (data?.user) {
+          setLoading(false);
+          resetForm();
+          onClose();
+        } else {
+          setError('로그인에 실패했습니다. 다시 시도해주세요.');
+          setLoading(false);
+        }
+      } catch (err) {
+        console.error('Login error:', err);
+        setError('로그인 중 오류가 발생했습니다. 다시 시도해주세요.');
         setLoading(false);
-        return;
       }
+    },
+    [email, password, supabase, resetForm, onClose]
+  );
 
-      if (!password || !password.trim()) {
-        setError('비밀번호를 입력해주세요.');
-        setLoading(false);
-        return;
-      }
+  const handleSignup = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+      setError(null);
+      setLoading(true);
 
-      const { data, error: authError } = await supabase.auth.signInWithPassword(
-        {
-          email: email.trim(),
+      try {
+        const emailValidation = validateEmail(email);
+        if (!emailValidation.isValid) {
+          setError(emailValidation.error!);
+          setLoading(false);
+          return;
+        }
+
+        const passwordValidation = validatePassword(password);
+        if (!passwordValidation.isValid) {
+          setError(passwordValidation.error!);
+          setLoading(false);
+          return;
+        }
+
+        const passwordMatchValidation = validatePasswordMatch(
           password,
+          confirmPassword
+        );
+        if (!passwordMatchValidation.isValid) {
+          setError(passwordMatchValidation.error!);
+          setLoading(false);
+          return;
         }
-      );
 
-      if (authError) {
-        let errorMessage = authError.message;
-        if (authError.message.includes('Invalid login credentials')) {
-          errorMessage = '이메일 또는 비밀번호가 올바르지 않습니다.';
-        } else if (authError.message.includes('Email not confirmed')) {
-          errorMessage = '이메일 인증이 필요합니다.';
+        const { data, error: signUpError } = await supabase.auth.signUp({
+          email: email.trim(),
+          password: password.trim(),
+        });
+
+        if (signUpError) {
+          setError(getSignupErrorMessage(signUpError.message));
+          setLoading(false);
+          return;
         }
-        setError(errorMessage);
-        setLoading(false);
-        return;
-      }
 
-      if (data?.user) {
-        // 로그인 성공 - AuthProvider의 onAuthStateChange가 자동으로 상태 업데이트
-        onClose();
-        // 폼 초기화
-        setEmail('');
-        setPassword('');
-        setError(null);
-      } else {
-        setError('로그인에 실패했습니다. 다시 시도해주세요.');
+        if (data?.user) {
+          setLoading(false);
+          setError('회원가입이 완료되었습니다! 이메일을 확인해주세요.');
+          setTimeout(() => {
+            setActiveTab('login');
+            resetForm();
+          }, SIGNUP_SUCCESS_DELAY);
+        } else {
+          setError('회원가입에 실패했습니다. 다시 시도해주세요.');
+          setLoading(false);
+        }
+      } catch (err) {
+        console.error('Signup error:', err);
+        setError('회원가입 중 오류가 발생했습니다. 다시 시도해주세요.');
         setLoading(false);
       }
-    } catch (err) {
-      console.error('Login error:', err);
-      setError('로그인 중 오류가 발생했습니다. 다시 시도해주세요.');
-      setLoading(false);
-    }
-  };
+    },
+    [email, password, confirmPassword, supabase, resetForm]
+  );
 
-  const handleSignup = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // 탭 변경 핸들러 메모이제이션
+  const handleTabChange = useCallback((tab: 'login' | 'signup') => {
+    setActiveTab(tab);
     setError(null);
-    setLoading(true);
+  }, []);
 
-    try {
-      if (!email || !email.trim()) {
-        setError('이메일을 입력해주세요.');
-        setLoading(false);
-        return;
-      }
-
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email.trim())) {
-        setError('올바른 이메일 형식을 입력해주세요.');
-        setLoading(false);
-        return;
-      }
-
-      if (!password || !password.trim()) {
-        setError('비밀번호를 입력해주세요.');
-        setLoading(false);
-        return;
-      }
-
-      if (password !== confirmPassword) {
-        setError('비밀번호가 일치하지 않습니다.');
-        setLoading(false);
-        return;
-      }
-
-      if (password.length < 6) {
-        setError('비밀번호는 최소 6자 이상이어야 합니다.');
-        setLoading(false);
-        return;
-      }
-
-      const { data, error: signUpError } = await supabase.auth.signUp({
-        email: email.trim(),
-        password: password.trim(),
-      });
-
-      if (signUpError) {
-        let errorMessage = signUpError.message;
-        if (signUpError.message.includes('User already registered')) {
-          errorMessage = '이미 등록된 이메일입니다.';
-        } else if (
-          signUpError.message.includes('Password should be at least')
-        ) {
-          errorMessage = '비밀번호는 최소 6자 이상이어야 합니다.';
-        }
-        setError(errorMessage);
-        setLoading(false);
-        return;
-      }
-
-      if (data?.user) {
-        setError(null);
-        setError('회원가입이 완료되었습니다! 이메일을 확인해주세요.');
-        setTimeout(() => {
-          setActiveTab('login');
-          setEmail('');
-          setPassword('');
-          setConfirmPassword('');
-          setError(null);
-        }, 2000);
-      } else {
-        setError('회원가입에 실패했습니다. 다시 시도해주세요.');
-        setLoading(false);
-      }
-    } catch (err) {
-      console.error('Signup error:', err);
-      setError('회원가입 중 오류가 발생했습니다. 다시 시도해주세요.');
-      setLoading(false);
+  // 오버레이 클릭 핸들러 메모이제이션
+  const handleOverlayClick = useCallback(() => {
+    if (!loading) {
+      onClose();
     }
-  };
+  }, [loading, onClose]);
+
+  // 모달 클릭 핸들러 메모이제이션 (이벤트 전파 방지)
+  const handleModalClick = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+  }, []);
+
+  const isSuccessMessage = useMemo(
+    () => error?.includes('완료') ?? false,
+    [error]
+  );
 
   if (!isOpen) return null;
 
   return (
-    <div className={styles.overlay} onClick={onClose}>
+    <div className={styles.overlay} onClick={handleOverlayClick}>
       <div
         className={styles.modal}
-        onClick={(e) => e.stopPropagation()}
+        onClick={handleModalClick}
         role="dialog"
         aria-modal="true"
         aria-labelledby="auth-modal-title"
@@ -207,19 +236,13 @@ export default function AuthModal({
           <div className={styles.tabs}>
             <button
               className={`${styles.tab} ${activeTab === 'login' ? styles.active : ''}`}
-              onClick={() => {
-                setActiveTab('login');
-                setError(null);
-              }}
+              onClick={() => handleTabChange('login')}
             >
               로그인
             </button>
             <button
               className={`${styles.tab} ${activeTab === 'signup' ? styles.active : ''}`}
-              onClick={() => {
-                setActiveTab('signup');
-                setError(null);
-              }}
+              onClick={() => handleTabChange('signup')}
             >
               회원가입
             </button>
@@ -231,111 +254,81 @@ export default function AuthModal({
                 <h2 id="auth-modal-title" className={styles.title}>
                   로그인
                 </h2>
-                <div className={styles.field}>
-                  <label htmlFor="login-email" className={styles.label}>
-                    이메일
-                  </label>
-                  <input
-                    id="login-email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    className={styles.input}
-                    placeholder="your@email.com"
-                    autoComplete="email"
-                  />
-                </div>
-                <div className={styles.field}>
-                  <label htmlFor="login-password" className={styles.label}>
-                    비밀번호
-                  </label>
-                  <input
-                    id="login-password"
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    className={styles.input}
-                    placeholder="비밀번호를 입력하세요"
-                    autoComplete="current-password"
-                  />
-                </div>
-                {error && <div className={styles.error}>{error}</div>}
-                <button
+                <FormField
+                  label="이메일"
+                  id="login-email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="your@email.com"
+                  autoComplete="email"
+                  required
+                />
+                <FormField
+                  label="비밀번호"
+                  id="login-password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="비밀번호를 입력하세요"
+                  autoComplete="current-password"
+                  required
+                />
+                <ErrorMessage message={error || ''} />
+                <Button
                   type="submit"
-                  disabled={loading}
-                  className={styles.submitButton}
+                  loading={loading}
+                  loadingText="로그인 중..."
                 >
-                  {loading ? '로그인 중...' : '로그인'}
-                </button>
+                  로그인
+                </Button>
               </form>
             ) : (
               <form onSubmit={handleSignup} className={styles.form}>
                 <h2 id="auth-modal-title" className={styles.title}>
                   회원가입
                 </h2>
-                <div className={styles.field}>
-                  <label htmlFor="signup-email" className={styles.label}>
-                    이메일
-                  </label>
-                  <input
-                    id="signup-email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    className={styles.input}
-                    placeholder="your@email.com"
-                    autoComplete="email"
-                  />
-                </div>
-                <div className={styles.field}>
-                  <label htmlFor="signup-password" className={styles.label}>
-                    비밀번호
-                  </label>
-                  <input
-                    id="signup-password"
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    className={styles.input}
-                    placeholder="최소 6자 이상"
-                    autoComplete="new-password"
-                  />
-                </div>
-                <div className={styles.field}>
-                  <label htmlFor="signup-confirm" className={styles.label}>
-                    비밀번호 확인
-                  </label>
-                  <input
-                    id="signup-confirm"
-                    type="password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    required
-                    className={styles.input}
-                    placeholder="비밀번호를 다시 입력하세요"
-                    autoComplete="new-password"
-                  />
-                </div>
-                {error && (
-                  <div
-                    className={`${styles.error} ${
-                      error.includes('완료') ? styles.success : ''
-                    }`}
-                  >
-                    {error}
-                  </div>
-                )}
-                <button
+                <FormField
+                  label="이메일"
+                  id="signup-email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="your@email.com"
+                  autoComplete="email"
+                  required
+                />
+                <FormField
+                  label="비밀번호"
+                  id="signup-password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="최소 6자 이상"
+                  autoComplete="new-password"
+                  required
+                />
+                <FormField
+                  label="비밀번호 확인"
+                  id="signup-confirm"
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="비밀번호를 다시 입력하세요"
+                  autoComplete="new-password"
+                  required
+                />
+                <ErrorMessage
+                  message={error || ''}
+                  type={isSuccessMessage ? 'success' : 'error'}
+                />
+                <Button
                   type="submit"
-                  disabled={loading}
-                  className={styles.submitButton}
+                  loading={loading}
+                  loadingText="가입 중..."
                 >
-                  {loading ? '가입 중...' : '회원가입'}
-                </button>
+                  회원가입
+                </Button>
               </form>
             )}
           </div>
