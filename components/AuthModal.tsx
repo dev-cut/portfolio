@@ -83,27 +83,48 @@ export default function AuthModal({
     []
   );
 
+  const validateFormFields = useCallback(
+    (isSignup: boolean) => {
+      const emailValidation = validateEmail(email);
+      if (!emailValidation.isValid) {
+        setError(emailValidation.error!);
+        setLoading(false);
+        return false;
+      }
+
+      const passwordValidation = validatePassword(password);
+      if (!passwordValidation.isValid) {
+        setError(passwordValidation.error!);
+        setLoading(false);
+        return false;
+      }
+
+      if (isSignup) {
+        const passwordMatchValidation = validatePasswordMatch(
+          password,
+          confirmPassword
+        );
+        if (!passwordMatchValidation.isValid) {
+          setError(passwordMatchValidation.error!);
+          setLoading(false);
+          return false;
+        }
+      }
+
+      return true;
+    },
+    [email, password, confirmPassword]
+  );
+
   const handleLogin = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
       setError(null);
       setLoading(true);
 
+      if (!validateFormFields(false)) return;
+
       try {
-        const emailValidation = validateEmail(email);
-        if (!emailValidation.isValid) {
-          setError(emailValidation.error!);
-          setLoading(false);
-          return;
-        }
-
-        const passwordValidation = validatePassword(password);
-        if (!passwordValidation.isValid) {
-          setError(passwordValidation.error!);
-          setLoading(false);
-          return;
-        }
-
         const { data, error: authError } =
           await supabase.auth.signInWithPassword({
             email: email.trim(),
@@ -128,7 +149,7 @@ export default function AuthModal({
         setLoading(false);
       }
     },
-    [email, password, supabase, resetForm, onClose, handleAuthError]
+    [email, password, supabase, resetForm, onClose, handleAuthError, validateFormFields]
   );
 
   const handleSignup = useCallback(
@@ -137,31 +158,9 @@ export default function AuthModal({
       setError(null);
       setLoading(true);
 
+      if (!validateFormFields(true)) return;
+
       try {
-        const emailValidation = validateEmail(email);
-        if (!emailValidation.isValid) {
-          setError(emailValidation.error!);
-          setLoading(false);
-          return;
-        }
-
-        const passwordValidation = validatePassword(password);
-        if (!passwordValidation.isValid) {
-          setError(passwordValidation.error!);
-          setLoading(false);
-          return;
-        }
-
-        const passwordMatchValidation = validatePasswordMatch(
-          password,
-          confirmPassword
-        );
-        if (!passwordMatchValidation.isValid) {
-          setError(passwordMatchValidation.error!);
-          setLoading(false);
-          return;
-        }
-
         const { data, error: signUpError } = await supabase.auth.signUp({
           email: email.trim(),
           password: password.trim(),
@@ -188,7 +187,7 @@ export default function AuthModal({
         setLoading(false);
       }
     },
-    [email, password, confirmPassword, supabase, resetForm, handleAuthError]
+    [email, password, confirmPassword, supabase, resetForm, handleAuthError, validateFormFields]
   );
 
   const handleTabChange = useCallback((tab: 'login' | 'signup') => {
