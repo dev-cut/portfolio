@@ -1,3 +1,5 @@
+import Link from 'next/link';
+import { cn } from '@/lib/utils/classNames';
 import styles from './Hero.module.scss';
 
 export default function Hero() {
@@ -16,12 +18,12 @@ export default function Hero() {
           것을 좋아합니다.
         </p>
         <div className={styles.actions}>
-          <a href="#projects" className={`${styles.button} ${styles.primary}`}>
+          <Link href="#projects" className={cn(styles.button, styles.primary)}>
             프로젝트 보기
-          </a>
-          <a href="#contact" className={`${styles.button} ${styles.secondary}`}>
+          </Link>
+          <Link href="#contact" className={cn(styles.button, styles.secondary)}>
             연락하기
-          </a>
+          </Link>
         </div>
       </div>
     </section>

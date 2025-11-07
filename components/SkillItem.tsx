@@ -1,4 +1,5 @@
 import { Skill } from '@/types';
+import { cn } from '@/lib/utils/classNames';
 import styles from './SkillItem.module.scss';
 
 interface SkillItemProps {
@@ -21,7 +22,7 @@ export default function SkillItem({ skill }: SkillItemProps) {
       </div>
       <div className={styles.progressBar}>
         <div
-          className={`${styles.progressFill} ${levelClasses[skill.level]}`}
+          className={cn(styles.progressFill, levelClasses[skill.level])}
         />
       </div>
     </div>

@@ -1,11 +1,13 @@
 'use client';
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import { usePathname } from 'next/navigation';
 import { useAuth } from './AuthProvider';
 import Link from 'next/link';
 import AuthModal from './AuthModal';
+import { cn } from '@/lib/utils/classNames';
+import { throttle } from '@/lib/utils/throttle';
 import styles from './Header.module.scss';
 
 const NAV_ITEMS = [
@@ -16,26 +18,34 @@ const NAV_ITEMS = [
   { href: '/board', label: 'Board' },
 ] as const;
 
+const SCROLL_THRESHOLD = 50;
+const SCROLL_THROTTLE_MS = 100;
 const DELAY_BASE = 0.05;
+const MOBILE_AUTH_DELAY = NAV_ITEMS.length * DELAY_BASE + 0.1;
+
+type AuthModalTab = 'login' | 'signup';
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
-  const [authModalTab, setAuthModalTab] = useState<'login' | 'signup'>('login');
+  const [authModalTab, setAuthModalTab] = useState<AuthModalTab>('login');
   const { theme, resolvedTheme, setTheme } = useTheme();
   const { user, signOut } = useAuth();
   const pathname = usePathname();
+
+  const currentTheme = resolvedTheme ?? theme ?? 'light';
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
+    const handleScroll = throttle(() => {
+      setIsScrolled(window.scrollY > SCROLL_THRESHOLD);
+    }, SCROLL_THROTTLE_MS);
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -47,132 +57,102 @@ export default function Header() {
     };
   }, [isMobileMenuOpen]);
 
-  const currentTheme = useMemo(
-    () => resolvedTheme ?? theme ?? 'light',
-    [resolvedTheme, theme]
-  );
-
-  const toggleTheme = useCallback(() => {
+  const toggleTheme = () => {
     setTheme(currentTheme === 'dark' ? 'light' : 'dark');
-  }, [currentTheme, setTheme]);
+  };
 
-  const closeMobileMenu = useCallback(() => {
+  const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
-  }, []);
+  };
 
-  const toggleMobileMenu = useCallback(() => {
-    setIsMobileMenuOpen((prev) => !prev);
-  }, []);
+  const handleOpenAuthModal = (tab: AuthModalTab = 'login') => {
+    setAuthModalTab(tab);
+    setAuthModalOpen(true);
+    closeMobileMenu();
+  };
 
-  const handleOpenAuthModal = useCallback(
-    (tab: 'login' | 'signup' = 'login') => {
-      setAuthModalTab(tab);
-      setAuthModalOpen(true);
-      closeMobileMenu();
-    },
-    [closeMobileMenu]
-  );
+  const isActiveLink = (href: string) =>
+    pathname === '/' && href.startsWith('#');
 
-  const headerClassName = useMemo(
-    () =>
-      `${styles.header} ${
-        isScrolled ? styles.scrolled : styles.transparent
-      } ${isMobileMenuOpen ? styles.menuOpen : ''}`,
-    [isScrolled, isMobileMenuOpen]
-  );
+  const getItemDelay = (index: number): React.CSSProperties | undefined =>
+    isMobileMenuOpen
+      ? ({ '--delay': `${index * DELAY_BASE}s` } as React.CSSProperties)
+      : undefined;
 
-  const navListClassName = useMemo(
-    () => `${styles.navList} ${isMobileMenuOpen ? styles.mobileOpen : ''}`,
-    [isMobileMenuOpen]
-  );
+  const getMobileAuthDelay = (): React.CSSProperties | undefined =>
+    isMobileMenuOpen
+      ? ({ '--delay': `${MOBILE_AUTH_DELAY}s` } as React.CSSProperties)
+      : undefined;
 
-  const isActiveLink = useCallback(
-    (href: string) => pathname === '/' && href.startsWith('#'),
-    [pathname]
-  );
-
-  const getItemStyle = useCallback(
-    (index: number) =>
-      isMobileMenuOpen
-        ? ({ '--delay': `${index * DELAY_BASE}s` } as React.CSSProperties)
-        : undefined,
-    [isMobileMenuOpen]
-  );
-
-  const renderAuthButton = useCallback(
-    (isMobile = false) => {
-      if (user) {
-        return (
-          <>
-            {isMobile ? (
-              <span className={styles.mobileUserEmail}>{user.email}</span>
-            ) : (
-              <span className={styles.userEmail}>{user.email}</span>
-            )}
-            <button onClick={signOut} className={styles.authButton}>
-              로그아웃
-            </button>
-          </>
-        );
-      }
+  const renderAuthSection = (isMobile = false) => {
+    if (user) {
       return (
-        <button
-          onClick={() => handleOpenAuthModal('login')}
-          className={styles.authButton}
-        >
-          로그인
-        </button>
+        <>
+          <span
+            className={isMobile ? styles.mobileUserEmail : styles.userEmail}
+          >
+            {user.email}
+          </span>
+          <button onClick={signOut} className={styles.authButton}>
+            로그아웃
+          </button>
+        </>
       );
-    },
-    [user, signOut, handleOpenAuthModal]
-  );
-
-  const mobileAuthDelay = useMemo(
-    () => NAV_ITEMS.length * DELAY_BASE + 0.1,
-    []
-  );
+    }
+    return (
+      <button
+        onClick={() => handleOpenAuthModal('login')}
+        className={styles.authButton}
+      >
+        로그인
+      </button>
+    );
+  };
 
   return (
     <>
-      <header className={headerClassName}>
+      <header
+        className={cn(
+          styles.header,
+          isScrolled ? styles.scrolled : styles.transparent,
+          isMobileMenuOpen && styles.menuOpen
+        )}
+      >
         <nav className={styles.nav}>
           <div className={styles.navContent}>
             <Link href="/" className={styles.logo} onClick={closeMobileMenu}>
               Portfolio
             </Link>
-            <ul className={navListClassName}>
+            <ul
+              className={cn(
+                styles.navList,
+                isMobileMenuOpen && styles.mobileOpen
+              )}
+            >
               {NAV_ITEMS.map((item, index) => (
                 <li
                   key={item.href}
                   className={styles.navItem}
-                  style={getItemStyle(index)}
+                  style={getItemDelay(index)}
                 >
                   <Link
                     href={item.href}
-                    className={`${styles.navLink} ${
-                      isActiveLink(item.href) ? styles.active : ''
-                    }`}
+                    className={cn(
+                      styles.navLink,
+                      isActiveLink(item.href) && styles.active
+                    )}
                     onClick={closeMobileMenu}
                   >
                     {item.label}
                   </Link>
                 </li>
               ))}
-              <li
-                className={styles.mobileAuth}
-                style={
-                  isMobileMenuOpen
-                    ? ({
-                        '--delay': `${mobileAuthDelay}s`,
-                      } as React.CSSProperties)
-                    : undefined
-                }
-              >
-                {renderAuthButton(true)}
+              <li className={styles.mobileAuth} style={getMobileAuthDelay()}>
+                {renderAuthSection(true)}
               </li>
             </ul>
             <div className={styles.actions}>
-              {renderAuthButton()}
+              {renderAuthSection()}
               <button
                 className={styles.themeButton}
                 onClick={toggleTheme}
@@ -181,7 +161,7 @@ export default function Header() {
               >
                 <span className={styles.iconWrapper}>
                   <svg
-                    className={`${styles.icon} ${styles.sunIcon}`}
+                    className={cn(styles.icon, styles.sunIcon)}
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -195,7 +175,7 @@ export default function Header() {
                     />
                   </svg>
                   <svg
-                    className={`${styles.icon} ${styles.moonIcon}`}
+                    className={cn(styles.icon, styles.moonIcon)}
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -211,10 +191,11 @@ export default function Header() {
                 </span>
               </button>
               <button
-                className={`${styles.menuButton} ${
-                  isMobileMenuOpen ? styles.menuButtonOpen : ''
-                }`}
-                onClick={toggleMobileMenu}
+                className={cn(
+                  styles.menuButton,
+                  isMobileMenuOpen && styles.menuButtonOpen
+                )}
+                onClick={() => setIsMobileMenuOpen((prev) => !prev)}
                 aria-label={isMobileMenuOpen ? '메뉴 닫기' : '메뉴 열기'}
                 aria-expanded={isMobileMenuOpen}
               >
@@ -229,9 +210,10 @@ export default function Header() {
         </nav>
       </header>
       <div
-        className={`${styles.mobileOverlay} ${
-          isMobileMenuOpen ? styles.mobileOpen : ''
-        }`}
+        className={cn(
+          styles.mobileOverlay,
+          isMobileMenuOpen && styles.mobileOpen
+        )}
         onClick={closeMobileMenu}
         aria-hidden="true"
       />

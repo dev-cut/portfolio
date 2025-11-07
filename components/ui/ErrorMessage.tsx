@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils/classNames';
 import styles from './ErrorMessage.module.scss';
 
 interface ErrorMessageProps {
@@ -13,9 +14,10 @@ export default function ErrorMessage({
 
   return (
     <div
-      className={`${styles.message} ${
+      className={cn(
+        styles.message,
         type === 'success' ? styles.success : styles.error
-      }`}
+      )}
     >
       {message}
     </div>

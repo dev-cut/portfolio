@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils/classNames';
 import styles from './FormField.module.scss';
 
 interface FormFieldProps {
@@ -34,7 +35,7 @@ export default function FormField({
         value={value}
         onChange={onChange}
         required={required}
-        className={`${styles.input} ${error ? styles.hasError : ''}`}
+        className={cn(styles.input, error && styles.hasError)}
         placeholder={placeholder}
         autoComplete={autoComplete}
         aria-invalid={!!error}

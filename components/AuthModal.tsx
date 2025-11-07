@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import FormField from './ui/FormField';
 import ErrorMessage from './ui/ErrorMessage';
 import Button from './ui/Button';
+import { cn } from '@/lib/utils/classNames';
 import {
   validateEmail,
   validatePassword,
@@ -36,15 +37,15 @@ export default function AuthModal({
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const supabase = useMemo(() => createClient(), []);
+  const supabase = createClient();
 
-  const resetForm = useCallback(() => {
+  const resetForm = () => {
     setEmail('');
     setPassword('');
     setConfirmPassword('');
     setError(null);
     setLoading(false);
-  }, []);
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -58,7 +59,7 @@ export default function AuthModal({
     return () => {
       document.body.style.overflow = '';
     };
-  }, [isOpen, initialTab, resetForm]);
+  }, [isOpen, initialTab]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -71,142 +72,127 @@ export default function AuthModal({
     return () => document.removeEventListener('keydown', handleEscape);
   }, [isOpen, onClose]);
 
-  const handleAuthError = useCallback(
-    (errorMessage: string, isLogin: boolean) => {
-      setError(
-        isLogin
-          ? getLoginErrorMessage(errorMessage)
-          : getSignupErrorMessage(errorMessage)
-      );
+  const handleAuthError = (errorMessage: string, isLogin: boolean) => {
+    setError(
+      isLogin
+        ? getLoginErrorMessage(errorMessage)
+        : getSignupErrorMessage(errorMessage)
+    );
+    setLoading(false);
+  };
+
+  const validateFormFields = (isSignup: boolean) => {
+    const emailValidation = validateEmail(email);
+    if (!emailValidation.isValid) {
+      setError(emailValidation.error!);
       setLoading(false);
-    },
-    []
-  );
+      return false;
+    }
 
-  const validateFormFields = useCallback(
-    (isSignup: boolean) => {
-      const emailValidation = validateEmail(email);
-      if (!emailValidation.isValid) {
-        setError(emailValidation.error!);
+    const passwordValidation = validatePassword(password);
+    if (!passwordValidation.isValid) {
+      setError(passwordValidation.error!);
+      setLoading(false);
+      return false;
+    }
+
+    if (isSignup) {
+      const passwordMatchValidation = validatePasswordMatch(
+        password,
+        confirmPassword
+      );
+      if (!passwordMatchValidation.isValid) {
+        setError(passwordMatchValidation.error!);
         setLoading(false);
         return false;
       }
+    }
 
-      const passwordValidation = validatePassword(password);
-      if (!passwordValidation.isValid) {
-        setError(passwordValidation.error!);
-        setLoading(false);
-        return false;
-      }
+    return true;
+  };
 
-      if (isSignup) {
-        const passwordMatchValidation = validatePasswordMatch(
-          password,
-          confirmPassword
-        );
-        if (!passwordMatchValidation.isValid) {
-          setError(passwordMatchValidation.error!);
-          setLoading(false);
-          return false;
-        }
-      }
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
 
-      return true;
-    },
-    [email, password, confirmPassword]
-  );
+    if (!validateFormFields(false)) return;
 
-  const handleLogin = useCallback(
-    async (e: React.FormEvent) => {
-      e.preventDefault();
-      setError(null);
-      setLoading(true);
-
-      if (!validateFormFields(false)) return;
-
-      try {
-        const { data, error: authError } =
-          await supabase.auth.signInWithPassword({
-            email: email.trim(),
-            password: password.trim(),
-          });
-
-        if (authError) {
-          handleAuthError(authError.message, true);
-          return;
-        }
-
-        if (data?.user) {
-          resetForm();
-          onClose();
-        } else {
-          setError('로그인에 실패했습니다. 다시 시도해주세요.');
-          setLoading(false);
-        }
-      } catch (err) {
-        console.error('Login error:', err);
-        setError('로그인 중 오류가 발생했습니다. 다시 시도해주세요.');
-        setLoading(false);
-      }
-    },
-    [email, password, supabase, resetForm, onClose, handleAuthError, validateFormFields]
-  );
-
-  const handleSignup = useCallback(
-    async (e: React.FormEvent) => {
-      e.preventDefault();
-      setError(null);
-      setLoading(true);
-
-      if (!validateFormFields(true)) return;
-
-      try {
-        const { data, error: signUpError } = await supabase.auth.signUp({
+    try {
+      const { data, error: authError } =
+        await supabase.auth.signInWithPassword({
           email: email.trim(),
           password: password.trim(),
         });
 
-        if (signUpError) {
-          handleAuthError(signUpError.message, false);
-          return;
-        }
+      if (authError) {
+        handleAuthError(authError.message, true);
+        return;
+      }
 
-        if (data?.user) {
-          setError('회원가입이 완료되었습니다! 이메일을 확인해주세요.');
-          setTimeout(() => {
-            setActiveTab('login');
-            resetForm();
-          }, SIGNUP_SUCCESS_DELAY);
-        } else {
-          setError('회원가입에 실패했습니다. 다시 시도해주세요.');
-          setLoading(false);
-        }
-      } catch (err) {
-        console.error('Signup error:', err);
-        setError('회원가입 중 오류가 발생했습니다. 다시 시도해주세요.');
+      if (data?.user) {
+        resetForm();
+        onClose();
+      } else {
+        setError('로그인에 실패했습니다. 다시 시도해주세요.');
         setLoading(false);
       }
-    },
-    [email, password, confirmPassword, supabase, resetForm, handleAuthError, validateFormFields]
-  );
+    } catch (err) {
+      console.error('Login error:', err);
+      setError('로그인 중 오류가 발생했습니다. 다시 시도해주세요.');
+      setLoading(false);
+    }
+  };
 
-  const handleTabChange = useCallback((tab: 'login' | 'signup') => {
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+
+    if (!validateFormFields(true)) return;
+
+    try {
+      const { data, error: signUpError } = await supabase.auth.signUp({
+        email: email.trim(),
+        password: password.trim(),
+      });
+
+      if (signUpError) {
+        handleAuthError(signUpError.message, false);
+        return;
+      }
+
+      if (data?.user) {
+        setError('회원가입이 완료되었습니다! 이메일을 확인해주세요.');
+        setTimeout(() => {
+          setActiveTab('login');
+          resetForm();
+        }, SIGNUP_SUCCESS_DELAY);
+      } else {
+        setError('회원가입에 실패했습니다. 다시 시도해주세요.');
+        setLoading(false);
+      }
+    } catch (err) {
+      console.error('Signup error:', err);
+      setError('회원가입 중 오류가 발생했습니다. 다시 시도해주세요.');
+      setLoading(false);
+    }
+  };
+
+  const handleTabChange = (tab: 'login' | 'signup') => {
     setActiveTab(tab);
     setError(null);
-  }, []);
+  };
 
-  const handleOverlayClick = useCallback(() => {
+  const handleOverlayClick = () => {
     if (!loading) onClose();
-  }, [loading, onClose]);
+  };
 
-  const handleModalClick = useCallback((e: React.MouseEvent) => {
+  const handleModalClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-  }, []);
+  };
 
-  const isSuccessMessage = useMemo(
-    () => error?.includes('완료') ?? false,
-    [error]
-  );
+  const isSuccessMessage = error?.includes('완료') ?? false;
 
   if (!isOpen) return null;
 
@@ -222,13 +208,13 @@ export default function AuthModal({
         <div className={styles.content}>
           <div className={styles.tabs}>
             <button
-              className={`${styles.tab} ${activeTab === 'login' ? styles.active : ''}`}
+              className={cn(styles.tab, activeTab === 'login' && styles.active)}
               onClick={() => handleTabChange('login')}
             >
               로그인
             </button>
             <button
-              className={`${styles.tab} ${activeTab === 'signup' ? styles.active : ''}`}
+              className={cn(styles.tab, activeTab === 'signup' && styles.active)}
               onClick={() => handleTabChange('signup')}
             >
               회원가입

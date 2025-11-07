@@ -1,5 +1,6 @@
 import { Project } from '@/types';
 import Link from 'next/link';
+import { cn } from '@/lib/utils/classNames';
 import styles from './ProjectCard.module.scss';
 
 interface ProjectCardProps {
@@ -70,7 +71,7 @@ export default function ProjectCard({
               href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className={`${styles.link} ${styles.secondary}`}
+              className={cn(styles.link, styles.secondary)}
             >
               GitHub →
             </Link>

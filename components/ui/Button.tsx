@@ -1,4 +1,5 @@
 import { ButtonHTMLAttributes, ReactNode } from 'react';
+import { cn } from '@/lib/utils/classNames';
 import styles from './Button.module.scss';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -14,12 +15,12 @@ export default function Button({
   loading = false,
   loadingText,
   disabled,
-  className = '',
+  className,
   ...props
 }: ButtonProps) {
   return (
     <button
-      className={`${styles.button} ${styles[variant]} ${className}`}
+      className={cn(styles.button, styles[variant], className)}
       disabled={disabled || loading}
       {...props}
     >

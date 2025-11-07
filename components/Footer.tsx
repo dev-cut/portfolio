@@ -1,12 +1,12 @@
 import styles from './Footer.module.scss';
 
-export default function Footer() {
-  const currentYear = new Date().getFullYear();
+const CURRENT_YEAR = new Date().getFullYear();
 
+export default function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={styles.content}>
-        <p>&copy; {currentYear} Portfolio. 모든 권리 보유.</p>
+        <p>&copy; {CURRENT_YEAR} Portfolio. 모든 권리 보유.</p>
       </div>
     </footer>
   );

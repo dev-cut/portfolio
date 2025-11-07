@@ -1,13 +1,17 @@
+import { useMemo } from 'react';
 import { skills } from '@/lib/data';
 import SkillItem from './SkillItem';
 import Section from './ui/Section';
 import styles from './Skills.module.scss';
 
 export default function Skills() {
-  const skillCategories = {
-    frontend: skills.filter((s) => s.category === 'frontend'),
-    tools: skills.filter((s) => s.category === 'tools'),
-  };
+  const skillCategories = useMemo(
+    () => ({
+      frontend: skills.filter((s) => s.category === 'frontend'),
+      tools: skills.filter((s) => s.category === 'tools'),
+    }),
+    []
+  );
 
   return (
     <Section id="skills" title="Skills" className={styles.skills}>

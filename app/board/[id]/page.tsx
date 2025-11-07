@@ -52,7 +52,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
         </div>
         <div className={styles.content}>
           {post.content.split('\n').map((paragraph, index) => (
-            <p key={index}>{paragraph || '\u00A0'}</p>
+            <p key={`paragraph-${index}`}>{paragraph || '\u00A0'}</p>
           ))}
         </div>
       </article>

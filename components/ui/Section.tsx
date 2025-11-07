@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { cn } from '@/lib/utils/classNames';
 import styles from './Section.module.scss';
 
 interface SectionProps {
@@ -12,10 +13,10 @@ export default function Section({
   id,
   title,
   children,
-  className = '',
+  className,
 }: SectionProps) {
   return (
-    <section id={id} className={`${styles.section} ${className}`}>
+    <section id={id} className={cn(styles.section, className)}>
       <div className={styles.content}>
         {title && <h2 className={styles.title}>{title}</h2>}
         {children}

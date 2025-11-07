@@ -4,7 +4,7 @@ $menu-transition: 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 $item-transition: 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
 .header {
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
