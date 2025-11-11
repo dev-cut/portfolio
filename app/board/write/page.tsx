@@ -6,8 +6,9 @@ import { useAuth } from '@/components/AuthProvider';
 import { createPost, updatePost, getPost } from '@/app/actions/posts';
 import Button from '@/components/ui/Button';
 import FormField from '@/components/ui/FormField';
+import DateRangePicker from '@/components/ui/DateRangePicker';
 import Chip from '@/components/ui/Chip';
-import { FRONTEND_TECH_STACK, CATEGORY_COLORS, CATEGORY_LABELS, getTechStackByCategory, type TechStackCategory } from '@/lib/tech-stack';
+import { FRONTEND_TECH_STACK, CATEGORY_COLORS, CATEGORY_LABELS, getTechStackByCategory, type TechStackCategory, type TechStackInfo } from '@/lib/tech-stack';
 import { EXPERIENCE_LABELS, formatTeamComposition, parseTeamComposition, type TeamMember, type ExperienceLevel } from '@/lib/team-roles';
 import styles from './write.module.scss';
 
@@ -264,13 +265,17 @@ export default function WritePage() {
           placeholder="프로젝트 개요를 입력하세요"
         />
 
-        <FormField
-          label="작업 기간"
-          id="work_period"
-          value={formData.work_period}
-          onChange={(e) => handleFieldChange('work_period', e.target.value)}
-          placeholder="예: 2024.01 - 2024.03"
-        />
+        <div className={styles.field}>
+          <label htmlFor="work_period" className={styles.label}>
+            작업 기간
+          </label>
+          <DateRangePicker
+            id="work_period"
+            value={formData.work_period}
+            onChange={(value) => handleFieldChange('work_period', value)}
+            placeholder="시작 날짜와 종료 날짜를 선택하세요"
+          />
+        </div>
 
         <div className={styles.field}>
           <label className={styles.label}>팀 구성</label>

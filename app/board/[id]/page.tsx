@@ -110,7 +110,30 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
               {post.work_period && (
                 <div className={styles.infoItem}>
                   <h3 className={styles.infoLabel}>작업 기간</h3>
-                  <p className={styles.infoValue}>{post.work_period}</p>
+                  <p className={styles.infoValue}>
+                    {(() => {
+                      // "2024-01-15 - 2024-03-20" 형식을 "2024년 1월 15일 - 2024년 3월 20일" 형식으로 변환
+                      const parts = post.work_period.split(' - ');
+                      if (parts.length === 2) {
+                        try {
+                          const startDate = new Date(parts[0].trim());
+                          const endDate = new Date(parts[1].trim());
+                          if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) {
+                            const formatDate = (date: Date) => {
+                              const year = date.getFullYear();
+                              const month = date.getMonth() + 1;
+                              const day = date.getDate();
+                              return `${year}년 ${month}월 ${day}일`;
+                            };
+                            return `${formatDate(startDate)} - ${formatDate(endDate)}`;
+                          }
+                        } catch (e) {
+                          // 파싱 실패 시 원본 반환
+                        }
+                      }
+                      return post.work_period;
+                    })()}
+                  </p>
                 </div>
               )}
               {post.role && (
