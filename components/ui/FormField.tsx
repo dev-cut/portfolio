@@ -11,6 +11,7 @@ interface FormFieldProps {
   required?: boolean;
   autoComplete?: string;
   error?: string;
+  className?: string;
 }
 
 export default function FormField({
@@ -23,9 +24,10 @@ export default function FormField({
   required = false,
   autoComplete,
   error,
+  className,
 }: FormFieldProps) {
   return (
-    <div className={styles.field}>
+    <div className={cn(styles.field, className)}>
       <label htmlFor={id} className={styles.label}>
         {label}
       </label>

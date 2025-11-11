@@ -5,8 +5,15 @@ import Script from 'next/script';
 import { getPost } from '@/app/actions/posts';
 import { createClient } from '@/lib/supabase/server';
 import { formatDate } from '@/lib/utils/date';
+import { FRONTEND_TECH_STACK, CATEGORY_COLORS } from '@/lib/tech-stack';
 import PostActions from '@/components/PostActions';
 import styles from './[id].module.scss';
+
+// 기술 스택 이름으로 카테고리 색상 찾기
+function getTechCategoryColor(techName: string) {
+  const tech = FRONTEND_TECH_STACK.find((t) => t.name === techName);
+  return tech ? CATEGORY_COLORS[tech.category] : null;
+}
 
 interface PostDetailPageProps {
   params: Promise<{ id: string }>;
@@ -89,6 +96,74 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
       
       <article className={styles.post}>
         <h1 className={styles.title}>{post.title}</h1>
+        
+        {(post.overview || post.work_period || post.team_composition || post.role || post.tech_stack) && (
+          <div className={styles.infoSection}>
+            {post.overview && (
+              <div className={styles.infoItem}>
+                <h3 className={styles.infoLabel}>개요</h3>
+                <p className={styles.infoValue}>{post.overview}</p>
+              </div>
+            )}
+            
+            <div className={styles.infoGrid}>
+              {post.work_period && (
+                <div className={styles.infoItem}>
+                  <h3 className={styles.infoLabel}>작업 기간</h3>
+                  <p className={styles.infoValue}>{post.work_period}</p>
+                </div>
+              )}
+              {post.role && (
+                <div className={styles.infoItem}>
+                  <h3 className={styles.infoLabel}>역할</h3>
+                  <p className={styles.infoValue}>{post.role}</p>
+                </div>
+              )}
+            </div>
+            
+            {post.team_composition && post.team_composition.length > 0 && (
+              <div className={styles.infoItem}>
+                <h3 className={styles.infoLabel}>팀 구성</h3>
+                <div className={styles.techStack}>
+                  {post.team_composition.map((member, index) => (
+                    <span key={index} className={styles.techTag}>
+                      {member}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            {post.tech_stack && post.tech_stack.length > 0 && (
+              <div className={styles.infoItem}>
+                <h3 className={styles.infoLabel}>사용 기술 스택</h3>
+                <div className={styles.techStack}>
+                  {post.tech_stack.map((tech, index) => {
+                    const categoryColor = getTechCategoryColor(tech);
+                    return (
+                      <span
+                        key={index}
+                        className={styles.techTag}
+                        style={
+                          categoryColor
+                            ? {
+                                backgroundColor: categoryColor.bg,
+                                color: categoryColor.text,
+                                borderColor: categoryColor.border,
+                              }
+                            : undefined
+                        }
+                      >
+                        {tech}
+                      </span>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+        
         <div className={styles.meta}>
           <span className={styles.date}>
             작성일: {formatDate(post.created_at, { includeTime: true })}
@@ -99,11 +174,45 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
             </span>
           )}
         </div>
+        
+        {post.main_contribution && (
+          <section className={styles.section}>
+            <h2 className={styles.sectionTitle}>주요 기여</h2>
+            <div className={styles.sectionContent}>
+              {post.main_contribution.split('\n').map((paragraph, index) => (
+                <p key={`contribution-${index}`}>{paragraph || '\u00A0'}</p>
+              ))}
+            </div>
+          </section>
+        )}
+        
         <div className={styles.content}>
           {post.content.split('\n').map((paragraph, index) => (
             <p key={`paragraph-${index}`}>{paragraph || '\u00A0'}</p>
           ))}
         </div>
+        
+        {post.achievements && (
+          <section className={styles.section}>
+            <h2 className={styles.sectionTitle}>성과</h2>
+            <div className={styles.sectionContent}>
+              {post.achievements.split('\n').map((paragraph, index) => (
+                <p key={`achievements-${index}`}>{paragraph || '\u00A0'}</p>
+              ))}
+            </div>
+          </section>
+        )}
+        
+        {post.reflection && (
+          <section className={styles.section}>
+            <h2 className={styles.sectionTitle}>회고 및 배운 점</h2>
+            <div className={styles.sectionContent}>
+              {post.reflection.split('\n').map((paragraph, index) => (
+                <p key={`reflection-${index}`}>{paragraph || '\u00A0'}</p>
+              ))}
+            </div>
+          </section>
+        )}
       </article>
     </div>
   );

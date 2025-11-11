@@ -26,6 +26,14 @@ export interface Post {
   id: string;
   title: string;
   content: string;
+  overview?: string;
+  work_period?: string;
+  team_composition?: string[];
+  role?: string;
+  tech_stack?: string[];
+  main_contribution?: string;
+  achievements?: string;
+  reflection?: string;
   author_id: string;
   created_at: string;
   updated_at: string;

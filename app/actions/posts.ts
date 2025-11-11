@@ -3,26 +3,32 @@
 import { createClient } from '@/lib/supabase/server';
 import { revalidatePath } from 'next/cache';
 import type { Post } from '@/types';
+import type { Database } from '@/types/supabase';
 
 // 헬퍼 함수: 사용자 인증 확인
 async function getAuthenticatedUser(userId?: string) {
   const supabase = await createClient();
-  
-  const { data: { session } } = await supabase.auth.getSession();
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
   let user = session?.user;
-  
+
   if (!user) {
-    const { data: { user: userFromGetUser }, error } = await supabase.auth.getUser();
+    const {
+      data: { user: userFromGetUser },
+      error,
+    } = await supabase.auth.getUser();
     if (error || !userFromGetUser) {
       throw new Error('로그인이 필요합니다. 세션을 확인할 수 없습니다.');
     }
     user = userFromGetUser;
   }
-  
+
   if (userId && user.id !== userId) {
     throw new Error('사용자 정보가 일치하지 않습니다.');
   }
-  
+
   return user;
 }
 
@@ -35,7 +41,7 @@ async function verifyAuthor(postId: string, userId: string) {
     .eq('id', postId)
     .single();
 
-  if (!post || post.author_id !== userId) {
+  if (!post || (post as { author_id: string }).author_id !== userId) {
     throw new Error('본인의 게시글만 수정/삭제할 수 있습니다.');
   }
 }
@@ -69,13 +75,48 @@ export async function getPost(id: string) {
   return data as Post;
 }
 
-export async function createPost(title: string, content: string, userId?: string) {
+interface PostData {
+  title: string;
+  content: string;
+  overview?: string;
+  work_period?: string;
+  team_composition?: string[];
+  role?: string;
+  tech_stack?: string[];
+  main_contribution?: string;
+  achievements?: string;
+  reflection?: string;
+}
+
+// 헬퍼 함수: PostData를 Supabase 형식으로 변환
+function preparePostData(postData: PostData) {
+  return {
+    title: postData.title,
+    content: postData.content,
+    overview: postData.overview || null,
+    work_period: postData.work_period || null,
+    team_composition:
+      postData.team_composition && postData.team_composition.length > 0
+        ? postData.team_composition
+        : null,
+    role: postData.role || null,
+    tech_stack:
+      postData.tech_stack && postData.tech_stack.length > 0
+        ? postData.tech_stack
+        : null,
+    main_contribution: postData.main_contribution || null,
+    achievements: postData.achievements || null,
+    reflection: postData.reflection || null,
+  };
+}
+
+export async function createPost(postData: PostData, userId?: string) {
   const supabase = await createClient();
   const user = await getAuthenticatedUser(userId);
 
   const { data, error } = await supabase
     .from('posts')
-    .insert({ title, content, author_id: user.id })
+    .insert({ ...preparePostData(postData), author_id: user.id } as any)
     .select()
     .single();
 
@@ -85,18 +126,23 @@ export async function createPost(title: string, content: string, userId?: string
   }
 
   revalidatePath('/board');
-  return data;
+  return data as Post;
 }
 
-export async function updatePost(id: string, title: string, content: string, userId?: string) {
+export async function updatePost(
+  id: string,
+  postData: PostData,
+  userId?: string
+) {
   const supabase = await createClient();
   const user = await getAuthenticatedUser(userId);
-  
+
   await verifyAuthor(id, user.id);
 
   const { data, error } = await supabase
     .from('posts')
-    .update({ title, content })
+    // @ts-expect-error - Supabase 타입 추론 문제 (데이터베이스 마이그레이션 후 해결됨)
+    .update(preparePostData(postData))
     .eq('id', id)
     .select()
     .single();
@@ -107,19 +153,16 @@ export async function updatePost(id: string, title: string, content: string, use
 
   revalidatePath('/board');
   revalidatePath(`/board/${id}`);
-  return data;
+  return data as Post;
 }
 
 export async function deletePost(id: string, userId?: string) {
   const supabase = await createClient();
   const user = await getAuthenticatedUser(userId);
-  
+
   await verifyAuthor(id, user.id);
 
-  const { error } = await supabase
-    .from('posts')
-    .delete()
-    .eq('id', id);
+  const { error } = await supabase.from('posts').delete().eq('id', id);
 
   if (error) {
     throw new Error(`게시글 삭제에 실패했습니다: ${error.message}`);
@@ -127,4 +170,3 @@ export async function deletePost(id: string, userId?: string) {
 
   revalidatePath('/board');
 }
-

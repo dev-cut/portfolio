@@ -1,0 +1,46 @@
+@use '../../styles/variables' as *;
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 2px solid var(--color-bg-gray-200);
+  background: var(--color-bg-white);
+  color: var(--color-text-primary);
+  user-select: none;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  &.selected {
+    color: white;
+    border-color: transparent;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+
+  .dark & {
+    background: var(--color-bg-gray-100);
+    border-color: var(--color-bg-gray-300);
+    color: var(--color-text-primary);
+
+    &:hover {
+      border-color: var(--color-primary);
+    }
+
+    &.selected {
+      color: white;
+      border-color: transparent;
+    }
+  }
+}
+
