@@ -8,21 +8,13 @@ import type { Database } from '@/types/supabase';
 // 헬퍼 함수: 사용자 인증 확인
 async function getAuthenticatedUser(userId?: string) {
   const supabase = await createClient();
-
   const {
-    data: { session },
-  } = await supabase.auth.getSession();
-  let user = session?.user;
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
 
-  if (!user) {
-    const {
-      data: { user: userFromGetUser },
-      error,
-    } = await supabase.auth.getUser();
-    if (error || !userFromGetUser) {
-      throw new Error('로그인이 필요합니다. 세션을 확인할 수 없습니다.');
-    }
-    user = userFromGetUser;
+  if (error || !user) {
+    throw new Error('로그인이 필요합니다.');
   }
 
   if (userId && user.id !== userId) {
@@ -46,6 +38,31 @@ async function verifyAuthor(postId: string, userId: string) {
   }
 }
 
+// 헬퍼 함수: 배열 데이터 파싱 (문자열 또는 배열 모두 처리)
+function parseArrayField(value: unknown): string[] | undefined {
+  if (!value) return undefined;
+  
+  // 이미 배열인 경우
+  if (Array.isArray(value)) {
+    return value.filter((item) => typeof item === 'string' && item.trim().length > 0);
+  }
+  
+  // 문자열인 경우 JSON 파싱 시도
+  if (typeof value === 'string') {
+    try {
+      const parsed = JSON.parse(value);
+      if (Array.isArray(parsed)) {
+        return parsed.filter((item) => typeof item === 'string' && item.trim().length > 0);
+      }
+    } catch {
+      // JSON 파싱 실패 시 undefined 반환
+      return undefined;
+    }
+  }
+  
+  return undefined;
+}
+
 export async function getPosts() {
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -57,7 +74,18 @@ export async function getPosts() {
     throw new Error(`게시글을 불러오는데 실패했습니다: ${error.message}`);
   }
 
-  return data as Post[];
+  // 각 게시글의 team_composition과 tech_stack 파싱
+  return (data || []).map((item) => ({
+    ...item,
+    team_composition: parseArrayField(item.team_composition),
+    tech_stack: parseArrayField(item.tech_stack) ?? undefined,
+    overview: item.overview ?? undefined,
+    work_period: item.work_period ?? undefined,
+    role: item.role ?? undefined,
+    main_contribution: item.main_contribution ?? undefined,
+    achievements: item.achievements ?? undefined,
+    reflection: item.reflection ?? undefined,
+  })) as Post[];
 }
 
 export async function getPost(id: string) {
@@ -72,7 +100,20 @@ export async function getPost(id: string) {
     throw new Error(`게시글을 불러오는데 실패했습니다: ${error.message}`);
   }
 
-  return data as Post;
+  // null을 undefined로 변환하고, team_composition과 tech_stack 파싱
+  const post: Post = {
+    ...data,
+    team_composition: parseArrayField(data.team_composition),
+    tech_stack: parseArrayField(data.tech_stack) ?? undefined,
+    overview: data.overview ?? undefined,
+    work_period: data.work_period ?? undefined,
+    role: data.role ?? undefined,
+    main_contribution: data.main_contribution ?? undefined,
+    achievements: data.achievements ?? undefined,
+    reflection: data.reflection ?? undefined,
+  };
+
+  return post;
 }
 
 interface PostData {

@@ -8,8 +8,21 @@ import Button from '@/components/ui/Button';
 import FormField from '@/components/ui/FormField';
 import DateRangePicker from '@/components/ui/DateRangePicker';
 import Chip from '@/components/ui/Chip';
-import { FRONTEND_TECH_STACK, CATEGORY_COLORS, CATEGORY_LABELS, getTechStackByCategory, type TechStackCategory, type TechStackInfo } from '@/lib/tech-stack';
-import { EXPERIENCE_LABELS, formatTeamComposition, parseTeamComposition, type TeamMember, type ExperienceLevel } from '@/lib/team-roles';
+import {
+  FRONTEND_TECH_STACK,
+  CATEGORY_COLORS,
+  CATEGORY_LABELS,
+  getTechStackByCategory,
+  type TechStackCategory,
+  type TechStackInfo,
+} from '@/lib/tech-stack';
+import {
+  EXPERIENCE_LABELS,
+  formatTeamComposition,
+  parseTeamComposition,
+  type TeamMember,
+  type ExperienceLevel,
+} from '@/lib/team-roles';
 import styles from './write.module.scss';
 
 interface PostFormData {
@@ -18,7 +31,7 @@ interface PostFormData {
   overview: string;
   work_period: string;
   team_composition: string[];
-  role: string;
+  role: string[];
   tech_stack: string[];
   main_contribution: string;
   achievements: string;
@@ -35,7 +48,7 @@ export default function WritePage() {
     overview: '',
     work_period: '',
     team_composition: [],
-    role: '',
+    role: [''],
     tech_stack: [],
     main_contribution: '',
     achievements: '',
@@ -44,52 +57,80 @@ export default function WritePage() {
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [showSelectedOnly, setShowSelectedOnly] = useState(false);
-  const [expandedCategories, setExpandedCategories] = useState<Set<TechStackCategory>>(
-    new Set()
-  );
+  const [expandedCategories, setExpandedCategories] = useState<
+    Set<TechStackCategory>
+  >(new Set());
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [isEditMode, setIsEditMode] = useState(false);
   const [postId, setPostId] = useState<string | null>(null);
   const [loadingPost, setLoadingPost] = useState(false);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+
+  // role 문자열을 배열로 변환하는 헬퍼 함수
+  const parseRoleToArray = (
+    role: string | string[] | null | undefined
+  ): string[] => {
+    if (!role) return [''];
+    if (Array.isArray(role)) {
+      const filtered = role.filter(
+        (r) => typeof r === 'string' && r.trim().length > 0
+      );
+      return filtered.length > 0 ? filtered : [''];
+    }
+    if (typeof role === 'string') {
+      const parsed = role
+        .split(',')
+        .map((r) => r.trim())
+        .filter((r) => r.length > 0);
+      return parsed.length > 0 ? parsed : [''];
+    }
+    return [''];
+  };
 
   // 편집 모드인지 확인 및 기존 게시글 로드
   useEffect(() => {
     const id = searchParams.get('id');
-    if (id) {
-      setIsEditMode(true);
-      setPostId(id);
-      setLoadingPost(true);
-      getPost(id)
-        .then((post) => {
-          const defaultValues = {
-            title: '',
-            content: '',
-            overview: '',
-            work_period: '',
-            team_composition: [],
-            role: '',
-            tech_stack: [],
-            main_contribution: '',
-            achievements: '',
-            reflection: '',
-          };
-          
-          setFormData({
-            ...defaultValues,
-            ...post,
-            team_composition: Array.isArray(post.team_composition) ? post.team_composition : [],
-            tech_stack: Array.isArray(post.tech_stack) ? post.tech_stack : [],
-          });
-          setTeamMembers(parseTeamComposition(post.team_composition));
-        })
-        .catch((err) => {
-          setError(err instanceof Error ? err.message : '게시글을 불러오는데 실패했습니다.');
-        })
-        .finally(() => {
-          setLoadingPost(false);
+    if (!id) return;
+
+    setIsEditMode(true);
+    setPostId(id);
+    setLoadingPost(true);
+    setIsInitialLoad(true);
+
+    getPost(id)
+      .then((post) => {
+        const teamCompositionArray = Array.isArray(post.team_composition)
+          ? post.team_composition
+          : [];
+        const parsedMembers = parseTeamComposition(teamCompositionArray);
+
+        setFormData({
+          title: post.title || '',
+          content: post.content || '',
+          overview: post.overview || '',
+          work_period: post.work_period || '',
+          team_composition: teamCompositionArray,
+          role: parseRoleToArray(post.role),
+          tech_stack: Array.isArray(post.tech_stack) ? post.tech_stack : [],
+          main_contribution: post.main_contribution || '',
+          achievements: post.achievements || '',
+          reflection: post.reflection || '',
         });
-    }
+
+        setTeamMembers(parsedMembers);
+        setIsInitialLoad(false);
+      })
+      .catch((err) => {
+        setError(
+          err instanceof Error
+            ? err.message
+            : '게시글을 불러오는데 실패했습니다.'
+        );
+      })
+      .finally(() => {
+        setLoadingPost(false);
+      });
   }, [searchParams]);
 
   // 모든 hooks는 early return 이전에 호출되어야 함
@@ -100,13 +141,14 @@ export default function WritePage() {
 
     Object.entries(groupedTechStack).forEach(([category, techs]) => {
       const filteredTechs = techs.filter((tech) => {
-        const matchesSearch = !searchQuery || 
+        const matchesSearch =
+          !searchQuery ||
           tech.name.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchesFilter = !showSelectedOnly || 
-          formData.tech_stack.includes(tech.name);
+        const matchesFilter =
+          !showSelectedOnly || formData.tech_stack.includes(tech.name);
         return matchesSearch && matchesFilter;
       });
-      
+
       if (filteredTechs.length > 0) {
         filtered[category as TechStackCategory] = filteredTechs;
       }
@@ -115,11 +157,13 @@ export default function WritePage() {
     return filtered as Record<TechStackCategory, TechStackInfo[]>;
   }, [groupedTechStack, searchQuery, showSelectedOnly, formData.tech_stack]);
 
-  // 팀 구성 변경 시 formData 업데이트
+  // 팀 구성 변경 시 formData 업데이트 (초기 로드 제외)
   useEffect(() => {
+    if (isInitialLoad) return;
+
     const formatted = formatTeamComposition(teamMembers);
     setFormData((prev) => ({ ...prev, team_composition: formatted }));
-  }, [teamMembers]);
+  }, [teamMembers, isInitialLoad]);
 
   if (loadingPost) {
     return (
@@ -140,7 +184,10 @@ export default function WritePage() {
     );
   }
 
-  const handleFieldChange = (field: keyof PostFormData, value: string | string[]) => {
+  const handleFieldChange = (
+    field: keyof PostFormData,
+    value: string | string[]
+  ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -155,19 +202,24 @@ export default function WritePage() {
     });
   };
 
-  const handleTeamMemberCountChange = (level: ExperienceLevel, count: number) => {
+  const handleTeamMemberCountChange = (
+    level: ExperienceLevel,
+    count: number
+  ) => {
     if (count < 0) return;
-    
+
     setTeamMembers((prev) => {
       if (count === 0) {
         return prev.filter((m) => m.level !== level);
       }
-      
+
       const existingIndex = prev.findIndex((m) => m.level === level);
       if (existingIndex >= 0) {
-        return prev.map((m, idx) => idx === existingIndex ? { ...m, count } : m);
+        return prev.map((m, idx) =>
+          idx === existingIndex ? { ...m, count } : m
+        );
       }
-      
+
       return [...prev, { level, count }];
     });
   };
@@ -175,7 +227,11 @@ export default function WritePage() {
   const toggleCategory = (category: TechStackCategory) => {
     setExpandedCategories((prev) => {
       const newSet = new Set(prev);
-      prev.has(category) ? newSet.delete(category) : newSet.add(category);
+      if (newSet.has(category)) {
+        newSet.delete(category);
+      } else {
+        newSet.add(category);
+      }
       return newSet;
     });
   };
@@ -187,14 +243,17 @@ export default function WritePage() {
 
     try {
       const formattedTeam = formatTeamComposition(teamMembers);
+      const roles = formData.role.filter((r) => r.trim().length > 0);
+
       const postData = {
         title: formData.title,
         content: formData.content,
         overview: formData.overview || undefined,
         work_period: formData.work_period || undefined,
         team_composition: formattedTeam.length > 0 ? formattedTeam : undefined,
-        role: formData.role || undefined,
-        tech_stack: formData.tech_stack.length > 0 ? formData.tech_stack : undefined,
+        role: roles.length > 0 ? roles.join(', ') : undefined,
+        tech_stack:
+          formData.tech_stack.length > 0 ? formData.tech_stack : undefined,
         main_contribution: formData.main_contribution || undefined,
         achievements: formData.achievements || undefined,
         reflection: formData.reflection || undefined,
@@ -205,10 +264,13 @@ export default function WritePage() {
       } else {
         await createPost(postData, user?.id);
       }
+
       router.push('/board');
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : '게시글 작성에 실패했습니다.');
+      setError(
+        err instanceof Error ? err.message : '게시글 작성에 실패했습니다.'
+      );
     } finally {
       setLoading(false);
     }
@@ -221,12 +283,12 @@ export default function WritePage() {
           {isEditMode ? '게시글 수정' : '게시글 작성'}
         </h1>
         <p className={styles.pageDescription}>
-          {isEditMode 
-            ? '게시글을 수정할 수 있습니다.' 
+          {isEditMode
+            ? '게시글을 수정할 수 있습니다.'
             : '새로운 게시글을 작성해보세요.'}
         </p>
       </div>
-      
+
       <form onSubmit={handleSubmit} className={styles.form}>
         {error && (
           <div className={styles.error}>
@@ -280,42 +342,52 @@ export default function WritePage() {
         <div className={styles.field}>
           <label className={styles.label}>팀 구성</label>
           <div className={styles.teamRoleContainer}>
-            {(Object.keys(EXPERIENCE_LABELS) as ExperienceLevel[]).map((level) => {
-              const member = teamMembers.find((m) => m.level === level);
-              const count = member?.count || 0;
-              
-              return (
-                <div key={level} className={styles.teamRoleItem}>
-                  <label className={styles.levelLabel}>
-                    {EXPERIENCE_LABELS[level]}
-                  </label>
-                  <div className={styles.countInputWrapper}>
-                    <input
-                      type="number"
-                      min="0"
-                      max="99"
-                      value={count === 0 ? '' : count}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        if (value === '') {
-                          handleTeamMemberCountChange(level, 0);
-                        } else {
-                          const newCount = parseInt(value, 10) || 0;
-                          handleTeamMemberCountChange(level, newCount);
-                        }
-                      }}
-                      onFocus={(e) => {
-                        // 포커스 시 전체 선택
-                        e.target.select();
-                      }}
-                      className={styles.countInput}
-                      placeholder="0"
-                    />
-                    <span className={styles.countLabel}>명</span>
+            {(Object.keys(EXPERIENCE_LABELS) as ExperienceLevel[]).map(
+              (level) => {
+                const member = teamMembers.find((m) => m.level === level);
+                const count = member?.count || 0;
+
+                return (
+                  <div key={level} className={styles.teamRoleItem}>
+                    <label className={styles.levelLabel}>
+                      {EXPERIENCE_LABELS[level]}
+                    </label>
+                    <div className={styles.countInputWrapper}>
+                      <input
+                        type="number"
+                        min="0"
+                        max="99"
+                        value={count === 0 ? '' : count}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value === '') {
+                            handleTeamMemberCountChange(level, 0);
+                          } else {
+                            const numValue = parseInt(value, 10);
+                            if (!isNaN(numValue) && numValue >= 0) {
+                              handleTeamMemberCountChange(level, numValue);
+                            }
+                          }
+                        }}
+                        onBlur={(e) => {
+                          // 포커스 해제 시 빈 값이면 0으로 설정
+                          if (e.target.value === '') {
+                            handleTeamMemberCountChange(level, 0);
+                          }
+                        }}
+                        onFocus={(e) => {
+                          // 포커스 시 전체 선택
+                          e.target.select();
+                        }}
+                        className={styles.countInput}
+                        placeholder="0"
+                      />
+                      <span className={styles.countLabel}>명</span>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              }
+            )}
           </div>
           <p className={styles.helpText}>
             {(() => {
@@ -325,13 +397,78 @@ export default function WritePage() {
           </p>
         </div>
 
-        <FormField
-          label="역할"
-          id="role"
-          value={formData.role}
-          onChange={(e) => handleFieldChange('role', e.target.value)}
-          placeholder="본인의 역할을 입력하세요"
-        />
+        <div className={styles.field}>
+          <label className={styles.label}>역할</label>
+          <div className={styles.roleInputs}>
+            {formData.role.map((role, index) => (
+              <div key={index} className={styles.roleInputWrapper}>
+                <input
+                  type="text"
+                  value={role}
+                  onChange={(e) => {
+                    const newRoles = [...formData.role];
+                    newRoles[index] = e.target.value;
+                    handleFieldChange('role', newRoles);
+                  }}
+                  placeholder="본인의 역할을 입력하세요"
+                  className={styles.roleInput}
+                />
+                {formData.role.length > 1 && (
+                  <button
+                    type="button"
+                    className={styles.removeButton}
+                    onClick={() => {
+                      const newRoles = formData.role.filter(
+                        (_, i) => i !== index
+                      );
+                      handleFieldChange(
+                        'role',
+                        newRoles.length > 0 ? newRoles : ['']
+                      );
+                    }}
+                    aria-label="역할 제거"
+                  >
+                    <svg
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+          <button
+            type="button"
+            className={styles.addButton}
+            onClick={() => {
+              handleFieldChange('role', [...formData.role, '']);
+            }}
+          >
+            <svg
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
+            역할 추가
+          </button>
+        </div>
 
         <div className={styles.field}>
           <div className={styles.techStackHeader}>
@@ -355,14 +492,17 @@ export default function WritePage() {
               </label>
             </div>
           </div>
-          
+
           <div className={styles.categoryContainer}>
             {Object.entries(filteredTechStack).map(([category, techs]) => {
               if (!techs || techs.length === 0) return null;
-              
-              const isExpanded = expandedCategories.has(category as TechStackCategory);
-              const categoryColor = CATEGORY_COLORS[category as TechStackCategory];
-              const selectedCount = techs.filter((tech) => 
+
+              const isExpanded = expandedCategories.has(
+                category as TechStackCategory
+              );
+              const categoryColor =
+                CATEGORY_COLORS[category as TechStackCategory];
+              const selectedCount = techs.filter((tech) =>
                 formData.tech_stack.includes(tech.name)
               ).length;
 
@@ -371,7 +511,9 @@ export default function WritePage() {
                   <button
                     type="button"
                     className={styles.categoryHeader}
-                    onClick={() => toggleCategory(category as TechStackCategory)}
+                    onClick={() =>
+                      toggleCategory(category as TechStackCategory)
+                    }
                     style={{ borderLeftColor: categoryColor.border }}
                   >
                     <span className={styles.categoryTitle}>
@@ -402,7 +544,8 @@ export default function WritePage() {
             })}
           </div>
           <p className={styles.helpText}>
-            {formData.tech_stack.length > 0 && `${formData.tech_stack.length}개 기술 스택 선택됨`}
+            {formData.tech_stack.length > 0 &&
+              `${formData.tech_stack.length}개 기술 스택 선택됨`}
           </p>
         </div>
 
@@ -413,7 +556,9 @@ export default function WritePage() {
           <textarea
             id="main_contribution"
             value={formData.main_contribution}
-            onChange={(e) => handleFieldChange('main_contribution', e.target.value)}
+            onChange={(e) =>
+              handleFieldChange('main_contribution', e.target.value)
+            }
             className={styles.textarea}
             placeholder="본인이 주요하게 기여한 부분을 입력하세요"
             rows={5}
@@ -447,9 +592,7 @@ export default function WritePage() {
             rows={15}
             required
           />
-          <p className={styles.helpText}>
-            {formData.content.length}자 작성됨
-          </p>
+          <p className={styles.helpText}>{formData.content.length}자 작성됨</p>
         </div>
 
         <div className={styles.field}>
@@ -488,4 +631,3 @@ export default function WritePage() {
     </div>
   );
 }
-

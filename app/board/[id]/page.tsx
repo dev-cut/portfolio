@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Script from 'next/script';
 import { getPost } from '@/app/actions/posts';
 import { createClient } from '@/lib/supabase/server';
-import { formatDate } from '@/lib/utils/date';
+import { formatDate, formatDateRange } from '@/lib/utils/date';
 import { FRONTEND_TECH_STACK, CATEGORY_COLORS } from '@/lib/tech-stack';
 import PostActions from '@/components/PostActions';
 import styles from './[id].module.scss';
@@ -130,31 +130,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
                 <div className={styles.infoItem}>
                   <h3 className={styles.infoLabel}>작업 기간</h3>
                   <p className={styles.infoValue}>
-                    {(() => {
-                      // "2024-01-15 - 2024-03-20" 형식을 "2024년 1월 15일 - 2024년 3월 20일" 형식으로 변환
-                      const parts = post.work_period.split(' - ');
-                      if (parts.length === 2) {
-                        try {
-                          const startDate = new Date(parts[0].trim());
-                          const endDate = new Date(parts[1].trim());
-                          if (
-                            !isNaN(startDate.getTime()) &&
-                            !isNaN(endDate.getTime())
-                          ) {
-                            const formatDate = (date: Date) => {
-                              const year = date.getFullYear();
-                              const month = date.getMonth() + 1;
-                              const day = date.getDate();
-                              return `${year}년 ${month}월 ${day}일`;
-                            };
-                            return `${formatDate(startDate)} - ${formatDate(endDate)}`;
-                          }
-                        } catch (e) {
-                          // 파싱 실패 시 원본 반환
-                        }
-                      }
-                      return post.work_period;
-                    })()}
+                    {formatDateRange(post.work_period)}
                   </p>
                 </div>
               )}
@@ -168,52 +144,56 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
 
             {(() => {
               const teamComposition = ensureArray(post.team_composition);
+              const validItems = teamComposition.filter(
+                (item) => typeof item === 'string' && item.trim().length > 0
+              );
+
+              if (validItems.length === 0) return null;
+
               return (
-                teamComposition.length > 0 && (
-                  <div className={styles.infoItem}>
-                    <h3 className={styles.infoLabel}>팀 구성</h3>
-                    <div className={styles.techStack}>
-                      {teamComposition.map((member, index) => (
-                        <span key={index} className={styles.techTag}>
-                          {member}
-                        </span>
-                      ))}
-                    </div>
+                <div className={styles.infoItem}>
+                  <h3 className={styles.infoLabel}>팀 구성</h3>
+                  <div className={styles.techStack}>
+                    {validItems.map((member, index) => (
+                      <span key={index} className={styles.techTag}>
+                        {member}
+                      </span>
+                    ))}
                   </div>
-                )
+                </div>
               );
             })()}
 
             {(() => {
               const techStack = ensureArray(post.tech_stack);
+              if (techStack.length === 0) return null;
+
               return (
-                techStack.length > 0 && (
-                  <div className={styles.infoItem}>
-                    <h3 className={styles.infoLabel}>사용 기술 스택</h3>
-                    <div className={styles.techStack}>
-                      {techStack.map((tech, index) => {
-                        const categoryColor = getTechCategoryColor(tech);
-                        return (
-                          <span
-                            key={index}
-                            className={styles.techTag}
-                            style={
-                              categoryColor
-                                ? {
-                                    backgroundColor: categoryColor.bg,
-                                    color: categoryColor.text,
-                                    borderColor: categoryColor.border,
-                                  }
-                                : undefined
-                            }
-                          >
-                            {tech}
-                          </span>
-                        );
-                      })}
-                    </div>
+                <div className={styles.infoItem}>
+                  <h3 className={styles.infoLabel}>사용 기술 스택</h3>
+                  <div className={styles.techStack}>
+                    {techStack.map((tech, index) => {
+                      const categoryColor = getTechCategoryColor(tech);
+                      return (
+                        <span
+                          key={index}
+                          className={styles.techTag}
+                          style={
+                            categoryColor
+                              ? {
+                                  backgroundColor: categoryColor.bg,
+                                  color: categoryColor.text,
+                                  borderColor: categoryColor.border,
+                                }
+                              : undefined
+                          }
+                        >
+                          {tech}
+                        </span>
+                      );
+                    })}
                   </div>
-                )
+                </div>
               );
             })()}
           </div>
