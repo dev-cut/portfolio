@@ -15,17 +15,24 @@ function getTechCategoryColor(techName: string) {
   return tech ? CATEGORY_COLORS[tech.category] : null;
 }
 
+// 배열 안전성 체크 헬퍼 함수
+function ensureArray<T>(value: T[] | null | undefined): T[] {
+  return Array.isArray(value) ? value : [];
+}
+
 interface PostDetailPageProps {
   params: Promise<{ id: string }>;
 }
 
-export async function generateMetadata({ params }: PostDetailPageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PostDetailPageProps): Promise<Metadata> {
   const { id } = await params;
-  
+
   try {
     const post = await getPost(id);
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com';
-    
+
     return {
       title: `${post.title} | 게시판`,
       description: post.content.slice(0, 160) || post.title,
@@ -50,10 +57,18 @@ export async function generateMetadata({ params }: PostDetailPageProps): Promise
   }
 }
 
-async function PostActionButtons({ postId, authorId }: { postId: string; authorId: string }) {
+async function PostActionButtons({
+  postId,
+  authorId,
+}: {
+  postId: string;
+  authorId: string;
+}) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   if (!user || user.id !== authorId) return null;
 
   return <PostActions postId={postId} />;
@@ -61,7 +76,7 @@ async function PostActionButtons({ postId, authorId }: { postId: string; authorI
 
 export default async function PostDetailPage({ params }: PostDetailPageProps) {
   const { id } = await params;
-  
+
   let post;
   try {
     post = await getPost(id);
@@ -93,11 +108,15 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
         </Link>
         <PostActionButtons postId={id} authorId={post.author_id} />
       </div>
-      
+
       <article className={styles.post}>
         <h1 className={styles.title}>{post.title}</h1>
-        
-        {(post.overview || post.work_period || post.team_composition || post.role || post.tech_stack) && (
+
+        {(post.overview ||
+          post.work_period ||
+          post.team_composition ||
+          post.role ||
+          post.tech_stack) && (
           <div className={styles.infoSection}>
             {post.overview && (
               <div className={styles.infoItem}>
@@ -105,7 +124,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
                 <p className={styles.infoValue}>{post.overview}</p>
               </div>
             )}
-            
+
             <div className={styles.infoGrid}>
               {post.work_period && (
                 <div className={styles.infoItem}>
@@ -118,7 +137,10 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
                         try {
                           const startDate = new Date(parts[0].trim());
                           const endDate = new Date(parts[1].trim());
-                          if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) {
+                          if (
+                            !isNaN(startDate.getTime()) &&
+                            !isNaN(endDate.getTime())
+                          ) {
                             const formatDate = (date: Date) => {
                               const year = date.getFullYear();
                               const month = date.getMonth() + 1;
@@ -143,50 +165,60 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
                 </div>
               )}
             </div>
-            
-            {post.team_composition && post.team_composition.length > 0 && (
-              <div className={styles.infoItem}>
-                <h3 className={styles.infoLabel}>팀 구성</h3>
-                <div className={styles.techStack}>
-                  {post.team_composition.map((member, index) => (
-                    <span key={index} className={styles.techTag}>
-                      {member}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
-            
-            {post.tech_stack && post.tech_stack.length > 0 && (
-              <div className={styles.infoItem}>
-                <h3 className={styles.infoLabel}>사용 기술 스택</h3>
-                <div className={styles.techStack}>
-                  {post.tech_stack.map((tech, index) => {
-                    const categoryColor = getTechCategoryColor(tech);
-                    return (
-                      <span
-                        key={index}
-                        className={styles.techTag}
-                        style={
-                          categoryColor
-                            ? {
-                                backgroundColor: categoryColor.bg,
-                                color: categoryColor.text,
-                                borderColor: categoryColor.border,
-                              }
-                            : undefined
-                        }
-                      >
-                        {tech}
-                      </span>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
+
+            {(() => {
+              const teamComposition = ensureArray(post.team_composition);
+              return (
+                teamComposition.length > 0 && (
+                  <div className={styles.infoItem}>
+                    <h3 className={styles.infoLabel}>팀 구성</h3>
+                    <div className={styles.techStack}>
+                      {teamComposition.map((member, index) => (
+                        <span key={index} className={styles.techTag}>
+                          {member}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )
+              );
+            })()}
+
+            {(() => {
+              const techStack = ensureArray(post.tech_stack);
+              return (
+                techStack.length > 0 && (
+                  <div className={styles.infoItem}>
+                    <h3 className={styles.infoLabel}>사용 기술 스택</h3>
+                    <div className={styles.techStack}>
+                      {techStack.map((tech, index) => {
+                        const categoryColor = getTechCategoryColor(tech);
+                        return (
+                          <span
+                            key={index}
+                            className={styles.techTag}
+                            style={
+                              categoryColor
+                                ? {
+                                    backgroundColor: categoryColor.bg,
+                                    color: categoryColor.text,
+                                    borderColor: categoryColor.border,
+                                  }
+                                : undefined
+                            }
+                          >
+                            {tech}
+                          </span>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )
+              );
+            })()}
           </div>
         )}
-        
+
         <div className={styles.meta}>
           <span className={styles.date}>
             작성일: {formatDate(post.created_at, { includeTime: true })}
@@ -197,7 +229,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
             </span>
           )}
         </div>
-        
+
         {post.main_contribution && (
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>주요 기여</h2>
@@ -208,13 +240,13 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
             </div>
           </section>
         )}
-        
+
         <div className={styles.content}>
           {post.content.split('\n').map((paragraph, index) => (
             <p key={`paragraph-${index}`}>{paragraph || '\u00A0'}</p>
           ))}
         </div>
-        
+
         {post.achievements && (
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>성과</h2>
@@ -225,7 +257,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
             </div>
           </section>
         )}
-        
+
         {post.reflection && (
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>회고 및 배운 점</h2>
@@ -240,4 +272,3 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
     </div>
   );
 }
-

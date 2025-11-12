@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { DayPicker, DateRange } from 'react-day-picker';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale/ko';
@@ -14,6 +14,54 @@ interface DateRangePickerProps {
   id?: string;
 }
 
+// 날짜 파싱 헬퍼 함수 (컴포넌트 외부로 이동하여 재생성 방지)
+const parseDateRange = (
+  dateValue: string | undefined
+): DateRange | undefined => {
+  if (!dateValue) return undefined;
+
+  const parts = dateValue.split(' - ');
+  if (parts.length !== 2) return undefined;
+
+  const [startStr, endStr] = parts.map((s) => s.trim());
+  const parseDate = (dateStr: string): Date | undefined => {
+    const normalized = dateStr.replace(/\./g, '-');
+    const date = new Date(normalized);
+    return !isNaN(date.getTime()) ? date : undefined;
+  };
+
+  const startDate = parseDate(startStr);
+  const endDate = parseDate(endStr);
+
+  if (startDate && endDate) return { from: startDate, to: endDate };
+  if (startDate) return { from: startDate, to: undefined };
+  return undefined;
+};
+
+// 날짜 포맷팅 헬퍼 함수
+const formatDateRange = (
+  dateValue: string | undefined,
+  locale: typeof ko
+): string => {
+  if (!dateValue) return '';
+
+  const parts = dateValue.split(' - ');
+  if (parts.length !== 2) return dateValue;
+
+  const [startStr, endStr] = parts.map((s) => s.trim());
+  try {
+    const startDate = new Date(startStr);
+    const endDate = new Date(endStr);
+
+    if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) {
+      return `${format(startDate, 'yyyy년 M월 d일', { locale })} - ${format(endDate, 'yyyy년 M월 d일', { locale })}`;
+    }
+  } catch {
+    // 파싱 실패 시 원본 반환
+  }
+  return dateValue;
+};
+
 export default function DateRangePicker({
   value,
   onChange,
@@ -21,76 +69,34 @@ export default function DateRangePicker({
   id,
 }: DateRangePickerProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [range, setRange] = useState<DateRange | undefined>(undefined);
+  const [range, setRange] = useState<DateRange | undefined>(() =>
+    parseDateRange(value)
+  );
   const containerRef = useRef<HTMLDivElement>(null);
   const onChangeRef = useRef(onChange);
-  const prevValueRef = useRef<string | undefined>(value);
-  const tempRangeRef = useRef<DateRange | undefined>(undefined); // 임시 선택 상태
 
-  // onChange ref 업데이트 (의존성 문제 방지)
+  // onChange ref 업데이트
   useEffect(() => {
     onChangeRef.current = onChange;
   }, [onChange]);
 
-  // 날짜 파싱 헬퍼 함수
-  const parseDateRange = (
-    dateValue: string | undefined
-  ): DateRange | undefined => {
-    if (!dateValue) return undefined;
-
-    const parts = dateValue.split(' - ');
-    if (parts.length === 2) {
-      const startStr = parts[0].trim();
-      const endStr = parts[1].trim();
-
-      const parseDate = (dateStr: string): Date | undefined => {
-        const normalized = dateStr.replace(/\./g, '-');
-        const date = new Date(normalized);
-        if (!isNaN(date.getTime())) {
-          return date;
-        }
-        return undefined;
-      };
-
-      const startDate = parseDate(startStr);
-      const endDate = parseDate(endStr);
-
-      if (startDate && endDate) {
-        return { from: startDate, to: endDate };
-      } else if (startDate) {
-        return { from: startDate, to: undefined };
-      }
-    }
-    return undefined;
-  };
-
-  // value를 파싱하여 range 상태 초기화
+  // value 변경 시 range 동기화
   useEffect(() => {
-    // value가 실제로 변경된 경우에만 파싱
-    if (prevValueRef.current === value) {
-      return;
-    }
-    prevValueRef.current = value;
-
     const parsedRange = parseDateRange(value);
     setRange(parsedRange);
-    tempRangeRef.current = parsedRange;
   }, [value]);
 
-  // 달력이 열릴 때 value를 기반으로 range 복원
+  // 달력 열릴 때 value 기반으로 range 복원
   useEffect(() => {
     if (isOpen) {
-      const parsedRange = parseDateRange(value);
-      setRange(parsedRange);
-      tempRangeRef.current = parsedRange;
+      setRange(parseDateRange(value));
     }
   }, [isOpen, value]);
 
-  // range 변경 시 value 업데이트는 적용 버튼을 통해서만 수행
-  // 자동 업데이트 제거 (적용 버튼으로만 업데이트)
-
   // 외부 클릭 시 닫기
   useEffect(() => {
+    if (!isOpen) return;
+
     const handleClickOutside = (event: MouseEvent) => {
       if (
         containerRef.current &&
@@ -100,74 +106,63 @@ export default function DateRangePicker({
       }
     };
 
-    if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-      };
-    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen]);
 
-  // 표시용 날짜 포맷팅
-  const getDisplayValue = () => {
-    if (!value) return placeholder;
+  // 표시용 날짜 포맷팅 (메모이제이션)
+  const displayValue = useMemo(
+    () => (value ? formatDateRange(value, ko) : placeholder),
+    [value, placeholder]
+  );
 
-    const parts = value.split(' - ');
-    if (parts.length === 2) {
-      const startStr = parts[0].trim();
-      const endStr = parts[1].trim();
-
-      try {
-        const startDate = new Date(startStr);
-        const endDate = new Date(endStr);
-
-        if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) {
-          return `${format(startDate, 'yyyy년 M월 d일', { locale: ko })} - ${format(endDate, 'yyyy년 M월 d일', { locale: ko })}`;
-        }
-      } catch (e) {
-        // 파싱 실패 시 원본 값 반환
-      }
-    }
-
-    return value;
-  };
-
-  const displayValue = getDisplayValue();
+  // 상태 계산 (메모이제이션)
   const hasValue = !!value;
   const hasCompleteRange = !!(range?.from && range?.to);
-  const pendingRange = range?.from && !range?.to;
+  const showActionButtons = hasCompleteRange || !!(range?.from && !range?.to);
 
-  const handleApply = () => {
-    if (range?.from && range?.to) {
-      const formatted = `${format(range.from, 'yyyy-MM-dd', { locale: ko })} - ${format(range.to, 'yyyy-MM-dd', { locale: ko })}`;
-      prevValueRef.current = formatted;
-      onChangeRef.current(formatted);
-      tempRangeRef.current = range;
-      setIsOpen(false);
-    }
-  };
+  // 핸들러 함수들 (메모이제이션)
+  const handleToggle = useCallback(() => {
+    setIsOpen((prev) => !prev);
+  }, []);
 
-  const handleCancel = () => {
-    // 취소 시 value를 기반으로 range 복원 (변경사항 취소)
-    const parsedRange = parseDateRange(value);
-    setRange(parsedRange);
-    tempRangeRef.current = parsedRange;
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        handleToggle();
+      }
+    },
+    [handleToggle]
+  );
+
+  const handleApply = useCallback(() => {
+    if (!range?.from || !range?.to) return;
+
+    const formatted = `${format(range.from, 'yyyy-MM-dd', { locale: ko })} - ${format(range.to, 'yyyy-MM-dd', { locale: ko })}`;
+    onChangeRef.current(formatted);
     setIsOpen(false);
-  };
+  }, [range]);
+
+  const handleCancel = useCallback(() => {
+    setRange(parseDateRange(value));
+    setIsOpen(false);
+  }, [value]);
+
+  const handleClear = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    setRange(undefined);
+    onChangeRef.current('');
+  }, []);
 
   return (
     <div ref={containerRef} className={styles.container}>
       <div
         className={styles.inputWrapper}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={handleToggle}
         role="button"
         tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            setIsOpen(!isOpen);
-          }
-        }}
+        onKeyDown={handleKeyDown}
       >
         <input
           id={id}
@@ -178,7 +173,7 @@ export default function DateRangePicker({
           placeholder={placeholder}
           onClick={(e) => {
             e.stopPropagation();
-            setIsOpen(!isOpen);
+            handleToggle();
           }}
         />
         <svg
@@ -199,12 +194,7 @@ export default function DateRangePicker({
           <button
             type="button"
             className={styles.clearButton}
-            onClick={(e) => {
-              e.stopPropagation();
-              setRange(undefined);
-              prevValueRef.current = '';
-              onChangeRef.current('');
-            }}
+            onClick={handleClear}
             aria-label="날짜 초기화"
           >
             <svg
@@ -234,7 +224,7 @@ export default function DateRangePicker({
             numberOfMonths={2}
             className={styles.calendar}
           />
-          {(hasCompleteRange || pendingRange) && (
+          {showActionButtons && (
             <div className={styles.actionButtons}>
               <button
                 type="button"

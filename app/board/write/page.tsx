@@ -78,10 +78,10 @@ export default function WritePage() {
           setFormData({
             ...defaultValues,
             ...post,
-            team_composition: post.team_composition || [],
-            tech_stack: post.tech_stack || [],
+            team_composition: Array.isArray(post.team_composition) ? post.team_composition : [],
+            tech_stack: Array.isArray(post.tech_stack) ? post.tech_stack : [],
           });
-          setTeamMembers(parseTeamComposition(post.team_composition || []));
+          setTeamMembers(parseTeamComposition(post.team_composition));
         })
         .catch((err) => {
           setError(err instanceof Error ? err.message : '게시글을 불러오는데 실패했습니다.');

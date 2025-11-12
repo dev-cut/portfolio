@@ -24,7 +24,12 @@ export function formatTeamComposition(members: TeamMember[]): string[] {
 }
 
 // 문자열 배열을 팀 구성 배열로 변환
-export function parseTeamComposition(composition: string[]): TeamMember[] {
+export function parseTeamComposition(composition: string[] | null | undefined): TeamMember[] {
+  // 배열이 아닌 경우 빈 배열 반환
+  if (!Array.isArray(composition)) {
+    return [];
+  }
+
   const members: TeamMember[] = [];
   
   // 라벨과 레벨 매핑
@@ -37,6 +42,8 @@ export function parseTeamComposition(composition: string[]): TeamMember[] {
   };
   
   composition.forEach((item) => {
+    if (typeof item !== 'string') return;
+    
     const match = item.match(/(\d+)명/);
     if (!match) return;
     
