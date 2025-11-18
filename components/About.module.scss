@@ -3,6 +3,11 @@
 .about {
   padding: 5rem 1.5rem;
   background-color: $bg-gray-50;
+  transition: background-color 0.3s ease;
+}
+
+:root.dark .about {
+  background-color: $dark-bg-secondary;
 }
 
 .content {
@@ -15,19 +20,29 @@
   font-weight: 700;
   color: $text-primary;
   margin-bottom: 1rem;
+  transition: color 0.3s ease;
   
   @media (min-width: 768px) {
     font-size: 2.5rem;
   }
 }
 
+:root.dark .title {
+  color: $dark-text-primary;
+}
+
 .text {
   font-size: 1.125rem;
   color: $text-gray-700;
   line-height: 1.625;
+  transition: color 0.3s ease;
   
   > * + * {
     margin-top: 1.5rem;
   }
+}
+
+:root.dark .text {
+  color: $dark-text-secondary;
 }
 

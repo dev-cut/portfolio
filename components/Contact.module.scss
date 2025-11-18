@@ -15,16 +15,26 @@
   font-weight: 700;
   color: $text-primary;
   margin-bottom: 1rem;
+  transition: color 0.3s ease;
   
   @media (min-width: 768px) {
     font-size: 2.5rem;
   }
 }
 
+:root.dark .title {
+  color: $dark-text-primary;
+}
+
 .description {
   font-size: 1.25rem;
   color: $text-gray-600;
   margin-bottom: 3rem;
+  transition: color 0.3s ease;
+}
+
+:root.dark .description {
+  color: $dark-text-secondary;
 }
 
 .links {
@@ -41,10 +51,19 @@
   border-radius: 0.5rem;
   font-weight: 500;
   text-decoration: none;
-  transition: background-color 0.15s ease;
+  transition: background-color 0.15s ease, color 0.3s ease;
   
   &:hover {
     background-color: $bg-gray-200;
+  }
+}
+
+:root.dark .link {
+  background-color: $dark-bg-secondary;
+  color: $dark-text-primary;
+  
+  &:hover {
+    background-color: $dark-bg-tertiary;
   }
 }
 

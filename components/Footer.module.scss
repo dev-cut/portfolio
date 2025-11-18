@@ -4,6 +4,12 @@
   background-color: $bg-gray-900;
   color: $text-gray-400;
   padding: 2rem 1.5rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+:root.dark .footer {
+  background-color: $dark-bg-primary;
+  color: $dark-text-tertiary;
 }
 
 .content {

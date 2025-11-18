@@ -44,6 +44,13 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+// Dark mode styles
+:root.dark body {
+  background-color: $dark-bg-primary;
+  color: $dark-text-primary;
 }
 
 // Typography
@@ -51,6 +58,16 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   color: $text-primary;
   line-height: 1.2;
+  transition: color 0.3s ease;
+}
+
+:root.dark h1,
+:root.dark h2,
+:root.dark h3,
+:root.dark h4,
+:root.dark h5,
+:root.dark h6 {
+  color: $dark-text-primary;
 }
 
 h1 {
@@ -93,12 +110,24 @@ h3 {
   background-color: $bg-gray-100;
 }
 
+:root.dark ::-webkit-scrollbar-track {
+  background-color: $dark-bg-secondary;
+}
+
 ::-webkit-scrollbar-thumb {
   background-color: $bg-gray-300;
   border-radius: 9999px;
   
   &:hover {
     background-color: $bg-gray-400;
+  }
+}
+
+:root.dark ::-webkit-scrollbar-thumb {
+  background-color: $dark-bg-tertiary;
+  
+  &:hover {
+    background-color: $dark-text-tertiary;
   }
 }
 
