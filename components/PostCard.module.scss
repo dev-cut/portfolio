@@ -1,35 +1,43 @@
 @use '../styles/variables' as *;
 
 .postCard {
-  background: var(--color-bg-white);
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--color-bg-gray-200);
   border-radius: 16px;
   padding: 2rem;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   position: relative;
   overflow: hidden;
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 4px;
-    height: 100%;
-    background: var(--color-primary);
-    transform: scaleY(0);
-    transition: transform 0.2s ease;
+  .dark & {
+    background: rgba(30, 41, 59, 0.7); // Increased opacity for better readability
+    backdrop-filter: blur(16px); // Increased blur
+    -webkit-backdrop-filter: blur(16px);
+    border-color: rgba(255, 255, 255, 0.1); // Slightly more visible border
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
   }
 
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-    border-color: var(--color-primary);
-    background: var(--color-bg-white);
+  // Removed the left border effect as requested
 
-    &::before {
-      transform: scaleY(1);
+  &:hover {
+    transform: translateY(-4px) scale(1.01); // Added slight scale
+    box-shadow: 
+      0 20px 25px -5px rgba(0, 0, 0, 0.1), 
+      0 10px 10px -5px rgba(0, 0, 0, 0.04),
+      0 0 0 1px var(--color-primary); // Subtle border glow
+    border-color: transparent; // Let the box-shadow handle the border look
+    background: rgba(255, 255, 255, 0.9);
+
+    .dark & {
+      background: rgba(30, 41, 59, 0.8);
+      box-shadow: 
+        0 20px 25px -5px rgba(0, 0, 0, 0.3), 
+        0 10px 10px -5px rgba(0, 0, 0, 0.2),
+        0 0 15px rgba(59, 130, 246, 0.2); // Neon glow in dark mode
+      border-color: rgba(59, 130, 246, 0.5);
     }
   }
 }
@@ -61,6 +69,7 @@
   margin: 0 0 1.25rem 0;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }

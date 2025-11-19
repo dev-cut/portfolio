@@ -24,11 +24,12 @@
   &:hover {
     transform: translateY(-8px) scale(1.02);
     box-shadow: 
-      0 20px 40px -10px rgba(99, 102, 241, 0.3),
-      0 0 0 1px rgba(99, 102, 241, 0.1);
+      0 20px 40px -10px rgba(59, 130, 246, 0.3),
+      0 0 0 1px rgba(59, 130, 246, 0.2),
+      0 0 20px rgba(6, 182, 212, 0.2); // Neon glow
     
     &::before {
-      opacity: 0.05;
+      opacity: 0.1;
     }
     
     .imageContainer {
