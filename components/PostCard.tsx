@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Post } from '@/types';
-import { formatDate, truncateText } from '@/lib/utils/date';
+import { formatDate } from '@/lib/utils/date';
+import { truncateText } from '@/lib/utils/string';
 import styles from './PostCard.module.scss';
 
 interface PostCardProps {

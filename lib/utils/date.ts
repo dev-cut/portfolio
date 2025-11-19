@@ -22,10 +22,7 @@ export function formatDate(
   return date.toLocaleDateString('ko-KR', formatOptions);
 }
 
-export function truncateText(text: string, maxLength: number = 150): string {
-  if (text.length <= maxLength) return text;
-  return text.slice(0, maxLength) + '...';
-}
+
 
 /**
  * 날짜 범위 문자열을 한글 형식으로 포맷팅

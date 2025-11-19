@@ -5,6 +5,9 @@ import { revalidatePath } from 'next/cache';
 import type { Post } from '@/types';
 import type { Database } from '@/types/supabase';
 
+type PostInsert = Database['public']['Tables']['posts']['Insert'];
+type PostUpdate = Database['public']['Tables']['posts']['Update'];
+
 // 헬퍼 함수: 사용자 인증 확인
 async function getAuthenticatedUser(userId?: string) {
   const supabase = await createClient();
@@ -38,16 +41,14 @@ async function verifyAuthor(postId: string, userId: string) {
   }
 }
 
-// 헬퍼 함수: 배열 데이터 파싱 (문자열 또는 배열 모두 처리)
+// 헬퍼 함수: 배열 데이터 파싱
 function parseArrayField(value: unknown): string[] | undefined {
   if (!value) return undefined;
   
-  // 이미 배열인 경우
   if (Array.isArray(value)) {
     return value.filter((item) => typeof item === 'string' && item.trim().length > 0);
   }
   
-  // 문자열인 경우 JSON 파싱 시도
   if (typeof value === 'string') {
     try {
       const parsed = JSON.parse(value);
@@ -55,7 +56,6 @@ function parseArrayField(value: unknown): string[] | undefined {
         return parsed.filter((item) => typeof item === 'string' && item.trim().length > 0);
       }
     } catch {
-      // JSON 파싱 실패 시 undefined 반환
       return undefined;
     }
   }
@@ -65,8 +65,7 @@ function parseArrayField(value: unknown): string[] | undefined {
 
 export async function getPosts() {
   const supabase = await createClient();
-  const { data, error } = await supabase
-    .from('posts')
+  const { data, error } = await (supabase.from('posts') as any)
     .select('*')
     .order('created_at', { ascending: false });
 
@@ -74,8 +73,7 @@ export async function getPosts() {
     throw new Error(`게시글을 불러오는데 실패했습니다: ${error.message}`);
   }
 
-  // 각 게시글의 team_composition과 tech_stack 파싱
-  return (data || []).map((item) => ({
+  return (data || []).map((item: any) => ({
     ...item,
     team_composition: parseArrayField(item.team_composition),
     tech_stack: parseArrayField(item.tech_stack) ?? undefined,
@@ -90,8 +88,7 @@ export async function getPosts() {
 
 export async function getPost(id: string) {
   const supabase = await createClient();
-  const { data, error } = await supabase
-    .from('posts')
+  const { data, error } = await (supabase.from('posts') as any)
     .select('*')
     .eq('id', id)
     .single();
@@ -100,7 +97,6 @@ export async function getPost(id: string) {
     throw new Error(`게시글을 불러오는데 실패했습니다: ${error.message}`);
   }
 
-  // null을 undefined로 변환하고, team_composition과 tech_stack 파싱
   const post: Post = {
     ...data,
     team_composition: parseArrayField(data.team_composition),
@@ -155,9 +151,13 @@ export async function createPost(postData: PostData, userId?: string) {
   const supabase = await createClient();
   const user = await getAuthenticatedUser(userId);
 
-  const { data, error } = await supabase
-    .from('posts')
-    .insert({ ...preparePostData(postData), author_id: user.id } as any)
+  const insertData = {
+    ...preparePostData(postData),
+    author_id: user.id,
+  };
+
+  const { data, error } = await (supabase.from('posts') as any)
+    .insert(insertData)
     .select()
     .single();
 
@@ -180,10 +180,10 @@ export async function updatePost(
 
   await verifyAuthor(id, user.id);
 
-  const { data, error } = await supabase
-    .from('posts')
-    // @ts-expect-error - Supabase 타입 추론 문제 (데이터베이스 마이그레이션 후 해결됨)
-    .update(preparePostData(postData))
+  const updateData = preparePostData(postData);
+
+  const { data, error } = await (supabase.from('posts') as any)
+    .update(updateData)
     .eq('id', id)
     .select()
     .single();
@@ -203,7 +203,7 @@ export async function deletePost(id: string, userId?: string) {
 
   await verifyAuthor(id, user.id);
 
-  const { error } = await supabase.from('posts').delete().eq('id', id);
+  const { error } = await (supabase.from('posts') as any).delete().eq('id', id);
 
   if (error) {
     throw new Error(`게시글 삭제에 실패했습니다: ${error.message}`);

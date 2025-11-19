@@ -1,0 +1,89 @@
+@use '../../../styles/variables' as *;
+
+.teamRoleContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--color-bg-gray-50);
+  border: 2px solid var(--color-bg-gray-200);
+  border-radius: 12px;
+
+  .dark & {
+    background: var(--color-bg-gray-100);
+    border-color: var(--color-bg-gray-300);
+  }
+}
+
+.teamRoleItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.levelLabel {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--color-text-primary);
+  min-width: 120px;
+}
+
+.countInputWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.countInput {
+  width: 80px;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid var(--color-bg-gray-200);
+  border-radius: 8px;
+  background: var(--color-bg-white);
+  color: var(--color-text-primary);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  text-align: center;
+  transition: all 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    opacity: 1;
+  }
+
+  .dark & {
+    background: var(--color-bg-gray-200);
+    border-color: var(--color-bg-gray-300);
+
+    &:focus {
+      border-color: var(--color-primary);
+    }
+  }
+}
+
+.countLabel {
+  font-size: 0.9375rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  min-width: 24px;
+}
+
+.label {
+  display: block;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  font-size: 0.875rem;
+}
+
+.helpText {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--color-text-gray-400);
+}
