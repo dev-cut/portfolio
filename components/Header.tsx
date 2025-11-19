@@ -123,7 +123,7 @@ export default function Header() {
           isMobileMenuOpen && styles.menuOpen
         )}
       >
-        <nav className={styles.nav}>
+        <nav className={styles.nav} role="navigation" aria-label="주요 내비게이션">
           <div className={styles.navContent}>
             <Link href="/" className={styles.logo} onClick={closeMobileMenu}>
               Portfolio
@@ -133,6 +133,7 @@ export default function Header() {
                 styles.navList,
                 isMobileMenuOpen && styles.mobileOpen
               )}
+              id="primary-nav"
             >
               {NAV_ITEMS.map((item, index) => (
                 <li
@@ -147,6 +148,13 @@ export default function Header() {
                       isActiveLink(item.href) && styles.active
                     )}
                     onClick={closeMobileMenu}
+                    aria-current={
+                      isActiveLink(item.href)
+                        ? item.href.startsWith('#')
+                          ? 'location'
+                          : 'page'
+                        : undefined
+                    }
                   >
                     {item.label}
                   </Link>
@@ -203,6 +211,7 @@ export default function Header() {
                 onClick={() => setIsMobileMenuOpen((prev) => !prev)}
                 aria-label={isMobileMenuOpen ? '메뉴 닫기' : '메뉴 열기'}
                 aria-expanded={isMobileMenuOpen}
+                aria-controls="primary-nav"
               >
                 <span className={styles.menuIcon}>
                   <span className={styles.menuLine}></span>

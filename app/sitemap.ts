@@ -1,8 +1,9 @@
 import { MetadataRoute } from 'next';
 import { getPosts } from '@/app/actions/posts';
+import { getEnvConfig } from '@/lib/utils/env';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com';
+  const { NEXT_PUBLIC_SITE_URL: baseUrl } = getEnvConfig();
 
   // 정적 페이지
   const staticPages: MetadataRoute.Sitemap = [

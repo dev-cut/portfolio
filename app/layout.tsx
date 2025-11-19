@@ -57,6 +57,9 @@ export const metadata: Metadata = {
     // Google Search Console 등 검증 코드 추가 시 사용
     // google: 'your-google-verification-code',
   },
+  alternates: {
+    canonical: process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com',
+  },
 };
 
 export default function RootLayout({
@@ -65,10 +68,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const structuredData = generateStructuredData(projects);
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com';
 
   return (
     <html lang="ko" className={inter.variable} suppressHydrationWarning data-scroll-behavior="smooth">
+      <head>
+        {process.env.NEXT_PUBLIC_SUPABASE_URL && (
+          <link rel="preconnect" href={process.env.NEXT_PUBLIC_SUPABASE_URL} />
+        )}
+        <link rel="canonical" href={siteUrl} />
+      </head>
       <body>
+        <a href="#main-content">본문으로 건너뛰기</a>
         <Script
           id="structured-data-website"
           type="application/ld+json"

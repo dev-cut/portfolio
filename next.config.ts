@@ -41,6 +41,17 @@ const nextConfig: NextConfig = {
   
   // 헤더 설정 (보안 및 성능)
   async headers() {
+    const isDev = process.env.NODE_ENV !== 'production';
+    const csp = [
+      "default-src 'self'",
+      `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''}`,
+      "style-src 'self' 'unsafe-inline'",
+      "img-src 'self' data: blob: https:",
+      "connect-src 'self' https://*.supabase.co wss://*.supabase.co",
+      "font-src 'self' data:",
+      "frame-ancestors 'none'",
+      "worker-src 'self' blob:",
+    ].join('; ');
     return [
       {
         source: '/:path*',
@@ -60,6 +71,19 @@ const nextConfig: NextConfig = {
           {
             key: 'Referrer-Policy',
             value: 'origin-when-cross-origin',
+          },
+          {
+            key: 'Content-Security-Policy',
+            value: csp,
+          },
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=31536000; includeSubDomains; preload',
+          },
+          {
+            key: 'Permissions-Policy',
+            value:
+              'camera=(), microphone=(), geolocation=(), usb=(), fullscreen=(self)',
           },
         ],
       },

@@ -7,6 +7,7 @@ import { createClient } from '@/lib/supabase/server';
 import { formatDate, formatDateRange } from '@/lib/utils/date';
 import { FRONTEND_TECH_STACK, CATEGORY_COLORS } from '@/lib/tech-stack';
 import PostActions from '@/components/PostActions';
+import { getEnvConfig } from '@/lib/utils/env';
 import styles from './[id].module.scss';
 
 // 기술 스택 이름으로 카테고리 색상 찾기
@@ -31,7 +32,7 @@ export async function generateMetadata({
 
   try {
     const post = await getPost(id);
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com';
+    const { NEXT_PUBLIC_SITE_URL: baseUrl } = getEnvConfig();
 
     return {
       title: `${post.title} | 게시판`,
@@ -84,7 +85,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
     notFound();
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com';
+  const { NEXT_PUBLIC_SITE_URL: baseUrl } = getEnvConfig();
   const articleSchema = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
