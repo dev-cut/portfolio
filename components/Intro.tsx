@@ -9,7 +9,7 @@ export default function Intro() {
         <div className={styles.content}>
           <h2 className={styles.greeting}>
             Hello, <br />
-            I&rsquo;m JO HYUKRAE !
+            I&rsquo;m JO!
           </h2>
           <p className={styles.description}>
             I am a self-taught Graphic Designer based in Viet Nam with extensive marketing and

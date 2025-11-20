@@ -27,10 +27,10 @@ export default function PostActions({ postId }: PostActionsProps) {
     setLoading(true);
     try {
       await deletePost(postId, user?.id);
-      router.push('/board');
+      router.push('/projects');
       router.refresh();
     } catch (error) {
-      alert(error instanceof Error ? error.message : '게시글 삭제에 실패했습니다.');
+      alert(error instanceof Error ? error.message : '프로젝트 삭제에 실패했습니다.');
       setShowConfirm(false);
     } finally {
       setLoading(false);
@@ -64,7 +64,7 @@ export default function PostActions({ postId }: PostActionsProps) {
 
   return (
     <div className={styles.actions}>
-      <Link href={`/board/write?id=${postId}`}>
+      <Link href={`/projects/write?id=${postId}`}>
         <Button variant="secondary" className={styles.editButton}>
           수정
         </Button>

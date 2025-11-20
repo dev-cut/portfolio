@@ -3,15 +3,15 @@ import type { Metadata } from 'next';
 import { getPosts } from '@/app/actions/posts';
 import PostCard from '@/components/PostCard';
 import WriteButton from '@/components/WriteButton';
-import styles from './board.module.scss';
+import styles from './projects.module.scss';
 import Loading from '@/app/loading';
 
 export const metadata: Metadata = {
-  title: '게시판 | Portfolio',
-  description: '프로젝트와 개발 경험을 공유하는 게시판입니다.',
+  title: 'Portfolio | Portfolio',
+  description: '프로젝트와 개발 경험을 공유하는 포트폴리오입니다.',
   openGraph: {
-    title: '게시판 | Portfolio',
-    description: '프로젝트와 개발 경험을 공유하는 게시판입니다.',
+    title: 'Portfolio | Portfolio',
+    description: '프로젝트와 개발 경험을 공유하는 포트폴리오입니다.',
     type: 'website',
   },
 };
@@ -37,9 +37,9 @@ async function PostList() {
             />
           </svg>
         </div>
-        <h2 className={styles.emptyTitle}>아직 작성된 게시글이 없습니다</h2>
+        <h2 className={styles.emptyTitle}>아직 등록된 프로젝트가 없습니다</h2>
         <p className={styles.emptyDescription}>
-          첫 번째 게시글을 작성해보세요!
+          첫 번째 프로젝트를 등록해보세요!
         </p>
         <div className={styles.emptyAction}>
           <WriteButton />
@@ -61,7 +61,7 @@ export default async function BoardPage() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h1 className={styles.title}>게시판</h1>
+        <h1 className={styles.title}>Portfolio</h1>
         <WriteButton />
       </div>
       <Suspense fallback={<Loading />}>

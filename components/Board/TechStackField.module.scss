@@ -30,15 +30,6 @@
     border-color: var(--color-primary);
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
   }
-
-  .dark & {
-    background: var(--color-bg-gray-100);
-    border-color: var(--color-bg-gray-300);
-
-    &:focus {
-      border-color: var(--color-primary);
-    }
-  }
 }
 
 .checkboxLabel {
@@ -68,11 +59,6 @@
   border-radius: 12px;
   overflow: hidden;
   background: var(--color-bg-white);
-
-  .dark & {
-    background: var(--color-bg-gray-100);
-    border-color: var(--color-bg-gray-300);
-  }
 }
 
 .categoryHeader {
@@ -90,14 +76,6 @@
 
   &:hover {
     background: var(--color-bg-gray-100);
-  }
-
-  .dark & {
-    background: var(--color-bg-gray-200);
-
-    &:hover {
-      background: var(--color-bg-gray-300);
-    }
   }
 }
 
@@ -128,10 +106,6 @@
   gap: 0.75rem;
   padding: 1rem;
   background: var(--color-bg-gray-50);
-
-  .dark & {
-    background: var(--color-bg-gray-100);
-  }
 }
 
 .label {

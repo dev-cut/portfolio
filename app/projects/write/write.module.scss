@@ -106,16 +106,6 @@
   &::placeholder {
     color: var(--color-text-gray-400);
   }
-
-  .dark & {
-    background: var(--color-bg-gray-100);
-    border-color: var(--color-bg-gray-300);
-
-    &:focus {
-      border-color: var(--color-primary);
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-    }
-  }
 }
 
 .label {
@@ -146,16 +136,6 @@
 
   &::placeholder {
     color: var(--color-text-gray-400);
-  }
-
-  .dark & {
-    background: var(--color-bg-gray-100);
-    border-color: var(--color-bg-gray-300);
-
-    &:focus {
-      border-color: var(--color-primary);
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-    }
   }
 }
 

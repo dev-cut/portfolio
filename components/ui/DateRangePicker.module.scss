@@ -44,20 +44,6 @@
     color: var(--color-text-primary);
     border-color: var(--color-primary);
   }
-
-  .dark & {
-    background: var(--color-bg-gray-100);
-    border-color: var(--color-bg-gray-300);
-
-    &:hover {
-      border-color: var(--color-bg-gray-400);
-    }
-
-    &:focus {
-      border-color: var(--color-primary);
-      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
-    }
-  }
 }
 
 .calendarIcon {
@@ -100,9 +86,6 @@
     height: 1rem;
   }
 
-  .dark &:hover {
-    background: var(--color-bg-gray-200);
-  }
 }
 
 .calendarWrapper {
@@ -120,15 +103,6 @@
   padding: 1.75rem;
   animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   backdrop-filter: blur(10px);
-
-  .dark & {
-    background: var(--color-bg-gray-100);
-    border-color: var(--color-bg-gray-300);
-    box-shadow:
-      0 20px 25px -5px rgba(0, 0, 0, 0.4),
-      0 10px 10px -5px rgba(0, 0, 0, 0.2),
-      0 0 0 1px rgba(59, 130, 246, 0.1);
-  }
 
   @media (max-width: 768px) {
     left: -1rem;
@@ -208,10 +182,6 @@
       font-weight: 600;
       font-size: 1rem;
       color: var(--color-text-primary);
-
-      .dark & {
-        color: var(--color-text-primary);
-      }
     }
 
     .rdp-nav {
@@ -249,16 +219,6 @@
         opacity: 0.4;
         cursor: not-allowed;
       }
-
-      .dark & {
-        background: var(--color-bg-gray-200);
-        border-color: var(--color-bg-gray-300);
-
-        &:hover:not(:disabled) {
-          background: var(--color-bg-gray-300);
-          border-color: var(--color-primary);
-        }
-      }
     }
 
     .rdp-day {
@@ -278,17 +238,6 @@
       &:focus {
         outline: none;
         box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
-      }
-
-      .dark & {
-        color: var(--color-text-primary);
-        background: transparent;
-
-        &:hover:not(.rdp-day_disabled):not(.rdp-day_selected):not(
-            .rdp-day_range_start
-          ):not(.rdp-day_range_end) {
-          background: var(--color-bg-gray-200);
-        }
       }
     }
 
@@ -316,26 +265,6 @@
         transform: scale(1.08);
         color: #ffffff !important;
       }
-
-      .dark & {
-        background: linear-gradient(
-          135deg,
-          var(--color-primary) 0%,
-          var(--color-primary-hover) 100%
-        ) !important;
-        color: #ffffff !important;
-        box-shadow: 0 2px 8px rgba(59, 130, 246, 0.5);
-
-        &:hover {
-          background: linear-gradient(
-            135deg,
-            var(--color-primary-hover) 0%,
-            var(--color-primary) 100%
-          ) !important;
-          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.6);
-          color: #ffffff !important;
-        }
-      }
     }
 
     .rdp-day_range_middle {
@@ -348,16 +277,6 @@
       color: var(--color-text-primary) !important;
       border-radius: 0;
       border: none !important;
-
-      .dark & {
-        background: linear-gradient(
-          90deg,
-          rgba(59, 130, 246, 0.2) 0%,
-          rgba(59, 130, 246, 0.3) 50%,
-          rgba(59, 130, 246, 0.2) 100%
-        ) !important;
-        color: var(--color-text-primary) !important;
-      }
     }
 
     // 날짜 범위 중간 부분 강제 적용
@@ -373,15 +292,6 @@
           rgba(59, 130, 246, 0.1) 100%
         ) !important;
         color: var(--color-text-primary) !important;
-
-        .dark & {
-          background: linear-gradient(
-            90deg,
-            rgba(59, 130, 246, 0.2) 0%,
-            rgba(59, 130, 246, 0.3) 50%,
-            rgba(59, 130, 246, 0.2) 100%
-          ) !important;
-        }
       }
     }
 
@@ -406,11 +316,6 @@
           border-radius: 50%;
           background: var(--color-primary);
         }
-
-        .dark & {
-          background: rgba(59, 130, 246, 0.1);
-          color: var(--color-primary);
-        }
       }
     }
   }
@@ -424,10 +329,6 @@
   padding-top: 1.5rem;
   border-top: 1px solid var(--color-bg-gray-200);
   justify-content: flex-end;
-
-  .dark & {
-    border-top-color: var(--color-bg-gray-300);
-  }
 }
 
 .cancelButton,
@@ -448,16 +349,6 @@
   &:hover {
     background: var(--color-bg-gray-200);
     color: var(--color-text-primary);
-  }
-
-  .dark & {
-    background: var(--color-bg-gray-200);
-    color: var(--color-text-secondary);
-
-    &:hover {
-      background: var(--color-bg-gray-300);
-      color: var(--color-text-primary);
-    }
   }
 }
 
@@ -488,13 +379,5 @@
     opacity: 0.5;
     cursor: not-allowed;
     transform: none;
-  }
-
-  .dark & {
-    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.5);
-
-    &:hover:not(:disabled) {
-      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.6);
-    }
   }
 }

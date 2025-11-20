@@ -12,14 +12,6 @@
   position: relative;
   overflow: hidden;
 
-  .dark & {
-    background: rgba(30, 41, 59, 0.7); // Increased opacity for better readability
-    backdrop-filter: blur(16px); // Increased blur
-    -webkit-backdrop-filter: blur(16px);
-    border-color: rgba(255, 255, 255, 0.1); // Slightly more visible border
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
-  }
-
   // Removed the left border effect as requested
 
   &:hover {
@@ -30,15 +22,6 @@
       0 0 0 1px var(--color-primary); // Subtle border glow
     border-color: transparent; // Let the box-shadow handle the border look
     background: rgba(255, 255, 255, 0.9);
-
-    .dark & {
-      background: rgba(30, 41, 59, 0.8);
-      box-shadow: 
-        0 20px 25px -5px rgba(0, 0, 0, 0.3), 
-        0 10px 10px -5px rgba(0, 0, 0, 0.2),
-        0 0 15px rgba(59, 130, 246, 0.2); // Neon glow in dark mode
-      border-color: rgba(59, 130, 246, 0.5);
-    }
   }
 }
 

@@ -27,7 +27,7 @@ export default function WritePage() {
   if (loadingPost) {
     return (
       <div className={styles.container}>
-        <div className={styles.loading}>게시글을 불러오는 중...</div>
+        <div className={styles.loading}>프로젝트를 불러오는 중...</div>
       </div>
     );
   }
@@ -36,7 +36,7 @@ export default function WritePage() {
     return (
       <div className={styles.container}>
         <div className={styles.authRequired}>
-          <p>게시글을 작성하려면 로그인이 필요합니다.</p>
+          <p>프로젝트를 등록하려면 로그인이 필요합니다.</p>
           <Button onClick={() => router.push('/')}>홈으로 가기</Button>
         </div>
       </div>
@@ -47,12 +47,12 @@ export default function WritePage() {
     <div className={styles.container}>
       <div className={styles.header}>
         <h1 className={styles.pageTitle}>
-          {isEditMode ? '게시글 수정' : '게시글 작성'}
+          {isEditMode ? '프로젝트 수정' : '프로젝트 등록'}
         </h1>
         <p className={styles.pageDescription}>
           {isEditMode
-            ? '게시글을 수정할 수 있습니다.'
-            : '새로운 게시글을 작성해보세요.'}
+            ? '프로젝트를 수정할 수 있습니다.'
+            : '새로운 프로젝트를 등록해보세요.'}
         </p>
       </div>
 
@@ -82,7 +82,7 @@ export default function WritePage() {
           id="title"
           value={formData.title}
           onChange={(e) => handleFieldChange('title', e.target.value)}
-          placeholder="게시글 제목을 입력하세요"
+          placeholder="프로젝트 제목을 입력하세요"
           required
         />
 
@@ -166,7 +166,7 @@ export default function WritePage() {
             value={formData.content}
             onChange={(e) => handleFieldChange('content', e.target.value)}
             className={styles.textarea}
-            placeholder="게시글 내용을 입력하세요&#10;&#10;여러 줄로 작성할 수 있습니다."
+            placeholder="프로젝트 내용을 입력하세요&#10;&#10;여러 줄로 작성할 수 있습니다."
             rows={15}
             required
           />
@@ -202,7 +202,7 @@ export default function WritePage() {
             loadingText={isEditMode ? '수정 중...' : '작성 중...'}
             disabled={!formData.title.trim() || !formData.content.trim()}
           >
-            {isEditMode ? '수정하기' : '작성하기'}
+            {isEditMode ? '수정하기' : '등록하기'}
           </Button>
         </div>
       </form>

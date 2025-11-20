@@ -3,9 +3,10 @@ import styles from './Hero.module.scss';
 export default function Hero() {
   return (
     <section className={styles.hero}>
-      {/* Background Text */}
-      <div className={styles.bgTextWrapper}>
+      <div className={styles.bgTextTop}>
         <div className={styles.bgTextRow}>PORTFOLIO</div>
+      </div>
+      <div className={styles.bgTextBottom}>
         <div className={styles.bgTextRow}>PORTFOLIO</div>
         <div className={styles.bgTextRow}>PORTFOLIO</div>
       </div>
@@ -14,9 +15,6 @@ export default function Hero() {
         {/* Left Content: Image with Orange Square */}
         <div className={styles.imageSection}>
            <div className={styles.orangeSquare}></div>
-           <div className={styles.profileImagePlaceholder}>
-             {/* Image goes here */}
-           </div>
            
            {/* Decorative Stars */}
            <div className={styles.star1}>✦</div>

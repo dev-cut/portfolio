@@ -33,16 +33,6 @@
   &::placeholder {
     color: var(--color-text-gray-400);
   }
-
-  .dark & {
-    background: var(--color-bg-gray-100);
-    border-color: var(--color-bg-gray-300);
-
-    &:focus {
-      border-color: var(--color-primary);
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-    }
-  }
 }
 
 .removeButton {
@@ -70,17 +60,6 @@
     width: 1.25rem;
     height: 1.25rem;
   }
-
-  .dark & {
-    background: var(--color-bg-gray-200);
-    border-color: var(--color-bg-gray-300);
-
-    &:hover {
-      background: rgba(239, 68, 68, 0.2);
-      border-color: #dc2626;
-      color: #dc2626;
-    }
-  }
 }
 
 .addButton {
@@ -107,17 +86,6 @@
   svg {
     width: 1rem;
     height: 1rem;
-  }
-
-  .dark & {
-    background: var(--color-bg-gray-200);
-    border-color: var(--color-bg-gray-400);
-
-    &:hover {
-      border-color: var(--color-primary);
-      background: rgba(59, 130, 246, 0.1);
-      color: var(--color-primary);
-    }
   }
 }
 

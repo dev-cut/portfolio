@@ -203,6 +203,28 @@ export default function AuthModal({
         aria-modal="true"
         aria-labelledby="auth-modal-title"
       >
+        <button
+          className={styles.closeButton}
+          onClick={onClose}
+          aria-label="닫기"
+          disabled={loading}
+        >
+          <svg
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            width="20"
+            height="20"
+            aria-hidden="true"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
         <div className={styles.content}>
           <div className={styles.tabs}>
             <button

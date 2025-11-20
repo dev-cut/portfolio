@@ -98,11 +98,6 @@
   background: var(--color-bg-gray-50);
   border-radius: 12px;
   border: 1px solid var(--color-bg-gray-200);
-
-  .dark & {
-    background: var(--color-bg-gray-100);
-    border-color: var(--color-bg-gray-300);
-  }
 }
 
 .infoItem {

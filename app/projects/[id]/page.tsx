@@ -35,7 +35,7 @@ export async function generateMetadata({
     const { NEXT_PUBLIC_SITE_URL: baseUrl } = getEnvConfig();
 
     return {
-      title: `${post.title} | 게시판`,
+      title: `${post.title} | Portfolio`,
       description: post.content.slice(0, 160) || post.title,
       openGraph: {
         title: post.title,
@@ -43,7 +43,7 @@ export async function generateMetadata({
         type: 'article',
         publishedTime: post.created_at,
         modifiedTime: post.updated_at,
-        url: `${baseUrl}/board/${id}`,
+        url: `${baseUrl}/projects/${id}`,
       },
       twitter: {
         card: 'summary',
@@ -93,7 +93,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
     description: post.content.slice(0, 160) || post.title,
     datePublished: post.created_at,
     dateModified: post.updated_at,
-    url: `${baseUrl}/board/${id}`,
+    url: `${baseUrl}/projects/${id}`,
   };
 
   return (
@@ -104,7 +104,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
       <div className={styles.header}>
-        <Link href="/board" className={styles.backLink}>
+        <Link href="/projects" className={styles.backLink}>
           목록으로
         </Link>
         <PostActionButtons postId={id} authorId={post.author_id} />

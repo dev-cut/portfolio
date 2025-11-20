@@ -36,29 +36,11 @@
   &.hasError {
     border-color: rgba(239, 68, 68, 0.5);
   }
-
-  .dark & {
-    background: var(--color-bg-gray-100);
-    border-color: var(--color-bg-gray-300);
-
-    &:focus {
-      border-color: var(--color-primary);
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-    }
-
-    &.hasError {
-      border-color: rgba(239, 68, 68, 0.6);
-    }
-  }
 }
 
 .errorText {
   font-size: 0.75rem;
   color: #dc2626;
   margin-top: -0.25rem;
-
-  .dark & {
-    color: #f87171;
-  }
 }
 

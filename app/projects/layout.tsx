@@ -1,7 +1,7 @@
 import Header from '@/components/Header';
 import { ReactNode } from 'react';
 
-export default function BoardLayout({
+export default function ProjectsLayout({
   children,
 }: {
   children: ReactNode;

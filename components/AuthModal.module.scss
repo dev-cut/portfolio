@@ -8,7 +8,7 @@
   bottom: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
@@ -30,7 +30,7 @@
 
 .modal {
   position: relative;
-  background: var(--color-bg-white);
+  background: #ffffff;
   border-radius: 24px;
   width: 100%;
   max-width: 440px;
@@ -50,11 +50,6 @@
       opacity: 1;
       transform: translateY(0) scale(1);
     }
-  }
-
-  .dark & {
-    background: var(--color-bg-gray-50);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
   }
 }
 
@@ -84,16 +79,6 @@
   &:active {
     transform: rotate(90deg) scale(0.95);
   }
-
-  .dark & {
-    background: var(--color-bg-gray-200);
-    color: var(--color-text-secondary);
-
-    &:hover {
-      background: var(--color-bg-gray-300);
-      color: var(--color-text-primary);
-    }
-  }
 }
 
 .content {
@@ -107,10 +92,6 @@
   background: var(--color-bg-gray-100);
   padding: 0.25rem;
   border-radius: 12px;
-
-  .dark & {
-    background: var(--color-bg-gray-200);
-  }
 }
 
 .tab {
@@ -135,11 +116,6 @@
     color: var(--color-primary);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     font-weight: 600;
-
-    .dark & {
-      background: var(--color-bg-gray-100);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    }
   }
 }
 

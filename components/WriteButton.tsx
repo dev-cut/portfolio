@@ -14,14 +14,14 @@ export default function WriteButton() {
       e.preventDefault();
       // 로그인 모달을 열거나 로그인 페이지로 이동
       // 여기서는 간단하게 알림을 표시하고 홈으로 이동
-      alert('게시글을 작성하려면 로그인이 필요합니다.');
+      alert('프로젝트를 등록하려면 로그인이 필요합니다.');
       router.push('/');
     }
   };
 
   return (
     <Link 
-      href="/board/write" 
+      href="/projects/write" 
       className={styles.writeButton}
       onClick={handleClick}
     >
@@ -39,7 +39,7 @@ export default function WriteButton() {
           d="M12 4v16m8-8H4" 
         />
       </svg>
-      글쓰기
+      프로젝트 등록
     </Link>
   );
 }

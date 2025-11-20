@@ -91,11 +91,11 @@
   position: absolute;
   top: 10%;
   left: 10%;
-  width: 80%;
-  height: 80%;
+  width: 60%;
+  aspect-ratio: 1 / 1;
   background-color: $color-dark-green;
   border-radius: 50%;
-  z-index: 0;
+  z-index: 2;
 }
 
 .profileImagePlaceholder {
