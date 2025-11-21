@@ -1,51 +1,71 @@
-import type { Metadata } from "next";
-import Script from "next/script";
-import { Inter, Playfair_Display, Cormorant_Garamond } from "next/font/google";
-import localFont from "next/font/local";
-import { ThemeProvider } from "@/components/ThemeProvider";
-import { AuthProvider } from "@/components/AuthProvider";
-import { generateStructuredData } from "@/lib/utils/structured-data";
-import "./globals.scss";
+import type { Metadata } from 'next';
+import Script from 'next/script';
+import {
+  Inter,
+  Playfair_Display,
+  Cormorant_Garamond,
+  Noto_Sans_KR,
+  Rammetto_One,
+} from 'next/font/google';
+import { ThemeProvider } from '@/components/ThemeProvider';
+import { generateStructuredData } from '@/lib/utils/structured-data';
+import './globals.scss';
 
 const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+});
+
+const notoSansKr = Noto_Sans_KR({
+  subsets: ['latin'],
+  weight: ['100', '300', '400', '500', '700', '900'],
+  display: 'swap',
+  variable: '--font-noto-sans-kr',
 });
 
 const playfair = Playfair_Display({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-playfair",
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-playfair',
+});
+
+const rammettoOne = Rammetto_One({
+  subsets: ['latin'],
+  weight: '400',
+  display: 'swap',
+  variable: '--font-rammetto-one',
 });
 
 // ITC Clearface와 유사한 스타일의 Google Fonts
 // Cormorant Garamond는 ITC Clearface와 유사한 우아한 세리프 폰트입니다
 // 웹폰트로 바로 사용 가능합니다
 const clearface = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  display: "swap",
-  variable: "--font-clearface",
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  display: 'swap',
+  variable: '--font-clearface',
 });
 
+import { SITE_METADATA } from '@/lib/data/site';
+
 export const metadata: Metadata = {
-  title: "Portfolio | 프론트엔드 개발자",
-  description: "프론트엔드 개발자 포트폴리오 - Next.js, React, TypeScript를 활용한 현대적인 웹 애플리케이션 개발",
-  keywords: ["포트폴리오", "프론트엔드", "웹 개발자", "Next.js", "React", "TypeScript"],
-  authors: [{ name: "프론트엔드 개발자" }],
-  creator: "프론트엔드 개발자",
+  title: SITE_METADATA.title,
+  description: SITE_METADATA.description,
+  keywords: SITE_METADATA.keywords,
+  authors: [{ name: SITE_METADATA.author }],
+  creator: SITE_METADATA.author,
   openGraph: {
-    title: "Portfolio | 프론트엔드 개발자",
-    description: "프론트엔드 개발자 포트폴리오 - Next.js, React, TypeScript를 활용한 현대적인 웹 애플리케이션 개발",
-    type: "website",
-    locale: "ko_KR",
-    siteName: "Portfolio",
+    title: SITE_METADATA.title,
+    description: SITE_METADATA.description,
+    type: 'website',
+    locale: 'ko_KR',
+    siteName: 'Portfolio',
   },
   twitter: {
-    card: "summary_large_image",
-    title: "Portfolio | 프론트엔드 개발자",
-    description: "프론트엔드 개발자 포트폴리오",
+    card: 'summary_large_image',
+    title: SITE_METADATA.title,
+    description: SITE_METADATA.description,
   },
   robots: {
     index: true,
@@ -58,10 +78,9 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  verification: {
-  },
+  verification: {},
   alternates: {
-    canonical: process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com',
+    canonical: SITE_METADATA.siteUrl,
   },
 };
 
@@ -74,32 +93,37 @@ export default function RootLayout({
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com';
 
   return (
-    <html lang="ko" className={`${inter.variable} ${playfair.variable} ${clearface.variable}`} suppressHydrationWarning data-scroll-behavior="smooth">
+    <html
+      lang="ko"
+      className={`${inter.variable} ${notoSansKr.variable} ${playfair.variable} ${clearface.variable} ${rammettoOne.variable}`}
+      suppressHydrationWarning
+      data-scroll-behavior="smooth"
+    >
       <head>
-        {process.env.NEXT_PUBLIC_SUPABASE_URL && (
-          <link rel="preconnect" href={process.env.NEXT_PUBLIC_SUPABASE_URL} />
-        )}
         <link rel="canonical" href={siteUrl} />
       </head>
       <body suppressHydrationWarning>
-        <a href="#main-content" className="skip-link">본문으로 건너뛰기</a>
+        <a href="#main-content" className="skip-link">
+          본문으로 건너뛰기
+        </a>
         <Script
           id="structured-data-website"
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData.website) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(structuredData.website),
+          }}
         />
         <Script
           id="structured-data-person"
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData.person) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(structuredData.person),
+          }}
         />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <AuthProvider>
           {children}
-          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
   );
 }
-

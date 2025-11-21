@@ -1,14 +1,14 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   // React 관련 설정
   reactStrictMode: true, // React StrictMode 활성화 (권장)
-  
+
   // 개발 모드에서 React DevTools 오류 방지
   devIndicators: {
     position: 'bottom-right',
   },
-  
+
   // React 19 instrumentation 오류 완화
   experimental: {
     // 서버 액션 최적화
@@ -16,7 +16,7 @@ const nextConfig: NextConfig = {
       bodySizeLimit: '2mb',
     },
   },
-  
+
   // 웹팩 설정으로 React DevTools 오류 필터링
   webpack: (config, { dev }) => {
     if (dev) {
@@ -34,7 +34,7 @@ const nextConfig: NextConfig = {
     }
     return config;
   },
-  
+
   // 이미지 최적화 설정
   images: {
     formats: ['image/avif', 'image/webp'],
@@ -49,22 +49,22 @@ const nextConfig: NextConfig = {
     //   },
     // ],
   },
-  
+
   // 압축 활성화
   compress: true,
-  
+
   // 프로덕션 소스맵 비활성화 (보안 및 성능)
   productionBrowserSourceMaps: false,
-  
+
   // 리다이렉트 및 리라이트 설정
   async redirects() {
     return [];
   },
-  
+
   async rewrites() {
     return [];
   },
-  
+
   // 헤더 설정 (보안 및 성능)
   async headers() {
     const isDev = process.env.NODE_ENV !== 'production';
@@ -118,4 +118,3 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
-

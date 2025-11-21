@@ -7,13 +7,14 @@ export function generateStructuredData(projects: Project[]) {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'Portfolio | 프론트엔드 개발자',
-    description: '프론트엔드 개발자 포트폴리오 - Next.js, React, TypeScript를 활용한 현대적인 웹 애플리케이션 개발',
+    description:
+      '프론트엔드 개발자 포트폴리오 - Next.js, React, TypeScript를 활용한 현대적인 웹 애플리케이션 개발',
     url: baseUrl,
     potentialAction: {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: `${baseUrl}/board?search={search_term_string}`,
+        urlTemplate: `${baseUrl}/projects?search={search_term_string}`,
       },
       'query-input': 'required name=search_term_string',
     },
@@ -26,10 +27,7 @@ export function generateStructuredData(projects: Project[]) {
     jobTitle: 'Frontend Developer',
     description: '프론트엔드 개발자 포트폴리오',
     url: baseUrl,
-    sameAs: [
-      'https://github.com',
-      'https://linkedin.com',
-    ],
+    sameAs: ['https://github.com', 'https://linkedin.com'],
     knowsAbout: [
       'React',
       'Next.js',
@@ -64,4 +62,3 @@ export function generateStructuredData(projects: Project[]) {
     portfolio: portfolioSchema,
   };
 }
-

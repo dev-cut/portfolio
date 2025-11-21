@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import styles from './error.module.scss';
 
@@ -21,4 +21,3 @@ export default function Error({
     </div>
   );
 }
-

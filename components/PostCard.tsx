@@ -1,17 +1,17 @@
 import Link from 'next/link';
-import { Post } from '@/types';
+import { Project } from '@/types';
 import { formatDate } from '@/lib/utils/date';
 import { truncateText } from '@/lib/utils/string';
 import styles from './PostCard.module.scss';
 
 interface PostCardProps {
-  post: Post;
+  post: Project;
 }
 
 export default function PostCard({ post }: PostCardProps) {
   return (
     <article className={styles.postCard}>
-      <Link href={`/board/${post.id}`} className={styles.link}>
+      <Link href={`/projects/${post.id}`} className={styles.link}>
         <h2 className={styles.title}>{post.title}</h2>
         <p className={styles.content}>{truncateText(post.content)}</p>
         <div className={styles.meta}>
@@ -24,4 +24,3 @@ export default function PostCard({ post }: PostCardProps) {
     </article>
   );
 }
-

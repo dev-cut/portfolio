@@ -1,12 +1,12 @@
-@use "sass:color";
+@use 'sass:color';
 
 // Variables
 
 // New Design System Colors
-$color-cream: #F5F0E6;
-$color-dark-green: #2D4338; // Updated to match reference
-$color-orange: #FFB400;
-$color-orange-light: #F4A261;
+$color-cream: #f5f0e6;
+$color-dark-green: #2d4338; // Updated to match reference
+$color-orange: #ffb400;
+$color-orange-light: #f4a261;
 
 // Mapping to functional names
 $primary-color: $color-dark-green;
@@ -17,7 +17,7 @@ $accent-color: $color-orange;
 $text-primary: $color-dark-green;
 $text-secondary: rgba($color-dark-green, 0.8);
 $text-light: $color-cream;
-$text-dark: #1A1A1A;
+$text-dark: #1a1a1a;
 
 // Backgrounds
 $bg-primary: $color-cream;
@@ -25,8 +25,9 @@ $bg-secondary: $color-dark-green;
 
 // Fonts
 $font-serif: var(--font-playfair), serif;
-$font-sans: var(--font-inter), sans-serif;
+$font-sans: var(--font-noto-sans-kr), var(--font-inter), sans-serif;
 $font-clearface: var(--font-clearface), serif;
+$font-rammetto: var(--font-rammetto-one), cursive;
 
 // Legacy/Compat variables
 $bg-white: $color-cream;

@@ -1,44 +1,48 @@
+import { HERO_DATA } from '@/lib/data/home';
 import styles from './Hero.module.scss';
 
 export default function Hero() {
   return (
     <section className={styles.hero}>
-      <div className={styles.bgTextTop}>
-        <div className={styles.bgTextRow}>PORTFOLIO</div>
-      </div>
-      <div className={styles.bgTextBottom}>
-        <div className={styles.bgTextRow}>PORTFOLIO</div>
-        <div className={styles.bgTextRow}>PORTFOLIO</div>
+      <div className={styles.bgTextWrapper}>
+        <div className={`${styles.bgTextRow} ${styles.textFront}`}>
+          {HERO_DATA.topText}
+        </div>
+        {HERO_DATA.bottomText.map((text, index) => (
+          <div key={index} className={`${styles.bgTextRow} ${styles.textBack}`}>
+            {text}
+          </div>
+        ))}
       </div>
 
       <div className={styles.container}>
-        {/* Left Content: Image with Orange Square */}
         <div className={styles.imageSection}>
-           <div className={styles.orangeSquare}></div>
-           
-           {/* Decorative Stars */}
-           <div className={styles.star1}>✦</div>
-           <div className={styles.star2}>✦</div>
+          <div className={styles.orangeSquare}></div>
+          <div className={styles.star1}>✦</div>
+          <div className={styles.star2}>✦</div>
         </div>
-        
-        {/* Right Content: Text Info */}
+
         <div className={styles.infoSection}>
-           <div className={styles.infoItem}>BE: /hannnb</div>
-           <div className={styles.infoItem}>IG: @han.nnb</div>
-           <div className={styles.infoItem}>LI: /han-nnb</div>
+          {HERO_DATA.socialLinks.map((link, index) => (
+            <div key={index} className={styles.infoItem}>
+              {link.label}: {link.value}
+            </div>
+          ))}
         </div>
       </div>
-      
-      {/* Bottom Description */}
+
       <div className={styles.bottomDesc}>
-        I love design and anything related to art.
-        I approach problems in a rational and pragmatic way and seek the simplest and most functional solutions possible.
+        {HERO_DATA.description.split('\n').map((line, index) => (
+          <span key={index}>
+            {line}
+            <br />
+          </span>
+        ))}
       </div>
 
       <a href="#about" className={styles.scrollIndicator}>
         Scroll down
       </a>
-      <div className={styles.band} />
     </section>
   );
 }

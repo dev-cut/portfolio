@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { INTRO_DATA } from '@/lib/data/home';
 import styles from './Intro.module.scss';
 
 export default function Intro() {
@@ -8,16 +9,20 @@ export default function Intro() {
         {/* Left Content */}
         <div className={styles.content}>
           <h2 className={styles.greeting}>
-            Hello, <br />
-            I&rsquo;m JO!
+            {INTRO_DATA.greeting.split('\n').map((line, index) => (
+              <span key={index}>
+                {line}
+                <br />
+              </span>
+            ))}
           </h2>
-          <p className={styles.description}>
-            I am a self-taught Graphic Designer based in Viet Nam with extensive marketing and
-            communication experience. I am currently living in France and pursuing a degree in
-            Digital Web & Project Management.
-          </p>
-          <Link href="https://linkedin.com/in/han-nnb" target="_blank" className={styles.ctaButton}>
-            linkedin.com/in/han-nnb
+          <p className={styles.description}>{INTRO_DATA.description}</p>
+          <Link
+            href={INTRO_DATA.ctaLink}
+            target="_blank"
+            className={styles.ctaButton}
+          >
+            {INTRO_DATA.ctaText}
           </Link>
         </div>
 
@@ -26,29 +31,36 @@ export default function Intro() {
           <div className={styles.imageWrapper}>
             {/* Circle Background */}
             <div className={styles.circleBg}></div>
-            
+
             {/* Profile Image Placeholder */}
             <div className={styles.profileImagePlaceholder}></div>
 
-            {/* Contact Card Overlay */}
+            {/* Contact Card Overlay - Moved to ResumeGrid */}
+
+            {/* Decorative Elements */}
+            <div className={styles.dateBadge}>
+              {INTRO_DATA.contact.birthDate}
+            </div>
+            <div className={styles.nationalityBadge}>
+              {INTRO_DATA.contact.nationality}
+            </div>
             <div className={styles.contactCard}>
               <h3 className={styles.contactTitle}>Contact</h3>
               <ul className={styles.contactList}>
                 <li>
-                  <span className={styles.icon}>📍</span> Narbonne, France
+                  <span className={styles.icon}>📍</span>{' '}
+                  {INTRO_DATA.contact.location}
                 </li>
                 <li>
-                  <span className={styles.icon}>✉️</span> nnbh928@gmail.com
+                  <span className={styles.icon}>✉️</span>{' '}
+                  {INTRO_DATA.contact.email}
                 </li>
                 <li>
-                  <span className={styles.icon}>📞</span> 07 82 84 59 00
+                  <span className={styles.icon}>📞</span>{' '}
+                  {INTRO_DATA.contact.phone}
                 </li>
               </ul>
             </div>
-            
-            {/* Decorative Elements */}
-            <div className={styles.dateBadge}>2nd August 1999</div>
-            <div className={styles.nationalityBadge}>Vietnamese</div>
           </div>
         </div>
       </div>

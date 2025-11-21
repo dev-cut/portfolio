@@ -12,13 +12,9 @@ interface ClientSuspenseProps {
  * 클라이언트 사이드 Suspense 컴포넌트
  * React 19 instrumentation 오류를 줄이기 위한 래퍼
  */
-export default function ClientSuspense({ 
-  children, 
-  fallback = <Loading /> 
+export default function ClientSuspense({
+  children,
+  fallback = <Loading />,
 }: ClientSuspenseProps) {
-  return (
-    <Suspense fallback={fallback}>
-      {children}
-    </Suspense>
-  );
+  return <Suspense fallback={fallback}>{children}</Suspense>;
 }

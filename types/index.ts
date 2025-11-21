@@ -1,10 +1,20 @@
 export interface Project {
   id: string;
   title: string;
-  description: string;
-  longDescription?: string;
-  image: string;
-  technologies: string[];
+  content: string;
+  overview?: string;
+  work_period?: string;
+  team_composition?: string[];
+  role?: string;
+  tech_stack?: string[];
+  main_contribution?: string;
+  achievements?: string;
+  reflection?: string;
+  created_at: string;
+  updated_at: string;
+  // Additional fields from previous Project interface
+  description?: string; // keeping this as optional alias or short desc
+  image?: string;
   githubUrl?: string;
   liveUrl?: string;
   featured?: boolean;
@@ -21,28 +31,3 @@ export interface SocialLink {
   url: string;
   icon: string;
 }
-
-export interface Post {
-  id: string;
-  title: string;
-  content: string;
-  overview?: string;
-  work_period?: string;
-  team_composition?: string[];
-  role?: string;
-  tech_stack?: string[];
-  main_contribution?: string;
-  achievements?: string;
-  reflection?: string;
-  author_id: string;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface PostWithAuthor extends Post {
-  author?: {
-    id: string;
-    email?: string;
-  };
-}
-

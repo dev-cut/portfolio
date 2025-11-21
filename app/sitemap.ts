@@ -14,7 +14,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     },
     {
-      url: `${baseUrl}/board`,
+      url: `${baseUrl}/projects`,
       lastModified: new Date(),
       changeFrequency: 'daily',
       priority: 0.8,
@@ -26,7 +26,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const posts = await getPosts();
     dynamicPages = posts.map((post) => ({
-      url: `${baseUrl}/board/${post.id}`,
+      url: `${baseUrl}/projects/${post.id}`,
       lastModified: new Date(post.updated_at),
       changeFrequency: 'weekly' as const,
       priority: 0.6,
@@ -37,4 +37,3 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [...staticPages, ...dynamicPages];
 }
-

@@ -23,7 +23,7 @@ if (process.env.NODE_ENV === 'development') {
       args[0] &&
       typeof args[0] === 'string' &&
       (args[0].includes('cleaning up async info') ||
-       args[0].includes('Suspense boundary'))
+        args[0].includes('Suspense boundary'))
     ) {
       // Suspense 관련 경고 무시
       return;

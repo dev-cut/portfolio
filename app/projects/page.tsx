@@ -1,8 +1,7 @@
 import { Suspense } from 'react';
 import type { Metadata } from 'next';
-import { getPosts } from '@/app/actions/posts';
+import { PROJECTS } from '@/lib/data/projects';
 import PostCard from '@/components/PostCard';
-import WriteButton from '@/components/WriteButton';
 import styles from './projects.module.scss';
 import Loading from '@/app/loading';
 
@@ -16,8 +15,10 @@ export const metadata: Metadata = {
   },
 };
 
-async function PostList() {
-  const posts = await getPosts();
+export const revalidate = 60;
+
+function PostList() {
+  const posts = PROJECTS;
 
   if (posts.length === 0) {
     return (
@@ -41,9 +42,6 @@ async function PostList() {
         <p className={styles.emptyDescription}>
           첫 번째 프로젝트를 등록해보세요!
         </p>
-        <div className={styles.emptyAction}>
-          <WriteButton />
-        </div>
       </div>
     );
   }
@@ -57,12 +55,11 @@ async function PostList() {
   );
 }
 
-export default async function BoardPage() {
+export default function BoardPage() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <h1 className={styles.title}>Portfolio</h1>
-        <WriteButton />
       </div>
       <Suspense fallback={<Loading />}>
         <PostList />
@@ -70,4 +67,3 @@ export default async function BoardPage() {
     </div>
   );
 }
-

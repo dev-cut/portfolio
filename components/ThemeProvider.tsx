@@ -22,13 +22,12 @@ export function ThemeProvider({
         }
         originalError.apply(console, args);
       };
-      
+
       return () => {
         console.error = originalError;
       };
     }
   }, []);
-  
+
   return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
 }
-

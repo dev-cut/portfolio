@@ -25,8 +25,6 @@ export function formatDate(
   return date.toLocaleDateString('ko-KR', formatOptions);
 }
 
-
-
 /**
  * 날짜 범위 문자열을 한글 형식으로 포맷팅
  * "2024-01-15 - 2024-03-20" -> "2024년 1월 15일 - 2024년 3월 20일"
@@ -38,7 +36,7 @@ export function formatDateRange(dateRange: string): string {
   try {
     const startDate = new Date(parts[0].trim());
     const endDate = new Date(parts[1].trim());
-    
+
     if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
       return dateRange;
     }
@@ -46,10 +44,9 @@ export function formatDateRange(dateRange: string): string {
     // date-fns 포맷 사용
     const startStr = format(startDate, 'yyyy년 M월 d일', { locale: ko });
     const endStr = format(endDate, 'yyyy년 M월 d일', { locale: ko });
-    
+
     return `${startStr} - ${endStr}`;
   } catch {
     return dateRange;
   }
 }
-

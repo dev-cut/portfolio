@@ -2,11 +2,9 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Script from 'next/script';
-import { getPost } from '@/app/actions/posts';
-import { createClient } from '@/lib/supabase/server';
+import { PROJECTS } from '@/lib/data/projects';
 import { formatDate, formatDateRange } from '@/lib/utils/date';
 import { FRONTEND_TECH_STACK, CATEGORY_COLORS } from '@/lib/tech-stack';
-import PostActions from '@/components/PostActions';
 import { getEnvConfig } from '@/lib/utils/env';
 import styles from './[id].module.scss';
 
@@ -22,66 +20,47 @@ function ensureArray<T>(value: T[] | null | undefined): T[] {
 }
 
 interface PostDetailPageProps {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }
 
 export async function generateMetadata({
   params,
 }: PostDetailPageProps): Promise<Metadata> {
-  const { id } = await params;
+  const { id } = params;
+  const post = PROJECTS.find((p) => p.id === id);
 
-  try {
-    const post = await getPost(id);
-    const { NEXT_PUBLIC_SITE_URL: baseUrl } = getEnvConfig();
-
-    return {
-      title: `${post.title} | Portfolio`,
-      description: post.content.slice(0, 160) || post.title,
-      openGraph: {
-        title: post.title,
-        description: post.content.slice(0, 160) || post.title,
-        type: 'article',
-        publishedTime: post.created_at,
-        modifiedTime: post.updated_at,
-        url: `${baseUrl}/projects/${id}`,
-      },
-      twitter: {
-        card: 'summary',
-        title: post.title,
-        description: post.content.slice(0, 160) || post.title,
-      },
-    };
-  } catch {
+  if (!post) {
     return {
       title: '게시글을 찾을 수 없습니다',
     };
   }
+
+  const { NEXT_PUBLIC_SITE_URL: baseUrl } = getEnvConfig();
+
+  return {
+    title: `${post.title} | Portfolio`,
+    description: post.content.slice(0, 160) || post.title,
+    openGraph: {
+      title: post.title,
+      description: post.content.slice(0, 160) || post.title,
+      type: 'article',
+      publishedTime: post.created_at,
+      modifiedTime: post.updated_at,
+      url: `${baseUrl}/projects/${id}`,
+    },
+    twitter: {
+      card: 'summary',
+      title: post.title,
+      description: post.content.slice(0, 160) || post.title,
+    },
+  };
 }
 
-async function PostActionButtons({
-  postId,
-  authorId,
-}: {
-  postId: string;
-  authorId: string;
-}) {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+export default function PostDetailPage({ params }: PostDetailPageProps) {
+  const { id } = params;
+  const post = PROJECTS.find((p) => p.id === id);
 
-  if (!user || user.id !== authorId) return null;
-
-  return <PostActions postId={postId} />;
-}
-
-export default async function PostDetailPage({ params }: PostDetailPageProps) {
-  const { id } = await params;
-
-  let post;
-  try {
-    post = await getPost(id);
-  } catch (error) {
+  if (!post) {
     notFound();
   }
 
@@ -107,7 +86,6 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
         <Link href="/projects" className={styles.backLink}>
           목록으로
         </Link>
-        <PostActionButtons postId={id} authorId={post.author_id} />
       </div>
 
       <article className={styles.post}>

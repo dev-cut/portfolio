@@ -16,8 +16,8 @@
 
   &:hover {
     transform: translateY(-4px) scale(1.01); // Added slight scale
-    box-shadow: 
-      0 20px 25px -5px rgba(0, 0, 0, 0.1), 
+    box-shadow:
+      0 20px 25px -5px rgba(0, 0, 0, 0.1),
       0 10px 10px -5px rgba(0, 0, 0, 0.04),
       0 0 0 1px var(--color-primary); // Subtle border glow
     border-color: transparent; // Let the box-shadow handle the border look
@@ -111,4 +111,3 @@
     gap: 0.5rem;
   }
 }
-

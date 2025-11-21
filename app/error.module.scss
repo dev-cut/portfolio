@@ -15,7 +15,7 @@
   margin-bottom: 1rem;
   color: var(--color-text-primary);
   transition: color 0.3s ease;
-  
+
   @media (min-width: 768px) {
     font-size: 2rem;
   }
@@ -36,9 +36,8 @@
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.15s ease;
-  
+
   &:hover {
     background-color: var(--color-primary-hover);
   }
 }
-

@@ -5,11 +5,11 @@ import { createClient } from '@/lib/supabase/server';
 export async function checkSupabaseConnection() {
   try {
     const supabase = await createClient();
-    
+
     // 환경 변수 확인
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-    
+
     if (!url || !key) {
       return {
         connected: false,
@@ -20,10 +20,7 @@ export async function checkSupabaseConnection() {
     }
 
     // 간단한 연결 테스트 (posts 테이블 조회)
-    const { data, error } = await supabase
-      .from('posts')
-      .select('id')
-      .limit(1);
+    const { data, error } = await supabase.from('posts').select('id').limit(1);
 
     if (error) {
       return {
@@ -35,7 +32,9 @@ export async function checkSupabaseConnection() {
     }
 
     // 세션 확인
-    const { data: { session } } = await supabase.auth.getSession();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
 
     return {
       connected: true,
@@ -54,4 +53,3 @@ export async function checkSupabaseConnection() {
     };
   }
 }
-

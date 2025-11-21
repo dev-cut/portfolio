@@ -32,4 +32,3 @@ Cursor IDE는 이 디렉토리의 모든 `.mdc` 파일을 자동으로 읽어서
 - `description`: 규칙에 대한 설명
 - `globs`: 규칙이 적용될 파일 패턴 배열
 - `alwaysApply`: 항상 적용 여부 (true/false)
-

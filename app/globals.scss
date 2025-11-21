@@ -2,19 +2,23 @@
 
 // CSS Variables for Theme
 :root {
-  --color-primary: #2D4338;
-  --color-secondary: #F5F0E6;
-  --color-accent: #FFB400;
-  --color-accent-light: #F4A261;
-  
-  --color-bg-primary: #F5F0E6;
+  --color-primary: #2d4338;
+  --color-secondary: #f5f0e6;
+  --color-accent: #ffb400;
+  --color-accent-light: #f4a261;
+
+  --color-bg-primary: #f5f0e6;
   --color-warning: #f59e0b;
   --color-text-primary: #1f2320;
   --color-text-secondary: #3a443f;
-  --gradient-primary: linear-gradient(135deg, #F4A261 0%, #FFB400 100%);
-  --gradient-accent: linear-gradient(135deg, #2D4338 0%, #3A5A46 100%);
-  --gradient-glass: linear-gradient(180deg, rgba(245, 240, 230, 0.7) 0%, rgba(245, 240, 230, 0.3) 100%);
-  
+  --gradient-primary: linear-gradient(135deg, #f4a261 0%, #ffb400 100%);
+  --gradient-accent: linear-gradient(135deg, #2d4338 0%, #3a5a46 100%);
+  --gradient-glass: linear-gradient(
+    180deg,
+    rgba(245, 240, 230, 0.7) 0%,
+    rgba(245, 240, 230, 0.3) 100%
+  );
+
   // Header
   --color-header-bg: rgba(245, 240, 230, 0.8);
   --color-header-border: rgba(26, 60, 52, 0.1);
@@ -25,8 +29,6 @@
   --color-scrollbar-thumb: #cfc5b4;
   --color-scrollbar-thumb-hover: #b9af9e;
 }
-
-
 
 // Mixins
 @mixin flex-center {
@@ -61,21 +63,22 @@
   box-sizing: border-box;
 }
 
-html[data-scroll-behavior="smooth"] {
+html[data-scroll-behavior='smooth'] {
   scroll-behavior: smooth;
 }
 
 body {
-  font-family: var(--font-inter), sans-serif;
+  font-family: var(--font-noto-sans-kr), var(--font-inter), sans-serif;
   background-color: var(--color-bg-primary);
   color: var(--color-text-primary);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
   position: relative;
   overflow-x: hidden;
-
 }
 
 .skip-link {
@@ -88,15 +91,19 @@ body {
   color: var(--color-text-primary);
   text-decoration: none;
   font-weight: 600;
-  
+
   &:focus {
     top: 0;
   }
 }
 
 @keyframes blob-bounce {
-  0% { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(5%, 5%) scale(1.1); }
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(5%, 5%) scale(1.1);
+  }
 }
 
 // 메인 콘텐츠가 배경 위에 표시되도록
@@ -106,7 +113,12 @@ main {
 }
 
 // Typography
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-clearface), var(--font-playfair), serif;
   font-weight: 700;
   color: var(--color-text-primary);
@@ -159,7 +171,7 @@ h3 {
   background-color: var(--color-scrollbar-thumb);
   border-radius: 9999px;
   transition: background-color 0.3s ease;
-  
+
   &:hover {
     background-color: var(--color-scrollbar-thumb-hover);
   }
@@ -211,14 +223,15 @@ h3 {
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-
+    box-shadow:
+      0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -2px rgba(0, 0, 0, 0.05);
   }
 }
 
@@ -367,22 +380,20 @@ h3 {
 }
 
 .shadow-md {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
-
-
 
 .shadow-lg {
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
-
-
 
 .shadow-sm {
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
-
-
 
 .transition-colors {
   transition-property: color, background-color, border-color;
@@ -407,11 +418,15 @@ h3 {
 }
 
 .hover\:shadow-xl:hover {
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 .hover\:shadow-lg:hover {
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .hover\:bg-blue-700:hover {
@@ -439,23 +454,23 @@ h3 {
   .md\:flex {
     display: flex;
   }
-  
+
   .md\:hidden {
     display: none;
   }
-  
+
   .md\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  
+
   .md\:grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
-  
+
   .md\:text-7xl {
     font-size: 4.5rem;
   }
-  
+
   .md\:text-2xl {
     font-size: 1.5rem;
   }
@@ -598,8 +613,6 @@ h3 {
   background-color: #dbeafe;
 }
 
-
-
 .bg-blue-600 {
   background-color: var(--color-primary);
 }
@@ -678,7 +691,8 @@ h3 {
 
 .from-blue-400 {
   --tw-gradient-from: #60a5fa;
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(96, 165, 250, 0));
+  --tw-gradient-stops:
+    var(--tw-gradient-from), var(--tw-gradient-to, rgba(96, 165, 250, 0));
 }
 
 .to-purple-500 {

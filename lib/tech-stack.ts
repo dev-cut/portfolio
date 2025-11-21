@@ -24,14 +24,14 @@ export const FRONTEND_TECH_STACK: TechStackInfo[] = [
   { name: 'JavaScript', category: 'language' },
   { name: 'TypeScript', category: 'language' },
   { name: 'HTML/CSS', category: 'language' },
-  
+
   // 프레임워크
   { name: 'React', category: 'framework' },
   { name: 'Next.js', category: 'framework' },
   { name: 'Vue.js', category: 'framework' },
   { name: 'Angular', category: 'framework' },
   { name: 'Svelte', category: 'framework' },
-  
+
   // 스타일링
   { name: 'SCSS/SASS', category: 'styling' },
   { name: 'Tailwind CSS', category: 'styling' },
@@ -40,7 +40,7 @@ export const FRONTEND_TECH_STACK: TechStackInfo[] = [
   { name: 'Material-UI', category: 'styling' },
   { name: 'Ant Design', category: 'styling' },
   { name: 'Chakra UI', category: 'styling' },
-  
+
   // 상태관리
   { name: 'React Query', category: 'state' },
   { name: 'SWR', category: 'state' },
@@ -48,28 +48,28 @@ export const FRONTEND_TECH_STACK: TechStackInfo[] = [
   { name: 'Redux', category: 'state' },
   { name: 'Recoil', category: 'state' },
   { name: 'Jotai', category: 'state' },
-  
+
   // 폼/검증
   { name: 'React Hook Form', category: 'form' },
   { name: 'Formik', category: 'form' },
   { name: 'Zod', category: 'form' },
   { name: 'Yup', category: 'form' },
-  
+
   // API/데이터
   { name: 'Axios', category: 'api' },
   { name: 'Fetch API', category: 'api' },
   { name: 'GraphQL', category: 'api' },
   { name: 'Apollo Client', category: 'api' },
-  
+
   // 빌드 도구
   { name: 'Webpack', category: 'build' },
   { name: 'Vite', category: 'build' },
   { name: 'Parcel', category: 'build' },
-  
+
   // 개발 도구
   { name: 'ESLint', category: 'devtool' },
   { name: 'Prettier', category: 'devtool' },
-  
+
   // 테스팅
   { name: 'Jest', category: 'testing' },
   { name: 'Vitest', category: 'testing' },
@@ -77,12 +77,12 @@ export const FRONTEND_TECH_STACK: TechStackInfo[] = [
   { name: 'Cypress', category: 'testing' },
   { name: 'Playwright', category: 'testing' },
   { name: 'Storybook', category: 'testing' },
-  
+
   // 애니메이션/그래픽
   { name: 'Framer Motion', category: 'animation' },
   { name: 'Three.js', category: 'animation' },
   { name: 'D3.js', category: 'animation' },
-  
+
   // 기타
   { name: 'PWA', category: 'other' },
   { name: 'WebSocket', category: 'other' },
@@ -90,7 +90,10 @@ export const FRONTEND_TECH_STACK: TechStackInfo[] = [
 ];
 
 // 카테고리별 색상 매핑
-export const CATEGORY_COLORS: Record<TechStackCategory, { bg: string; text: string; border: string }> = {
+export const CATEGORY_COLORS: Record<
+  TechStackCategory,
+  { bg: string; text: string; border: string }
+> = {
   language: {
     bg: '#3b82f6', // 파란색
     text: '#ffffff',
@@ -185,4 +188,3 @@ export function getTechStackByCategory() {
 
   return grouped;
 }
-

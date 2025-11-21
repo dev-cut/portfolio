@@ -21,17 +21,18 @@ export default function Chip({
   className,
   categoryColor,
 }: ChipProps) {
-  const style = categoryColor && selected
-    ? {
-        backgroundColor: categoryColor.bg,
-        color: categoryColor.text,
-        borderColor: categoryColor.border,
-      }
-    : categoryColor && !selected
-    ? {
-        borderColor: categoryColor.border,
-      }
-    : undefined;
+  const style =
+    categoryColor && selected
+      ? {
+          backgroundColor: categoryColor.bg,
+          color: categoryColor.text,
+          borderColor: categoryColor.border,
+        }
+      : categoryColor && !selected
+        ? {
+            borderColor: categoryColor.border,
+          }
+        : undefined;
 
   return (
     <button
@@ -45,4 +46,3 @@ export default function Chip({
     </button>
   );
 }
-
