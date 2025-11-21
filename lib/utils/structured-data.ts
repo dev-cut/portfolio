@@ -51,7 +51,7 @@ export function generateStructuredData(projects: Project[]) {
         description: project.description,
         url: project.liveUrl || project.githubUrl,
         image: project.image,
-        keywords: project.technologies.join(', '),
+        keywords: (project.tech_stack || []).join(', '),
       },
     })),
   };

@@ -1,21 +1,9 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
-import {
-  Inter,
-  Playfair_Display,
-  Cormorant_Garamond,
-  Noto_Sans_KR,
-  Rammetto_One,
-} from 'next/font/google';
+import { Noto_Sans_KR, Rammetto_One } from 'next/font/google';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { generateStructuredData } from '@/lib/utils/structured-data';
 import './globals.scss';
-
-const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-inter',
-});
 
 const notoSansKr = Noto_Sans_KR({
   subsets: ['latin'],
@@ -24,27 +12,11 @@ const notoSansKr = Noto_Sans_KR({
   variable: '--font-noto-sans-kr',
 });
 
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-playfair',
-});
-
 const rammettoOne = Rammetto_One({
   subsets: ['latin'],
   weight: '400',
   display: 'swap',
   variable: '--font-rammetto-one',
-});
-
-// ITC Clearface와 유사한 스타일의 Google Fonts
-// Cormorant Garamond는 ITC Clearface와 유사한 우아한 세리프 폰트입니다
-// 웹폰트로 바로 사용 가능합니다
-const clearface = Cormorant_Garamond({
-  subsets: ['latin'],
-  weight: ['400', '700'],
-  display: 'swap',
-  variable: '--font-clearface',
 });
 
 import { SITE_METADATA } from '@/lib/data/site';
@@ -95,7 +67,7 @@ export default function RootLayout({
   return (
     <html
       lang="ko"
-      className={`${inter.variable} ${notoSansKr.variable} ${playfair.variable} ${clearface.variable} ${rammettoOne.variable}`}
+      className={`${notoSansKr.variable} ${rammettoOne.variable}`}
       suppressHydrationWarning
       data-scroll-behavior="smooth"
     >

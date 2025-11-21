@@ -30,7 +30,7 @@ export default function ResumeGrid() {
           </div>
 
           {/* Experience Section */}
-          <div className={styles.educationSection}>
+          <div className={styles.experienceSection}>
             <h2 className={styles.sectionTitle}>Experience</h2>
             <div className={styles.list}>
               {EXPERIENCE_DATA.map((item, index) => (
@@ -61,9 +61,9 @@ export default function ResumeGrid() {
             <h2 className={styles.sectionTitleSkills}>Technical skills</h2>
 
             <div className={styles.skillsGrid}>
-              {/* Software Skills */}
+              {/* Main Tech Stack */}
               <div className={styles.skillCategory}>
-                <h3 className={styles.categoryTitle}>Software Skills</h3>
+                <h3 className={styles.categoryTitle}>Main Tech Stack</h3>
                 <div className={styles.softwareGrid}>
                   {TECHNICAL_SKILLS.software.map((skill, index) => (
                     <div key={index} className={styles.softwareItem}>
@@ -73,9 +73,9 @@ export default function ResumeGrid() {
                 </div>
               </div>
 
-              {/* Coding Skills */}
+              {/* Tools & Libraries */}
               <div className={styles.skillCategory}>
-                <h3 className={styles.categoryTitle}>Coding skills</h3>
+                <h3 className={styles.categoryTitle}>Tools & Libraries</h3>
                 <div className={styles.codingContent}>
                   <div className={styles.codingGrid}>
                     {TECHNICAL_SKILLS.coding.map((skill, index) => (

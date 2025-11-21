@@ -33,9 +33,32 @@
   padding-left: 1rem;
 }
 
+.experienceSection {
+  padding: 2rem;
+  background-color: $color-orange;
+  color: $text-dark;
+
+  .sectionTitle {
+    color: $text-dark;
+  }
+
+  .marker {
+    color: $bg-primary;
+  }
+
+  .period,
+  .itemTitle,
+  .subtitle {
+    color: $text-dark;
+  }
+
+  .subtitle {
+    opacity: 0.8;
+  }
+}
+
 .sectionTitle {
   margin-bottom: 3rem;
-  font-family: $font-clearface;
   font-size: $font-size-5xl;
   font-weight: $font-weight-bold;
   color: $accent-color;
@@ -71,7 +94,6 @@
   font-size: 1.5rem;
   line-height: 1;
   color: $accent-color;
-  background-color: $bg-secondary;
 }
 
 .content {
@@ -81,7 +103,6 @@
 }
 
 .period {
-  font-family: $font-clearface;
   font-size: $font-size-3xl;
   font-weight: $font-weight-bold;
   color: $text-light;
@@ -127,7 +148,6 @@
 
 .contactTitle {
   margin-bottom: 2rem;
-  font-family: $font-clearface;
   font-size: $font-size-4xl;
   color: $text-white;
 }
@@ -168,7 +188,7 @@
 }
 
 .bgText {
-  font-family: $font-clearface;
+  font-family: $font-rammetto;
   font-size: 10rem;
   line-height: 0.85;
   color: transparent;
@@ -188,7 +208,6 @@
   position: relative;
   z-index: 2;
   margin-bottom: 3rem;
-  font-family: $font-clearface;
   font-size: $font-size-5xl;
   font-weight: $font-weight-bold;
   color: $accent-color;
@@ -215,15 +234,14 @@
 
 .categoryTitle {
   margin-bottom: 2rem;
-  font-family: $font-clearface;
-  font-size: 2.5rem;
+  font-size: 1.8rem;
   font-weight: 400;
   color: $text-light;
 }
 
 .softwareGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
 }
 
@@ -231,17 +249,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  aspect-ratio: 1;
-  padding: 0.5rem;
+  aspect-ratio: 2/1;
+  padding: 0.2rem;
   border-radius: 1.5rem;
   background-color: $bg-primary;
   font-family: $font-sans;
-  font-size: 1.125rem;
+  font-size: 1rem;
   font-weight: 700;
   color: $bg-secondary;
   text-align: center;
   white-space: pre-line;
   line-height: 1.2;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: default;
+
+  &:hover {
+    transform: translateY(-0.25rem) scale(1.02);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
 }
 
 .codingContent {
@@ -257,12 +282,27 @@
 }
 
 .codingGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.codingGrid span {
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba($text-light, 0.3);
+  border-radius: 2rem;
   font-family: 'Courier New', Courier, monospace;
-  font-size: 1.5rem;
+  font-size: 1rem;
   letter-spacing: -0.02em;
+  transition: all 0.2s ease;
+  cursor: default;
+
+  &:hover {
+    background-color: $text-light;
+    color: $bg-secondary;
+    border-color: $text-light;
+    transform: translateY(-2px);
+  }
 }
 
 .tags {

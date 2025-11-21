@@ -1,20 +1,20 @@
 @use '../styles/variables' as *;
 
 .interests {
-  padding: 5rem 0;
+  padding: $interests-padding-y 0;
   background-color: $bg-primary;
 }
 
 .container {
-  max-width: 80rem;
+  max-width: $interests-container-max-width;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 $interests-container-padding-x;
 }
 
 .grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 3rem;
+  gap: $interests-grid-gap;
 
   @media (min-width: 992px) {
     grid-template-columns: 1.2fr 0.8fr 1.5fr;
@@ -27,9 +27,8 @@
 }
 
 .sectionTitle {
-  margin-bottom: 2.5rem;
-  font-family: $font-clearface;
-  font-size: 3rem;
+  margin-bottom: $interests-section-title-margin;
+  font-size: $font-size-5xl;
   font-weight: 700;
   color: $text-dark;
 }
@@ -37,18 +36,18 @@
 .activitiesList {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: $interests-activity-gap;
 }
 
 .activityItem {
   display: flex;
   align-items: flex-start;
-  gap: 1rem;
+  gap: $interests-column-gap;
 }
 
 .marker {
-  margin-top: 0.25rem;
-  font-size: 1.25rem;
+  margin-top: $interests-marker-margin;
+  font-size: $interests-marker-size;
   color: $accent-color;
 }
 
@@ -59,7 +58,6 @@
 }
 
 .activityYear {
-  font-family: $font-clearface;
   font-size: 1.25rem;
   font-weight: 700;
   color: $text-dark;
@@ -98,7 +96,6 @@
 }
 
 .langName {
-  font-family: $font-clearface;
   font-size: 1.25rem;
   font-weight: 700;
   color: $text-dark;

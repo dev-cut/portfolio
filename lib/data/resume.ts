@@ -59,25 +59,18 @@ export const SOFT_SKILLS = [
 ];
 
 export const TECHNICAL_SKILLS = {
-  software: [
-    'HTML5',
-    'CSS3',
-    'jQuery',
-    'Adobe\nPhotoshop',
-    'Adobe\nIllustrator',
-    'HTML',
-  ],
+  software: ['React', 'Next.js', 'TypeScript', 'JavaScript', 'HTML5', 'SCSS'],
   coding: [
     'Git',
-    'React',
-    'Vue.JS',
     'GitHub',
-    'CSS',
+    'Figma',
+    'Tailwind CSS',
+    'React Query',
+    'Zustand',
     'Node.js',
-    'TypeScript',
-    'React.js',
-    'Next.js',
-    'JavaScript',
+    'Vercel',
+    'Storybook',
+    'Jira',
   ],
   tags: ['Web Performance', 'Accessibility', 'Responsive Design', 'SEO'],
 };

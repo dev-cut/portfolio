@@ -6,11 +6,12 @@
   align-items: center;
   justify-content: flex-start;
   position: relative;
-  min-height: 100vh;
-  padding-top: 22vh;
+  min-height: $hero-min-height;
+  padding-top: $hero-padding-top;
   overflow: hidden;
   background-color: $bg-secondary;
   color: $text-light;
+
   &::before {
     content: '';
     position: absolute;
@@ -19,7 +20,7 @@
     width: 100%;
     height: 20rem;
     background-color: $bg-tertiary;
-    z-index: 1;
+    z-index: $z-index-base;
   }
 }
 
@@ -31,7 +32,7 @@
   top: 15%;
   left: 25%;
   width: 100%;
-  gap: 3.75rem; // 60px → rem
+  gap: $hero-bg-text-gap;
   pointer-events: none;
 }
 
@@ -40,14 +41,14 @@
   font-size: 10vw;
   line-height: 0.82;
   color: transparent;
-  -webkit-text-stroke: 2px $accent-color;
+  -webkit-text-stroke: $hero-bg-text-stroke $accent-color;
   white-space: nowrap;
-  opacity: 0.9;
+  opacity: $hero-bg-text-opacity;
 }
 
 .textFront {
   position: relative;
-  z-index: 3;
+  z-index: $hero-bg-text-z-index;
   color: $text-light;
   -webkit-text-stroke: 0;
 }

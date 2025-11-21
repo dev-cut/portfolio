@@ -1,24 +1,27 @@
-@use '../styles/variables';
+@use '../styles/variables' as *;
 
 .header {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 50;
-  transition: all 0.3s ease;
+  z-index: $z-index-fixed;
+  transition: $header-transition;
   pointer-events: none;
+  height: $header-height;
 
   &.scrolled {
     .logo {
-      padding: 0.25rem 0.5rem;
-      border: 1px solid var(--color-header-border);
-      border-radius: 1rem;
-      background-color: var(--color-header-bg);
+      padding: 0.25rem 0.75rem;
+      border: 1px solid rgba($color-dark-green, 0.1);
+      border-radius: $radius-full;
+      background-color: rgba($color-cream, 0.8);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       font-size: 1rem;
-      box-shadow: var(--color-header-shadow);
+      box-shadow: $shadow-sm;
+      color: $color-dark-green;
+      transition: all 0.3s ease;
     }
 
     .nav {
@@ -28,7 +31,7 @@
 
   &.transparent {
     .logo {
-      color: var(--color-secondary);
+      color: $color-cream;
     }
   }
 }
@@ -36,11 +39,11 @@
 .nav {
   display: flex;
   align-items: center;
-  max-width: 80rem; // 1280px → rem
-  height: 4.375rem; // 70px → rem
+  max-width: 80rem; // 1280px
+  height: $header-height;
   margin: 0 auto;
-  padding: 0 1.5rem;
-  transition: max-width 0.5s ease;
+  padding: 0 $header-padding-x;
+  transition: max-width 0.3s ease;
 }
 
 .navContent {
