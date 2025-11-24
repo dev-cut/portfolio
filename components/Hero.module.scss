@@ -122,14 +122,21 @@
   z-index: 2;
 }
 
+.scrollIndicatorWrapper {
+  position: absolute;
+  bottom: -2.5rem; // -40px → rem
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+  pointer-events: none; // 래퍼가 전체 너비를 차지하므로 클릭 방해 방지
+}
+
 .scrollIndicator {
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  bottom: -2.5rem; // -40px → rem
-  left: 50%;
-  z-index: 10;
   width: 6.25rem; // 100px → rem
   height: 6.25rem;
   border-radius: 50%;
@@ -137,6 +144,7 @@
   font-size: $font-size-sm;
   font-weight: $font-weight-semibold;
   color: $text-dark;
-  transform: translateX(-50%);
   cursor: pointer;
+  text-decoration: none;
+  pointer-events: auto; // 래퍼의 none을 덮어쓰고 클릭 활성화
 }

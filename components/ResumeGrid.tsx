@@ -3,7 +3,8 @@ import {
   EXPERIENCE_DATA,
   TECHNICAL_SKILLS,
 } from '@/lib/data/resume';
-import { INTRO_DATA } from '@/lib/data/home';
+import FadeIn from './animations/FadeIn';
+import StaggerContainer, { StaggerItem } from './animations/StaggerContainer';
 import styles from './ResumeGrid.module.scss';
 
 export default function ResumeGrid() {
@@ -14,36 +15,40 @@ export default function ResumeGrid() {
         <div className={styles.leftColumn}>
           {/* Education Section */}
           <div className={styles.educationSection}>
-            <h2 className={styles.sectionTitle}>Education</h2>
-            <div className={styles.list}>
+            <FadeIn direction="up">
+              <h2 className={styles.sectionTitle}>Education</h2>
+            </FadeIn>
+            <StaggerContainer className={styles.list}>
               {ACADEMIC_DATA.map((item, index) => (
-                <div key={index} className={styles.item}>
+                <StaggerItem key={index} className={styles.item}>
                   <div className={styles.marker}>✦</div>
                   <div className={styles.content}>
                     <span className={styles.period}>{item.period}</span>
                     <h3 className={styles.itemTitle}>{item.title}</h3>
                     <p className={styles.subtitle}>{item.subtitle}</p>
                   </div>
-                </div>
+                </StaggerItem>
               ))}
-            </div>
+            </StaggerContainer>
           </div>
 
           {/* Experience Section */}
           <div className={styles.experienceSection}>
-            <h2 className={styles.sectionTitle}>Experience</h2>
-            <div className={styles.list}>
+            <FadeIn direction="up" delay={0.2}>
+              <h2 className={styles.sectionTitle}>Experience</h2>
+            </FadeIn>
+            <StaggerContainer className={styles.list} delay={0.2}>
               {EXPERIENCE_DATA.map((item, index) => (
-                <div key={index} className={styles.item}>
+                <StaggerItem key={index} className={styles.item}>
                   <div className={styles.marker}>✦</div>
                   <div className={styles.content}>
                     <span className={styles.period}>{item.period}</span>
                     <h3 className={styles.itemTitle}>{item.title}</h3>
                     <p className={styles.subtitle}>{item.subtitle}</p>
                   </div>
-                </div>
+                </StaggerItem>
               ))}
-            </div>
+            </StaggerContainer>
           </div>
         </div>
 
@@ -51,18 +56,25 @@ export default function ResumeGrid() {
         <div className={styles.rightColumn}>
           <div className={styles.bgTextWrapper}>
             {Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className={styles.bgText}>
+              <FadeIn
+                key={i}
+                direction="left"
+                delay={0.5 + i * 0.1}
+                className={styles.bgText}
+              >
                 RESUME
-              </div>
+              </FadeIn>
             ))}
           </div>
 
           <div className={styles.skillsContent}>
-            <h2 className={styles.sectionTitleSkills}>Technical skills</h2>
+            <FadeIn direction="up" delay={0.3}>
+              <h2 className={styles.sectionTitleSkills}>Technical skills</h2>
+            </FadeIn>
 
-            <div className={styles.skillsGrid}>
+            <StaggerContainer className={styles.skillsGrid} delay={0.4}>
               {/* Main Tech Stack */}
-              <div className={styles.skillCategory}>
+              <StaggerItem className={styles.skillCategory}>
                 <h3 className={styles.categoryTitle}>Main Tech Stack</h3>
                 <div className={styles.softwareGrid}>
                   {TECHNICAL_SKILLS.software.map((skill, index) => (
@@ -71,10 +83,10 @@ export default function ResumeGrid() {
                     </div>
                   ))}
                 </div>
-              </div>
+              </StaggerItem>
 
               {/* Tools & Libraries */}
-              <div className={styles.skillCategory}>
+              <StaggerItem className={styles.skillCategory}>
                 <h3 className={styles.categoryTitle}>Tools & Libraries</h3>
                 <div className={styles.codingContent}>
                   <div className={styles.codingGrid}>
@@ -83,17 +95,17 @@ export default function ResumeGrid() {
                     ))}
                   </div>
                 </div>
-              </div>
-            </div>
+              </StaggerItem>
+            </StaggerContainer>
 
             {/* Bottom Tags */}
-            <div className={styles.tags}>
+            <StaggerContainer className={styles.tags} delay={0.6}>
               {TECHNICAL_SKILLS.tags.map((tag, index) => (
-                <span key={index} className={styles.pill}>
+                <StaggerItem key={index} className={styles.pill}>
                   {tag}
-                </span>
+                </StaggerItem>
               ))}
-            </div>
+            </StaggerContainer>
           </div>
         </div>
       </div>

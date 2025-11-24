@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
 import { Noto_Sans_KR, Rammetto_One } from 'next/font/google';
-import { ThemeProvider } from '@/components/ThemeProvider';
+
 import { generateStructuredData } from '@/lib/utils/structured-data';
 import './globals.scss';
 
@@ -92,9 +92,7 @@ export default function RootLayout({
             __html: JSON.stringify(structuredData.person),
           }}
         />
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
-        </ThemeProvider>
+        {children}
       </body>
     </html>
   );

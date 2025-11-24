@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { INTRO_DATA } from '@/lib/data/home';
+import FadeIn from './animations/FadeIn';
 import styles from './Intro.module.scss';
 
 export default function Intro() {
@@ -7,7 +8,7 @@ export default function Intro() {
     <section className={styles.intro} id="about">
       <div className={styles.container}>
         {/* Left Content */}
-        <div className={styles.content}>
+        <FadeIn direction="right" className={styles.content}>
           <h2 className={styles.greeting}>
             {INTRO_DATA.greeting.split('\n').map((line, index) => (
               <span key={index}>
@@ -24,10 +25,10 @@ export default function Intro() {
           >
             {INTRO_DATA.ctaText}
           </Link>
-        </div>
+        </FadeIn>
 
         {/* Right Image Section */}
-        <div className={styles.imageSection}>
+        <FadeIn direction="left" delay={0.2} className={styles.imageSection}>
           <div className={styles.imageWrapper}>
             {/* Circle Background */}
             <div className={styles.circleBg}></div>
@@ -62,7 +63,7 @@ export default function Intro() {
               </ul>
             </div>
           </div>
-        </div>
+        </FadeIn>
       </div>
     </section>
   );

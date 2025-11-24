@@ -1,4 +1,6 @@
 import { INTERESTS_DATA } from '@/lib/data/home';
+import FadeIn from './animations/FadeIn';
+import StaggerContainer, { StaggerItem } from './animations/StaggerContainer';
 import styles from './Interests.module.scss';
 
 export default function Interests() {
@@ -8,10 +10,12 @@ export default function Interests() {
         <div className={styles.grid}>
           {/* Activities Section */}
           <div className={styles.column}>
-            <h2 className={styles.sectionTitle}>Activities</h2>
-            <div className={styles.activitiesList}>
+            <FadeIn direction="up">
+              <h2 className={styles.sectionTitle}>Activities</h2>
+            </FadeIn>
+            <StaggerContainer className={styles.activitiesList} delay={0.2}>
               {INTERESTS_DATA.activities.map((activity, index) => (
-                <div key={index} className={styles.activityItem}>
+                <StaggerItem key={index} className={styles.activityItem}>
                   <div className={styles.marker}>✦</div>
                   <div className={styles.activityContent}>
                     <span className={styles.activityYear}>{activity.year}</span>
@@ -20,30 +24,34 @@ export default function Interests() {
                       {activity.description}
                     </p>
                   </div>
-                </div>
+                </StaggerItem>
               ))}
-            </div>
+            </StaggerContainer>
           </div>
 
           {/* Language Section */}
           <div className={styles.column}>
-            <h2 className={styles.sectionTitle}>Language</h2>
-            <div className={styles.languageList}>
+            <FadeIn direction="up" delay={0.2}>
+              <h2 className={styles.sectionTitle}>Language</h2>
+            </FadeIn>
+            <StaggerContainer className={styles.languageList} delay={0.4}>
               {INTERESTS_DATA.languages.map((lang, index) => (
-                <div key={index} className={styles.languageItem}>
+                <StaggerItem key={index} className={styles.languageItem}>
                   <h3 className={styles.langName}>{lang.name}</h3>
                   <span className={styles.langLevel}>{lang.level}</span>
-                </div>
+                </StaggerItem>
               ))}
-            </div>
+            </StaggerContainer>
           </div>
 
           {/* Hobbies Section */}
           <div className={styles.column}>
-            <h2 className={styles.sectionTitle}>Hobbies & Interests</h2>
-            <div className={styles.hobbiesGrid}>
+            <FadeIn direction="up" delay={0.4}>
+              <h2 className={styles.sectionTitle}>Hobbies & Interests</h2>
+            </FadeIn>
+            <StaggerContainer className={styles.hobbiesGrid} delay={0.6}>
               {INTERESTS_DATA.hobbies.map((hobby, index) => (
-                <div key={index} className={styles.hobbyItem}>
+                <StaggerItem key={index} className={styles.hobbyItem}>
                   <div className={styles.iconWrapper}>{hobby.icon}</div>
                   <span className={styles.hobbyName}>
                     {hobby.name}
@@ -52,9 +60,9 @@ export default function Interests() {
                       {hobby.description}
                     </span>
                   </span>
-                </div>
+                </StaggerItem>
               ))}
-            </div>
+            </StaggerContainer>
           </div>
         </div>
       </div>
