@@ -2,7 +2,7 @@
 
 .resumeGrid {
   position: relative;
-  padding: 0 0 5rem 0;
+  padding: 0;
   overflow: visible;
   background-color: $bg-secondary;
   color: $text-light;
@@ -34,9 +34,13 @@
 }
 
 .experienceSection {
-  padding: 2rem;
+  position: relative;
+  z-index: 10;
+  margin-bottom: -6rem;
+  padding: 3rem;
   background-color: $color-orange;
   color: $text-dark;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 
   .sectionTitle {
     color: $text-dark;

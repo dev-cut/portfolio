@@ -1,30 +1,17 @@
-# 미사용 파일 및 코드 정리
+# Experience 섹션 오버랩 레이아웃 적용
 
 ## 작업 개요
 
-프로젝트 내 사용되지 않는 파일과 코드를 식별하여 일괄 삭제했습니다.
+사용자의 요청에 따라 "Experience" 섹션(오렌지 박스)이 하단 섹션("Interests")을 덮는 형태의 오버랩 레이아웃을 구현했습니다.
 
-## 삭제된 파일 목록
+## 작업 상세
 
-### Components
-
-- `components/PostCard.tsx`, `components/PostCard.module.scss` (사용처 없음)
-- `components/ClientSuspense.tsx` (사용처 없음)
-- `components/ui/Button.tsx`, `components/ui/Button.module.scss` (사용처 없음)
-- `components/ui/Chip.tsx`, `components/ui/Chip.module.scss` (사용처 없음)
-- `components/ui/ErrorMessage.tsx`, `components/ui/ErrorMessage.module.scss` (사용처 없음)
-- `components/ui/` 디렉토리 삭제
-
-### Lib & Data
-
-- `lib/data/projects.ts` (사용처 없음)
-- `lib/utils/env.ts` (사용처 없음, `next.config.ts`는 process.env 직접 사용)
-- `lib/utils/string.ts` (`PostCard.tsx` 삭제로 인해 미사용)
-
-### Types
-
-- `types/supabase.ts` (사용처 없음)
+- [x] `components/ResumeGrid.module.scss`:
+  - `.resumeGrid`: 하단 패딩 제거 (`padding-bottom: 0`)
+  - `.experienceSection`: 음수 마진 적용 (`margin-bottom: -6rem`), `z-index` 상향 조정, 그림자 효과 추가
+- [x] `components/Interests.module.scss`:
+  - `.interests`: 상단 패딩 증가 (`padding-top: 8rem`)하여 오버랩된 영역만큼 콘텐츠 공간 확보
 
 ## 결과
 
-불필요한 코드를 제거하여 프로젝트 구조를 단순화하고 유지보수성을 향상시켰습니다.
+Experience 섹션이 자연스럽게 다음 섹션으로 이어지며 입체적인 레이아웃이 완성되었습니다.
