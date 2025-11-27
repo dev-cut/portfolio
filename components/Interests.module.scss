@@ -1,7 +1,7 @@
 @use '../styles/variables' as *;
 
 .interests {
-  padding: 8rem 0 5rem;
+  padding: 25rem 0 5rem;
   background-color: $bg-primary;
 }
 
@@ -14,22 +14,35 @@
 .grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: $interests-grid-gap;
+  gap: 4rem;
 
   @media (min-width: 992px) {
-    grid-template-columns: 1.2fr 0.8fr 1.5fr;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 6rem;
   }
 }
 
-.column {
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+}
+
+.sectionWrapper {
   display: flex;
   flex-direction: column;
 }
 
 .sectionTitle {
   margin-bottom: $interests-section-title-margin;
-  font-size: $font-size-5xl;
-  font-weight: 700;
+  font-family: $font-rammetto;
+  font-size: 3.5rem;
+  font-weight: 400;
   color: $text-dark;
 }
 
