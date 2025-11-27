@@ -27,27 +27,27 @@ export const EXPERIENCE_DATA: ExperienceItem[] = [
   {
     period: '2021.02 - 2021.09',
     title: '주식회사 쏠쏠',
-    subtitle: 'Frontend Developer · 8개월',
+    subtitle: 'Frontend Developer',
   },
   {
     period: '2018.11 - 2020.12',
     title: '주식회사 알디엠케인',
-    subtitle: 'Frontend Developer · 2년 2개월',
-  },
-  {
-    period: '2015.11 - 2017.02',
-    title: '유엔제컴퍼니주식회사',
-    subtitle: 'Frontend Developer · 1년 4개월',
+    subtitle: 'Frontend Developer',
   },
   {
     period: '2018.07 - 2018.10',
     title: '프리랜서',
-    subtitle: '4개월',
+    subtitle: '프리랜서',
   },
   {
     period: '2018.04 - 2018.07',
     title: '기본좋은커뮤니케이션',
-    subtitle: '4개월',
+    subtitle: '',
+  },
+  {
+    period: '2015.11 - 2017.02',
+    title: '유엔제컴퍼니주식회사',
+    subtitle: 'Frontend Developer',
   },
 ];
 

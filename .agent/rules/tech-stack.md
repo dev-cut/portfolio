@@ -1,11 +1,17 @@
+---
+trigger: always_on
+---
+
 # 🛠 기술 스택 (Tech Stack)
 
 ## Core
+
 - **Framework**: Next.js 15+ (App Router)
 - **Language**: TypeScript (Strict Mode)
 - **Library**: React 19+
 
 ## File Structure
+
 - `app/`: Routing & Layouts (App Router)
 - `app/actions/`: Server Actions (`'use server'`)
 - `components/`: Reusable Components (PascalCase)
@@ -14,6 +20,7 @@
 - `types/`: Shared Types
 
 ## Coding Standards
+
 - **TypeScript**:
   - `any` 사용 금지.
   - Interface 우선 사용.
@@ -23,6 +30,7 @@
   - **Client Components** (`'use client'`)는 상호작용 필요 시에만.
 
 ## Data Fetching
+
 - **Server Components**: Use `fetch`, `async/await`.
 - **Caching**:
   - `cache: 'force-cache'` (Default/SSG)
@@ -31,6 +39,7 @@
 - **Mutations**: Use Server Actions in `app/actions/`.
 
 ## Performance
+
 - **Images (`next/image`)**:
   - `width`, `height`, `alt` 필수.
   - `priority`: Above-the-fold 이미지에 사용.

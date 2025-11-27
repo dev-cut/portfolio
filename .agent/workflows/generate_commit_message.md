@@ -1,23 +1,23 @@
 ---
-description: Generate a commit message following project rules (Korean)
+description: 프로젝트 규칙에 따른 커밋 메시지 생성 (한글)
 ---
 
-# Generate Commit Message
+# 커밋 메시지 생성
 
-This workflow generates a commit message that adheres to the project's strict Korean-only policy.
+이 워크플로우는 프로젝트의 엄격한 한글 전용 정책을 준수하는 커밋 메시지를 생성합니다.
 
-## Steps
+## 단계
 
-1.  **Analyze Changes**
-    - Review `git diff` or staged changes.
+1.  **변경 사항 분석**
+    - `git diff` 또는 스테이징된 변경 사항 검토.
 
-2.  **Draft Message**
-    - **LANGUAGE**: Korean (Hangul) ONLY.
-    - **Format & Types**: Follow `04-process.md` (Git & Commits).
+2.  **메시지 초안 작성**
+    - **언어**: 반드시 **한글**만 사용.
+    - **형식 및 유형**: `process.md` (Git & Commits) 준수.
 
-3.  **Verify**
-    - Ensure NO English is used in the description.
-    - Example: `feat: 로그인 페이지 레이아웃 개선` (Good)
+3.  **검증**
+    - 설명에 영어가 포함되지 않았는지 확인.
+    - 예시: `feat: 로그인 페이지 레이아웃 개선` (좋음)
 
-4.  **Output**
-    - Present the commit message to the user.
+4.  **출력**
+    - 사용자에게 커밋 메시지 제시.

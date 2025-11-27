@@ -3,6 +3,7 @@ import {
   EXPERIENCE_DATA,
   TECHNICAL_SKILLS,
 } from '@/lib/data/resume';
+import { calculateDuration } from '@/lib/utils/date';
 import FadeIn from './animations/FadeIn';
 import StaggerContainer, { StaggerItem } from './animations/StaggerContainer';
 import styles from './ResumeGrid.module.scss';
@@ -44,7 +45,12 @@ export default function ResumeGrid() {
                   <div className={styles.content}>
                     <span className={styles.period}>{item.period}</span>
                     <h3 className={styles.itemTitle}>{item.title}</h3>
-                    <p className={styles.subtitle}>{item.subtitle}</p>
+                    <p className={styles.subtitle}>
+                      {item.subtitle}
+                      {item.subtitle
+                        ? ` · ${calculateDuration(item.period)}`
+                        : calculateDuration(item.period)}
+                    </p>
                   </div>
                 </StaggerItem>
               ))}
