@@ -14,25 +14,6 @@ export default function ResumeGrid() {
       <div className={styles.container}>
         {/* Left Column: Education & Experience */}
         <div className={styles.leftColumn}>
-          {/* Education Section */}
-          <div className={styles.educationSection}>
-            <FadeIn direction="up">
-              <h2 className={styles.sectionTitle}>Education</h2>
-            </FadeIn>
-            <StaggerContainer className={styles.list}>
-              {ACADEMIC_DATA.map((item, index) => (
-                <StaggerItem key={index} className={styles.item}>
-                  <div className={styles.marker}>✦</div>
-                  <div className={styles.content}>
-                    <span className={styles.period}>{item.period}</span>
-                    <h3 className={styles.itemTitle}>{item.title}</h3>
-                    <p className={styles.subtitle}>{item.subtitle}</p>
-                  </div>
-                </StaggerItem>
-              ))}
-            </StaggerContainer>
-          </div>
-
           {/* Experience Section */}
           <div className={styles.experienceSection}>
             <FadeIn direction="up" delay={0.2}>

@@ -31,7 +31,7 @@ export const EXPERIENCE_DATA: ExperienceItem[] = [
   },
   {
     period: '2018.11 - 2020.12',
-    title: '주식회사 알디엠케인',
+    title: '주식회사 알디엠체인',
     subtitle: 'Frontend Developer',
   },
   {

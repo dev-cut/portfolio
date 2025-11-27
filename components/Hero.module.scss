@@ -43,7 +43,16 @@
   color: transparent;
   -webkit-text-stroke: $hero-bg-text-stroke $accent-color;
   white-space: nowrap;
-  opacity: $hero-bg-text-opacity;
+}
+
+.textFrontWrapper {
+  position: relative;
+  z-index: $hero-bg-text-z-index;
+}
+
+.textBackWrapper {
+  position: relative;
+  z-index: 1;
 }
 
 .textFront {

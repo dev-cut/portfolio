@@ -6,7 +6,11 @@ export default function Hero() {
   return (
     <section className={styles.hero}>
       <div className={styles.bgTextWrapper}>
-        <FadeIn direction="down" delay={0.2} className={styles.bgTextRowWrapper}>
+        <FadeIn
+          direction="down"
+          delay={0.2}
+          className={styles.textFrontWrapper}
+        >
           <div className={`${styles.bgTextRow} ${styles.textFront}`}>
             {HERO_DATA.topText}
           </div>
@@ -16,9 +20,11 @@ export default function Hero() {
             key={index}
             direction="up"
             delay={0.3 + index * 0.1}
-            className={styles.bgTextRowWrapper}
+            className={styles.textBackWrapper}
           >
-            <div className={`${styles.bgTextRow} ${styles.textBack}`}>{text}</div>
+            <div className={`${styles.bgTextRow} ${styles.textBack}`}>
+              {text}
+            </div>
           </FadeIn>
         ))}
       </div>
