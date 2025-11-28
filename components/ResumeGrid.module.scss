@@ -92,12 +92,25 @@
   gap: 2rem;
 }
 
+@keyframes float-marker {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
 .marker {
   position: relative;
   z-index: 1;
   font-size: 1.5rem;
   line-height: 1;
   color: $accent-color;
+  animation: float-marker 3s ease-in-out infinite;
 }
 
 .content {
@@ -107,7 +120,7 @@
 }
 
 .period {
-  font-size: $font-size-3xl;
+  font-size: $font-size-xl;
   font-weight: $font-weight-bold;
   color: $text-light;
 }
