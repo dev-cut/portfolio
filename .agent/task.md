@@ -1,19 +1,17 @@
-# Interests 섹션 레이아웃 변경
+# Interests 섹션 스태거드 레이아웃 적용
 
 ## 작업 개요
 
-사용자의 요청에 따라 Interests 섹션의 레이아웃을 2열 구조로 변경하여 "Activities"는 왼쪽, "Language"와 "Hobbies"는 오른쪽에 배치했습니다.
+사용자의 요청에 따라 Interests 섹션의 좌우 컬럼 높이를 다르게 하여(Staggered), Experience 섹션과의 겹침을 자연스럽게 처리하고 시각적 균형을 맞췄습니다.
 
 ## 작업 상세
 
-- [x] `components/Interests.tsx`:
-  - `leftColumn`과 `rightColumn`으로 구조 분리
-  - "Language"와 "Hobbies" 섹션을 `rightColumn` 내부로 이동
 - [x] `components/Interests.module.scss`:
-  - 그리드 레이아웃을 2열(`0.8fr 1.2fr`)로 변경 (데스크탑 기준)
-  - `leftColumn`, `rightColumn`, `sectionWrapper` 스타일 추가
-  - 섹션 타이틀 폰트를 `Rammetto One`으로 변경하여 디자인 통일성 확보
+  - `.interests`: 전체 상단 패딩 축소 (`5rem`)
+  - `.leftColumn` (Activities): 상단 패딩 대폭 추가 (`18rem`)하여 Experience 박스 아래로 배치
+  - `.rightColumn` (Language, Hobbies): 상단 패딩 없음 (`0`)으로 설정하여 Experience 박스 옆 빈 공간 활용
+  - `.grid`: `align-items: flex-start` 추가하여 컬럼별 높이 독립성 보장
 
 ## 결과
 
-제공된 디자인 시안과 일치하도록 Activities가 좌측에, Language와 Hobbies가 우측에 수직으로 배치되는 레이아웃을 구현했습니다.
+Activities 섹션은 아래로 내려가고 Language 섹션은 위로 올라가는 비대칭 레이아웃이 적용되어, Experience 섹션의 돌출된 디자인과 조화를 이룹니다.
