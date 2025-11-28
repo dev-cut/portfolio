@@ -46,7 +46,6 @@ export default function Intro() {
               {INTRO_DATA.contact.nationality}
             </div>
             <div className={styles.contactCard}>
-              <h3 className={styles.contactTitle}>Contact</h3>
               <ul className={styles.contactList}>
                 <li>
                   <span className={styles.icon}>📍</span>{' '}
