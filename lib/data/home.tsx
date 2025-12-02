@@ -23,7 +23,6 @@ export const INTRO_DATA = {
     email: 'hyukraeyo@gmail.com',
     phone: '010-7460-3737',
     birthDate: '1992.07.12',
-    nationality: 'South Korea',
   },
 };
 

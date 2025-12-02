@@ -42,9 +42,6 @@ export default function Intro() {
             <div className={styles.dateBadge}>
               {INTRO_DATA.contact.birthDate}
             </div>
-            <div className={styles.nationalityBadge}>
-              {INTRO_DATA.contact.nationality}
-            </div>
             <div className={styles.contactCard}>
               <ul className={styles.contactList}>
                 <li>
