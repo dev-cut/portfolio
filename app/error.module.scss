@@ -1,3 +1,5 @@
+@use '../styles/variables' as *;
+
 .error {
   min-height: 100vh;
   display: flex;
@@ -10,28 +12,28 @@
 }
 
 .title {
-  font-size: 1.5rem;
+  font-size: $font-size-2xl;
   font-weight: 700;
-  margin-bottom: 1rem;
+  margin-bottom: $spacing-4;
   color: var(--color-text-primary);
   transition: color 0.3s ease;
 
   @media (min-width: 768px) {
-    font-size: 2rem;
+    font-size: $font-size-3xl;
   }
 }
 
 .message {
   color: var(--color-text-gray-600);
-  margin-bottom: 1rem;
+  margin-bottom: $spacing-4;
   transition: color 0.3s ease;
 }
 
 .button {
-  padding: 0.5rem 1rem;
+  padding: $spacing-2 $spacing-4;
   background-color: var(--color-blue-500);
   color: #ffffff;
-  border-radius: 0.25rem;
+  border-radius: $radius-sm;
   border: none;
   font-weight: 500;
   cursor: pointer;

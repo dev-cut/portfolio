@@ -1,15 +1,17 @@
+@use '../styles/variables' as *;
+
 .main {
   min-height: 100vh;
   background-color: var(--color-bg-secondary);
 }
 
 .resumeContainer {
-  max-width: 1280px;
+  max-width: $container-max-width;
   margin: 0 auto;
-  padding: 5rem 1.5rem;
+  padding: $spacing-20 $spacing-6;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 4rem;
+  gap: $spacing-16;
 
   @media (min-width: 768px) {
     grid-template-columns: 1fr 1fr;

@@ -2,7 +2,7 @@
 
 .intro {
   position: relative;
-  padding: 5rem 0;
+  padding: $spacing-20 0;
   overflow: visible;
   background-color: $color-cream;
 }
@@ -13,10 +13,10 @@
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 80rem;
-  gap: 4rem;
+  max-width: $container-max-width;
+  gap: $spacing-16;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 $container-padding;
 
   @media (min-width: 992px) {
     grid-template-columns: 1fr 1fr;
@@ -31,34 +31,34 @@
 }
 
 .greeting {
-  margin-bottom: 2rem;
-  font-size: 4rem;
+  margin-bottom: $spacing-8;
+  font-size: $font-size-5xl;
   font-weight: 700;
   line-height: 1.1;
   color: $text-dark;
 
   @media (min-width: 768px) {
-    font-size: 5.5rem;
+    font-size: $font-size-6xl;
   }
 }
 
 .description {
   max-width: 31.25rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: $spacing-10;
   font-family: $font-sans;
-  font-size: 1rem;
+  font-size: $font-size-base;
   line-height: 1.6;
   color: $text-secondary;
 
   @media (min-width: 768px) {
-    font-size: 1.125rem;
+    font-size: $font-size-lg;
   }
 }
 
 .ctaButton {
   display: inline-flex;
   align-items: center;
-  padding: 0.75rem 2rem;
+  padding: $spacing-3 $spacing-8;
   border-radius: $radius-full;
   background-color: $accent-light-color;
   font-weight: $font-weight-semibold;
@@ -124,8 +124,8 @@
 }
 
 .contactTitle {
-  margin-bottom: 1rem;
-  font-size: 2rem;
+  margin-bottom: $spacing-4;
+  font-size: $font-size-3xl;
   color: $color-cream;
   text-align: center;
 }
@@ -133,10 +133,10 @@
 .contactList {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: $spacing-2;
   margin: 0;
   padding: 0;
-  font-size: 0.875rem;
+  font-size: $font-size-sm;
   list-style: none;
 
   li {
@@ -144,7 +144,7 @@
     align-items: center;
 
     .icon {
-      margin-right: 0.75rem;
+      margin-right: $spacing-3;
     }
   }
 }
@@ -165,8 +165,8 @@
 .nationalityBadge {
   position: absolute;
   z-index: 2;
-  padding: 0.5rem 1.5rem;
-  border-radius: 2rem;
+  padding: $spacing-2 $spacing-6;
+  border-radius: $radius-2xl;
   background-color: $accent-color;
   font-family: $font-sans;
   font-weight: 700;

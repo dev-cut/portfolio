@@ -12,13 +12,13 @@
 
   &.scrolled {
     .logo {
-      padding: 0.25rem 0.75rem;
+      padding: $spacing-1 $spacing-3;
       border: 1px solid rgba($color-dark-green, 0.1);
       border-radius: $radius-full;
       background-color: rgba($color-cream, 0.8);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      font-size: 1rem;
+      font-size: $font-size-base;
       box-shadow: $shadow-sm;
       color: $color-dark-green;
       transition: all 0.3s ease;
@@ -39,7 +39,7 @@
 .nav {
   display: flex;
   align-items: center;
-  max-width: 80rem; // 1280px
+  max-width: $container-max-width;
   height: $header-height;
   margin: 0 auto;
   padding: 0 $header-padding-x;
@@ -50,7 +50,7 @@
   display: flex;
   align-items: center;
   width: 100%;
-  gap: 2rem;
+  gap: $spacing-8;
 }
 
 .logo {
@@ -58,7 +58,7 @@
   align-items: center;
   margin-left: 0;
   font-family: var(--font-playfair), serif;
-  font-size: 1.5rem;
+  font-size: $font-size-2xl;
   font-weight: 700;
   color: var(--color-text-primary);
   text-decoration: none;

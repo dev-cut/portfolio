@@ -91,12 +91,44 @@ export default function ResumeGrid() {
             </div>
             <div className={styles.expandSectionWrapper}>
               <button
-                className={styles.expandSectionButton}
+                className={`${styles.expandSectionButton} ${
+                  isExperienceExpanded ? styles.expanded : ''
+                }`}
                 onClick={() => setIsExperienceExpanded(!isExperienceExpanded)}
               >
-                {isExperienceExpanded
-                  ? 'Experience 접기 ▲'
-                  : 'Experience 더보기 ▼'}
+                {isExperienceExpanded ? (
+                  <>
+                    접기
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 12 12"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6 2.5L2 6.5L3.4 7.9L6 5.3L8.6 7.9L10 6.5L6 2.5Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </>
+                ) : (
+                  <>
+                    더보기
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 12 12"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6 9.5L2 5.5L3.4 4.1L6 6.7L8.6 4.1L10 5.5L6 9.5Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </>
+                )}
               </button>
             </div>
           </div>

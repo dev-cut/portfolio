@@ -12,32 +12,32 @@
   display: grid;
   grid-template-columns: 1fr;
   position: relative;
-  max-width: 80rem;
-  gap: 4rem;
+  max-width: $container-max-width;
+  gap: $spacing-16;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 $container-padding;
 
   @media (min-width: 992px) {
     grid-template-columns: 1fr 1fr;
-    gap: 6rem;
+    gap: $spacing-24;
   }
 }
 
 .leftColumn {
   display: flex;
   flex-direction: column;
-  padding-top: 5rem;
+  padding-top: $spacing-20;
 }
 
 .educationSection {
-  padding-left: 1rem;
+  padding-left: $spacing-4;
 }
 
 .experienceSection {
   position: relative;
   z-index: 10;
   margin-bottom: -20rem;
-  padding: 3rem;
+  padding: $spacing-12 $spacing-12 $spacing-24;
   background-color: $color-orange;
   color: $text-dark;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
@@ -63,35 +63,78 @@
   .expandSectionWrapper {
     display: flex;
     justify-content: center;
-    margin-top: 2rem;
-    padding-top: 1rem;
-    border-top: 1px solid rgba($text-dark, 0.1);
+    position: relative;
+    z-index: 10;
+  }
+
+  @keyframes pulse-orange {
+    0% {
+      box-shadow: 0 0 0 0 rgba($color-white, 0.4);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgba($color-white, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba($color-white, 0);
+    }
   }
 
   .expandSectionButton {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    border: 1px solid rgba($text-dark, 0.2);
-    border-radius: 2rem;
-    background: rgba($color-white, 0.5);
-    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-2;
+    padding: 0.8rem $spacing-8;
+    border: 1px solid rgba($color-white, 0.4);
+    border-radius: 3rem;
+    background: rgba($color-white, 0.25);
+    font-size: 0.95rem;
     font-weight: 600;
     color: $text-dark;
     cursor: pointer;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(4px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    animation: pulse-orange 2s infinite;
 
     &:hover {
-      background: $color-white;
-      border-color: $text-dark;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      background: rgba($color-white, 0.6);
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      animation: none;
+    }
+
+    &:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    svg {
+      transition: transform 0.3s ease;
+    }
+
+    &:hover svg {
+      transform: translateY(3px);
+    }
+
+    &.expanded {
+      margin-top: 2rem;
+      background: rgba($text-dark, 0.05);
+      border-color: rgba($text-dark, 0.1);
+      color: $text-dark;
+      animation: none;
+
+      &:hover {
+        background: rgba($text-dark, 0.1);
+        svg {
+          transform: translateY(-3px);
+        }
+      }
     }
   }
 }
 
 .sectionTitle {
-  margin-bottom: 3rem;
+  margin-bottom: $spacing-12;
   font-size: $font-size-5xl;
   font-weight: $font-weight-bold;
   color: $accent-color;
@@ -101,12 +144,12 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  gap: 3rem;
+  gap: $spacing-12;
 
   &::before {
     content: '';
     position: absolute;
-    top: 0.5rem;
+    top: $spacing-2;
     bottom: 0;
     left: 0.6rem;
     width: 1px;
@@ -120,10 +163,11 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 15rem;
+      height: 10rem; // 높이 축소
       background: linear-gradient(
         to bottom,
         rgba($color-orange, 0) 0%,
+        rgba($color-orange, 0.9) 60%,
         $color-orange 100%
       );
       pointer-events: none;
@@ -136,7 +180,7 @@
   display: flex;
   align-items: flex-start;
   position: relative;
-  gap: 2rem;
+  gap: $spacing-8;
 }
 
 @keyframes float-marker {
@@ -154,7 +198,7 @@
 .marker {
   position: relative;
   z-index: 1;
-  font-size: 1.5rem;
+  font-size: $font-size-2xl;
   line-height: 1;
   color: $accent-color;
   animation: float-marker 3s ease-in-out infinite;
@@ -163,7 +207,7 @@
 .content {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: $spacing-2;
 }
 
 .period {
@@ -173,7 +217,7 @@
 }
 
 .itemTitle {
-  margin-bottom: 0.25rem;
+  margin-bottom: $spacing-1;
   font-size: $font-size-lg;
   font-weight: $font-weight-semibold;
   color: $text-light;
@@ -189,9 +233,9 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.5rem;
-  margin-top: 1rem;
-  padding-left: 1rem;
+  gap: $spacing-2;
+  margin-top: $spacing-4;
+  padding-left: $spacing-4;
   border-left: 2px solid rgba($text-dark, 0.2);
 }
 
@@ -226,8 +270,8 @@
 
 .moreButton {
   display: inline-block;
-  margin-top: 0.5rem;
-  padding: 0.5rem 1rem;
+  margin-top: $spacing-2;
+  padding: $spacing-2 $spacing-4;
   border: none;
   border-radius: 2rem;
   background: rgba($color-white, 0.5);
@@ -253,7 +297,7 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  padding-top: 5rem;
+  padding-top: $spacing-20;
 }
 
 .contactCard {
@@ -270,12 +314,12 @@
   @media (max-width: 991px) {
     max-width: none;
     margin-top: 0;
-    margin-bottom: 3rem;
+    margin-bottom: $spacing-12;
   }
 }
 
 .contactTitle {
-  margin-bottom: 2rem;
+  margin-bottom: $spacing-8;
   font-size: $font-size-4xl;
   color: $text-white;
 }
@@ -283,7 +327,7 @@
 .contactList {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: $spacing-4;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -291,14 +335,14 @@
   li {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: $spacing-4;
     font-size: $font-size-base;
     color: rgba($color-white, 0.9);
   }
 }
 
 .icon {
-  font-size: 1.25rem;
+  font-size: $font-size-xl;
 }
 
 .bgTextWrapper {
@@ -335,7 +379,7 @@
 .sectionTitleSkills {
   position: relative;
   z-index: 2;
-  margin-bottom: 3rem;
+  margin-bottom: $spacing-12;
   font-size: $font-size-5xl;
   font-weight: $font-weight-bold;
   color: $accent-color;
@@ -346,14 +390,14 @@
   grid-template-columns: 1fr;
   position: relative;
   z-index: 2;
-  gap: 4rem;
-  margin-bottom: 4rem;
+  gap: $spacing-16;
+  margin-bottom: $spacing-16;
 }
 
 .skillCategory {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: $spacing-6;
 }
 
 .categoryTitle {
@@ -363,7 +407,7 @@
 .softwareGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
+  gap: $spacing-6;
 
   @media (min-width: 768px) {
     grid-template-columns: repeat(4, 1fr);
@@ -379,7 +423,7 @@
   border-radius: 1.5rem;
   background-color: $bg-primary;
   font-family: $font-sans;
-  font-size: 1rem;
+  font-size: $font-size-base;
   font-weight: 700;
   color: $bg-secondary;
   text-align: center;
@@ -396,12 +440,12 @@
 
 .codingContent {
   color: $text-light;
-  padding-top: 0.5rem;
+  padding-top: $spacing-2;
 }
 
 .codingIntro {
-  margin-bottom: 2rem;
-  font-size: 1.25rem;
+  margin-bottom: $spacing-8;
+  font-size: $font-size-xl;
   opacity: 0.8;
   font-family: $font-sans;
 }
@@ -409,15 +453,15 @@
 .codingGrid {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: $spacing-3;
 }
 
 .codingGrid span {
-  padding: 0.5rem 1rem;
+  padding: $spacing-2 $spacing-4;
   border: 1px solid rgba($text-light, 0.3);
-  border-radius: 2rem;
+  border-radius: $radius-2xl;
   font-family: 'Courier New', Courier, monospace;
-  font-size: 1rem;
+  font-size: $font-size-base;
   letter-spacing: -0.02em;
   transition: all 0.2s ease;
   cursor: default;
@@ -442,12 +486,12 @@
 .activitiesSection,
 .languageSection,
 .hobbiesSection {
-  margin-top: 5rem;
+  margin-top: $spacing-20;
 }
 
 .sectionTitleActivities,
 .sectionTitleLanguage {
-  margin-bottom: 2rem;
+  margin-bottom: $spacing-8;
   font-size: 1.8rem;
   font-weight: 400;
   color: $text-light;
@@ -456,7 +500,7 @@
 .sectionTitleHobbies {
   position: relative;
   z-index: 2;
-  margin-bottom: 3rem;
+  margin-bottom: $spacing-12;
   font-size: $font-size-5xl;
   font-weight: $font-weight-bold;
   color: $accent-color;
@@ -465,19 +509,19 @@
 .activitiesList {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: $spacing-8;
 }
 
 .activityItem {
   display: flex;
   align-items: flex-start;
-  gap: 1.5rem;
+  gap: $spacing-6;
 }
 
 .activityContent {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: $spacing-1;
 }
 
 .activityYear {
@@ -487,20 +531,20 @@
 }
 
 .activityTitle {
-  font-size: 1rem;
+  font-size: $font-size-base;
   font-weight: 600;
   color: $text-light;
 }
 
 .activityDesc {
-  font-size: 0.875rem;
+  font-size: $font-size-sm;
   color: rgba($text-light, 0.7);
 }
 
 .languageList {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: $spacing-8;
 
   @media (min-width: 640px) {
     flex-direction: row;
@@ -511,24 +555,24 @@
 .languageItem {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: $spacing-2;
 }
 
 .langName {
-  font-size: 1.25rem;
+  font-size: $font-size-xl;
   font-weight: 700;
   color: $text-light;
 }
 
 .langLevel {
-  font-size: 0.875rem;
+  font-size: $font-size-sm;
   color: rgba($text-light, 0.7);
 }
 
 .hobbiesGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
+  gap: $spacing-8;
 
   @media (min-width: 640px) {
     grid-template-columns: repeat(4, 1fr);
@@ -539,7 +583,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: $spacing-4;
   text-align: center;
 }
 
@@ -550,7 +594,7 @@
   position: relative;
   width: 3.5rem;
   height: 3.5rem;
-  font-size: 2rem;
+  font-size: $font-size-3xl;
   color: $accent-color;
   background-color: transparent;
 
@@ -566,7 +610,7 @@
 }
 
 .hobbyName {
-  font-size: 0.875rem;
+  font-size: $font-size-sm;
   line-height: 1.4;
   color: $text-light;
 }

@@ -74,9 +74,9 @@
 }
 
 @mixin container {
-  max-width: 1280px;
+  max-width: $container-max-width;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 $spacing-6;
 }
 
 @mixin responsive($breakpoint) {
@@ -198,13 +198,13 @@ h3 {
 }
 
 .section {
-  padding: 5rem 1.5rem;
-  scroll-margin-top: 80px;
+  padding: $spacing-20 $spacing-6;
+  scroll-margin-top: $spacing-20;
 }
 
 // Custom scrollbar
 ::-webkit-scrollbar {
-  width: 8px;
+  width: $spacing-2;
 }
 
 ::-webkit-scrollbar-track {
@@ -214,7 +214,7 @@ h3 {
 
 ::-webkit-scrollbar-thumb {
   background-color: var(--color-scrollbar-thumb);
-  border-radius: 9999px;
+  border-radius: $radius-full;
   transition: background-color 0.3s ease;
 
   &:hover {
