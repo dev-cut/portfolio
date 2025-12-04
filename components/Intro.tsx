@@ -35,7 +35,11 @@ export default function Intro() {
 
             {/* Profile Image Placeholder */}
             <div className={styles.profileImagePlaceholder}></div>
-
+            <img
+              className={styles.profileImage}
+              src="/images/me_2.png"
+              alt=""
+            />
             {/* Contact Card Overlay - Moved to ResumeGrid */}
 
             {/* Decorative Elements */}

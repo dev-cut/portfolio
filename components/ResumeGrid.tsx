@@ -137,32 +137,6 @@ export default function ResumeGrid() {
 
         {/* Right Column: Contact & Technical Skills */}
         <div className={styles.rightColumn}>
-          <div className={styles.contactCard}>
-            <div className={styles.datePill}>1992.07.12</div>
-            <div className={styles.profileImageWrapper}>
-              <Image
-                src="/images/me_2.png"
-                alt="Profile"
-                fill
-                sizes="(max-width: 768px) 100vw, 300px"
-                priority
-              />
-            </div>
-            <div className={styles.contactInfoBox}>
-              <ul className={styles.contactList}>
-                <li>
-                  <span className={styles.icon}>📍</span> Seoul, Korea
-                </li>
-                <li>
-                  <span className={styles.icon}>✉️</span> hyukraeyo@gmail.com
-                </li>
-                <li>
-                  <span className={styles.icon}>📞</span> 010-7460-3737
-                </li>
-              </ul>
-            </div>
-          </div>
-
           <div className={styles.bgTextWrapper}>
             {Array.from({ length: 3 }).map((_, i) => (
               <FadeIn

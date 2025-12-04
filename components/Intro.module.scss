@@ -88,13 +88,23 @@
 
 .circleBg {
   position: absolute;
-  top: 10%;
-  left: 10%;
-  z-index: 2;
-  width: 60%;
+  top: -29%;
+  left: 28%;
+  z-index: 1;
+  width: 115%;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   background-color: $color-dark-green;
+}
+
+.profileImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .profileImagePlaceholder {
@@ -104,7 +114,6 @@
   z-index: 1;
   width: 100%;
   height: 100%;
-  border-radius: 12rem 12rem 0 0;
   background-color: $bg-gray-placeholder;
   overflow: hidden;
 }
