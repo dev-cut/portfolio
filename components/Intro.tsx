@@ -33,14 +33,11 @@ export default function Intro() {
             {/* Circle Background */}
             <div className={styles.circleBg}></div>
 
-            {/* Profile Image Placeholder */}
-            <div className={styles.profileImagePlaceholder}></div>
             <img
               className={styles.profileImage}
               src="/images/me_2.png"
               alt=""
             />
-            {/* Contact Card Overlay - Moved to ResumeGrid */}
 
             {/* Decorative Elements */}
             <div className={styles.dateBadge}>

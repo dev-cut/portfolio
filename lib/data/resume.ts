@@ -1,9 +1,3 @@
-export interface AcademicItem {
-  period: string;
-  title: string;
-  subtitle: string;
-}
-
 export interface ProjectItem {
   name: string;
   period: string;
@@ -17,14 +11,6 @@ export interface ExperienceItem {
   subtitle: string;
   projects?: ProjectItem[];
 }
-
-export const ACADEMIC_DATA: AcademicItem[] = [
-  {
-    period: '2014.03 - 2016.02',
-    title: '한국IT직업전문학교',
-    subtitle: '웹디자인학과',
-  },
-];
 
 export const EXPERIENCE_DATA: ExperienceItem[] = [
   {
@@ -178,12 +164,6 @@ export const EXPERIENCE_DATA: ExperienceItem[] = [
     ],
   },
 ];
-export const SOFT_SKILLS = [
-  '#문제해결능력',
-  '#원활한커뮤니케이션',
-  '#주도적인학습',
-  '#사용자중심사고',
-];
 
 export const TECHNICAL_SKILLS = {
   software: [
@@ -207,5 +187,4 @@ export const TECHNICAL_SKILLS = {
     'Storybook',
     'Jira',
   ],
-  tags: ['Web Performance', 'Accessibility', 'Responsive Design', 'SEO'],
 };

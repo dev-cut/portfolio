@@ -1,13 +1,8 @@
 'use client';
 
 import { INTERESTS_DATA } from '@/lib/data/home';
-import {
-  ACADEMIC_DATA,
-  EXPERIENCE_DATA,
-  TECHNICAL_SKILLS,
-} from '@/lib/data/resume';
+import { EXPERIENCE_DATA, TECHNICAL_SKILLS } from '@/lib/data/resume';
 import { calculateDuration } from '@/lib/utils/date';
-import Image from 'next/image';
 import { useState } from 'react';
 import FadeIn from './animations/FadeIn';
 import StaggerContainer, { StaggerItem } from './animations/StaggerContainer';
@@ -174,15 +169,6 @@ export default function ResumeGrid() {
               </StaggerItem>
             </StaggerContainer>
 
-            {/* Bottom Tags */}
-            <StaggerContainer className={styles.tags} delay={0.6}>
-              {TECHNICAL_SKILLS.tags.map((tag, index) => (
-                <StaggerItem key={index} className={styles.pill}>
-                  {tag}
-                </StaggerItem>
-              ))}
-            </StaggerContainer>
-
             {/* Hobbies Section */}
             <div className={styles.hobbiesSection}>
               <FadeIn direction="up" delay={0.6}>
@@ -208,15 +194,6 @@ export default function ResumeGrid() {
           </div>
         </div>
       </div>
-
-      {/* Project History Section (Hidden for now, data ready) */}
-      {/* 
-      <div className={styles.projectHistory}>
-        {PROJECT_HISTORY.map(project => (
-           ... 
-        ))}
-      </div> 
-      */}
     </section>
   );
 }
