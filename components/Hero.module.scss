@@ -1,5 +1,15 @@
 @use '../styles/variables' as *;
 
+// ============================================
+// LogoAnimation 위치 (좌측 상단 고정)
+// ============================================
+.logoWrapper {
+  position: absolute;
+  top: $spacing-8;
+  left: $spacing-8;
+  z-index: $z-index-fixed;
+}
+
 .hero {
   display: flex;
   flex-direction: column;

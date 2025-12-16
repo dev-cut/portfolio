@@ -1,11 +1,15 @@
 import Image from 'next/image';
 import { HERO_DATA } from '@/lib/data/home';
 import FadeIn from './animations/FadeIn';
+import LogoAnimation from './animations/LogoAnimation';
 import styles from './Hero.module.scss';
 
 export default function Hero() {
   return (
     <section className={styles.hero}>
+      <div className={styles.logoWrapper}>
+        <LogoAnimation />
+      </div>
       <div className={styles.bgTextWrapper}>
         <FadeIn
           direction="down"
@@ -29,12 +33,11 @@ export default function Hero() {
           </FadeIn>
         ))}
       </div>
-
       <div className={styles.container}>
         <FadeIn delay={0.5} className={styles.imageSection}>
           <div className={styles.profileImageWrapper}>
             <Image
-              src="/images/me.png"
+              src="/images/me_1.png"
               alt="Profile"
               fill
               priority
@@ -44,21 +47,7 @@ export default function Hero() {
           <div className={styles.star1}>✦</div>
           <div className={styles.star2}>✦</div>
         </FadeIn>
-
-        <div className={styles.infoSection}>
-          {HERO_DATA.socialLinks.map((link, index) => (
-            <FadeIn
-              key={index}
-              direction="left"
-              delay={0.8 + index * 0.1}
-              className={styles.infoItem}
-            >
-              {link.label}: {link.value}
-            </FadeIn>
-          ))}
-        </div>
       </div>
-
       <div className={styles.bottomDesc}>
         <FadeIn delay={1.2} direction="up">
           <div className={styles.inner}>
@@ -71,7 +60,6 @@ export default function Hero() {
           </div>
         </FadeIn>
       </div>
-
       <FadeIn
         delay={1.5}
         direction="up"
