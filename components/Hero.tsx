@@ -1,5 +1,3 @@
-import Image from 'next/image';
-import { HERO_DATA } from '@/lib/data/home';
 import FadeIn from './animations/FadeIn';
 import LogoAnimation from './animations/LogoAnimation';
 import styles from './Hero.module.scss';
@@ -7,70 +5,28 @@ import styles from './Hero.module.scss';
 export default function Hero() {
   return (
     <section className={styles.hero}>
-      <div className={styles.logoWrapper}>
-        <LogoAnimation />
-      </div>
-      <div className={styles.bgTextWrapper}>
-        <FadeIn
-          direction="down"
-          delay={0.2}
-          className={styles.textFrontWrapper}
-        >
-          <div className={`${styles.bgTextRow} ${styles.textFront}`}>
-            {HERO_DATA.topText}
-          </div>
-        </FadeIn>
-        {HERO_DATA.bottomText.map((text, index) => (
-          <FadeIn
-            key={index}
-            direction="up"
-            delay={0.3 + index * 0.1}
-            className={styles.textBackWrapper}
-          >
-            <div className={`${styles.bgTextRow} ${styles.textBack}`}>
-              {text}
+      <div className={styles.content}>
+        <div className={styles.logoWrapper}>
+          <LogoAnimation />
+        </div>
+
+        <div className={styles.textSection}>
+          <FadeIn delay={0.8} direction="up">
+            <div className={styles.mainText}>
+              안녕하세요,
+              <br />
+              프론트엔드 개발자
+              <br />
+              <span className={styles.name}>조혁래</span>입니다.
+            </div>
+            <div className={styles.subText}>
+              React를 중심으로 웹 프론트엔드를 개발합니다.
+              <br />
+              함께 제품을 만들고 성장시킬 곳을 찾고 있습니다.
             </div>
           </FadeIn>
-        ))}
+        </div>
       </div>
-      <div className={styles.container}>
-        <FadeIn delay={0.5} className={styles.imageSection}>
-          <div className={styles.profileImageWrapper}>
-            <Image
-              src="/images/me_1.png"
-              alt="Profile"
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, 500px"
-            />
-          </div>
-          <div className={styles.star1}>✦</div>
-          <div className={styles.star2}>✦</div>
-        </FadeIn>
-      </div>
-      <div className={styles.bottomDesc}>
-        <FadeIn delay={1.2} direction="up">
-          <div className={styles.inner}>
-            {HERO_DATA.description.split('\n').map((line, index) => (
-              <span key={index}>
-                {line}
-                <br />
-              </span>
-            ))}
-          </div>
-        </FadeIn>
-      </div>
-      <FadeIn
-        delay={1.5}
-        direction="up"
-        className={styles.scrollIndicatorWrapper}
-        fullWidth
-        viewport={{ once: true, margin: '0px' }}
-      >
-        <a href="#about" className={styles.scrollIndicator}>
-          Scroll down
-        </a>
-      </FadeIn>
     </section>
   );
 }
