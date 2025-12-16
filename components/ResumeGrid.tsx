@@ -132,19 +132,6 @@ export default function ResumeGrid() {
 
         {/* Right Column: Contact & Technical Skills */}
         <div className={styles.rightColumn}>
-          <div className={styles.bgTextWrapper}>
-            {Array.from({ length: 3 }).map((_, i) => (
-              <FadeIn
-                key={i}
-                direction="left"
-                delay={0.5 + i * 0.1}
-                className={styles.bgText}
-              >
-                RESUME
-              </FadeIn>
-            ))}
-          </div>
-
           <div className={styles.skillsContent}>
             <FadeIn direction="up" delay={0.3}>
               <h2 className={styles.sectionTitleSkills}>Technical skills</h2>
