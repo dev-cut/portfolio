@@ -247,49 +247,33 @@ export default function LogoAnimation({
       rY.set(50);
       setIsInteractive(false);
 
-      // 1. 초기 셋업 (안보이는 상태에서 위치 잡기)
+      // 1. 초기 셋업 (위에서 시작, 안보이는 상태)
       await domAnimate([
-        ['.logo-item', { x: 0, y: 30, opacity: 0 }, { duration: 0 }],
+        ['.item-1', { x: 0, y: -120, opacity: 0 }, { duration: 0 }],
+        ['.item-2', { x: 0, y: -120, opacity: 0 }, { duration: 0 }],
+        ['.item-3', { x: 0, y: -120, opacity: 0 }, { duration: 0 }],
         ['.j-group', { opacity: 0 }, { duration: 0 }],
         ['.h-group', { opacity: 0 }, { duration: 0 }],
         ['.r-group', { opacity: 0 }, { duration: 0 }],
       ]);
       if (stale()) return;
 
-      // 2. [NEW] 위로 뜨는 효과 (Bounce Entrance)
-      // 3개의 원이 하나로 뭉친 상태에서 통통 튀어오름
+      // 2. 뱀꼬리처럼 이어져서 떨어짐 + 바닥에 튕김
       await domAnimate([
-        [
-          '.logo-item',
-          { y: 0, opacity: 1 },
-          { duration: 0.4, ease: 'easeOut' },
-        ],
-        ['.logo-item', { y: -30 }, { duration: 0.4, ease: 'backOut' }], // 위로 점프
-        [
-          '.logo-item',
-          { y: 0 },
-          { duration: 0.5, type: 'spring', bounce: 0.5 },
-        ], // 착지
+        ['.item-1', { y: 0, opacity: 1 }, { duration: 0.9, type: 'spring', bounce: 0.5 }],
+        ['.item-2', { y: 0, opacity: 1 }, { duration: 0.9, type: 'spring', bounce: 0.5, at: 0.12 }],
+        ['.item-3', { y: 0, opacity: 1 }, { duration: 0.9, type: 'spring', bounce: 0.5, at: 0.24 }],
       ]);
       if (stale()) return;
 
-      // 3. 3개로 펼침 (Spread)
+      // 잠깐 대기 후 펼침
+      await new Promise(r => setTimeout(r, 80));
+
+      // 3. 양옆으로 펼침 (Spread)
       await domAnimate([
-        [
-          '.item-1',
-          { x: -GAP },
-          { duration: 0.6, type: 'spring', bounce: 0.25, at: 0 },
-        ],
-        [
-          '.item-2',
-          { x: 0 },
-          { duration: 0.6, type: 'spring', bounce: 0.25, at: 0 },
-        ],
-        [
-          '.item-3',
-          { x: GAP },
-          { duration: 0.6, type: 'spring', bounce: 0.25, at: 0 },
-        ],
+        ['.item-1', { x: -GAP }, { duration: 0.5, type: 'spring', bounce: 0.4 }],
+        ['.item-2', { x: 0 }, { duration: 0.5, type: 'spring', bounce: 0.4, at: 0.05 }],
+        ['.item-3', { x: GAP }, { duration: 0.5, type: 'spring', bounce: 0.4, at: 0.1 }],
       ]);
       if (stale()) return;
 
