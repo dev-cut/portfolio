@@ -84,17 +84,30 @@
 // 공통 요소 스타일
 // ============================================
 
-// 컬러 점 컨테이너
+// 컬러 점 컨테이너 (홈으로 이동 버튼)
 .dots {
   display: flex;
   align-items: center;
   gap: $spacing-1;
+  padding: 0;
   padding-right: $spacing-3;
+  border: none;
   border-right: 1px solid rgba($color-cream, 0.15);
+  background: none;
+  cursor: pointer;
+  transition: transform $transition-base ease;
 
   @media (min-width: $breakpoint-md) {
     gap: $spacing-2;
     padding-right: $spacing-4;
+  }
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.95);
   }
 }
 

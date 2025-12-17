@@ -67,6 +67,13 @@ export default function ResumeGrid() {
                               <span className={styles.projectPeriod}>
                                 {project.period}
                               </span>
+                              {project.description && (
+                                <ul className={styles.projectDescription}>
+                                  {project.description.map((desc, dIndex) => (
+                                    <li key={dIndex}>{desc}</li>
+                                  ))}
+                                </ul>
+                              )}
                             </div>
                           ))}
                           {hasMoreProjects && (

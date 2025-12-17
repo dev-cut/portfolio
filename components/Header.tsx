@@ -113,17 +113,25 @@ interface NavProps {
 }
 
 const Nav = memo(function Nav({ isCompact = false }: NavProps) {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <nav
       className={isCompact ? styles.stickyNav : styles.nav}
       role="navigation"
       aria-label="주요 내비게이션"
     >
-      <div className={styles.dots} aria-hidden="true">
+      <button
+        className={styles.dots}
+        onClick={scrollToTop}
+        aria-label="홈으로 이동"
+      >
         <span className={styles.dotBlue} />
         <span className={styles.dotGreen} />
         <span className={styles.dotYellow} />
-      </div>
+      </button>
       <ul className={styles.navLinks}>
         {NAV_ITEMS.map((item) => (
           <li key={item.href}>

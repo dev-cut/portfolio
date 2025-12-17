@@ -3,6 +3,7 @@ export interface ProjectItem {
   period: string;
   role: string;
   client: string;
+  description?: string[];
 }
 
 export interface ExperienceItem {
@@ -23,18 +24,28 @@ export const EXPERIENCE_DATA: ExperienceItem[] = [
         period: '2024.01 ~ 2025.08',
         role: '프론트엔드 개발',
         client: '유플러스',
+        description: [
+          '모노레포 기반 Nuxt → Next.js 점진적 마이그레이션 진행',
+          'shadcn/ui 커스텀 및 Storybook 기반 공통 컴포넌트 라이브러리 구축',
+          'Nuxt 기존 프로젝트 운영 및 개발 작업 병행',
+        ],
       },
       {
         name: '교보생명 웹 접근성 개선',
         period: '2023.11 ~ 2023.12',
         role: '프론트엔드 개발',
         client: '교보',
+        description: [
+          '웹 접근성 마크 갱신을 위한 접근성 고도화 작업',
+          'Vue, jQuery 기반 레거시 시스템 접근성 개선',
+        ],
       },
       {
         name: '미래에셋생명 사이버창구 개선 구축',
         period: '2023.08 ~ 2023.11',
         role: '프론트엔드 개발',
         client: '미래에셋생명',
+        description: ['jQuery 기반 사이버창구 전 페이지 UI/UX 리뉴얼'],
       },
       {
         name: '위믹스 3.0 퍼블리싱',
