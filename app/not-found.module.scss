@@ -5,26 +5,29 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: $bg-secondary;
 }
 
 .content {
   text-align: center;
+  padding: $container-padding;
 }
 
 .title {
-  font-size: $font-size-2xl;
-  font-weight: 700;
+  font-size: $font-size-4xl;
+  font-weight: $font-weight-bold;
   margin-bottom: $spacing-4;
-  color: var(--color-text-primary);
-  transition: color 0.3s ease;
+  color: $accent-color;
+  transition: color $transition-slow ease;
 
-  @media (min-width: 768px) {
-    font-size: $font-size-3xl;
+  @media (min-width: $breakpoint-md) {
+    font-size: $font-size-5xl;
   }
 }
 
 .message {
-  color: var(--color-text-gray-600);
-  margin-bottom: $spacing-4;
-  transition: color 0.3s ease;
+  font-size: $font-size-lg;
+  color: $text-light;
+  margin-bottom: $spacing-6;
+  transition: color $transition-slow ease;
 }

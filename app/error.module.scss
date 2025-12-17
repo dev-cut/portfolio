@@ -5,41 +5,46 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: $bg-secondary;
 }
 
 .content {
   text-align: center;
+  padding: $container-padding;
 }
 
 .title {
   font-size: $font-size-2xl;
-  font-weight: 700;
+  font-weight: $font-weight-bold;
   margin-bottom: $spacing-4;
-  color: var(--color-text-primary);
-  transition: color 0.3s ease;
+  color: $text-light;
+  transition: color $transition-slow ease;
 
-  @media (min-width: 768px) {
+  @media (min-width: $breakpoint-md) {
     font-size: $font-size-3xl;
   }
 }
 
 .message {
-  color: var(--color-text-gray-600);
-  margin-bottom: $spacing-4;
-  transition: color 0.3s ease;
+  font-size: $font-size-base;
+  color: rgba($text-light, 0.7);
+  margin-bottom: $spacing-6;
+  transition: color $transition-slow ease;
 }
 
 .button {
-  padding: $spacing-2 $spacing-4;
-  background-color: var(--color-blue-500);
-  color: #ffffff;
-  border-radius: $radius-sm;
+  padding: $spacing-3 $spacing-6;
+  background-color: $accent-color;
+  color: $text-dark;
+  border-radius: $radius-full;
   border: none;
-  font-weight: 500;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
   cursor: pointer;
-  transition: background-color 0.15s ease;
+  transition: all $transition-base ease;
 
   &:hover {
-    background-color: var(--color-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: $shadow-md;
   }
 }
