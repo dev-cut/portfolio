@@ -51,18 +51,19 @@
 .experienceCard {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   position: relative;
   z-index: 10;
-  max-width: 600px;
+  max-width: 500px;
   width: 100%;
-  padding: $spacing-6;
+  padding: $spacing-5 $spacing-4;
   background-color: $color-orange;
   color: $text-dark;
   box-shadow: $shadow-lg;
+  border-radius: $radius-2xl;
 
   @media (min-width: $breakpoint-md) {
-    padding: $spacing-8;
+    padding: $spacing-6 $spacing-8;
   }
 
   .sectionTitle {
@@ -291,6 +292,7 @@
 .projectItem {
   display: flex;
   flex-direction: column;
+  position: relative;
   gap: 0.125rem;
 }
 
@@ -298,6 +300,68 @@
   font-size: $font-size-sm;
   font-weight: $font-weight-medium;
   color: $text-dark;
+}
+
+.detailWrapper {
+  position: relative;
+}
+
+.projectNameButton {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $text-dark;
+  text-align: left;
+  cursor: pointer;
+  transition: all $transition-base ease;
+  position: relative;
+
+  // 밑줄 애니메이션
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: $text-dark;
+    transition: width $transition-base ease;
+  }
+
+  &:hover {
+    &::after {
+      width: calc(100% - 1rem);
+    }
+
+    .hasDetailIndicator {
+      transform: scale(1.3);
+      background-color: $text-dark;
+    }
+  }
+
+  &.active {
+    &::after {
+      width: calc(100% - 1rem);
+    }
+
+    .hasDetailIndicator {
+      background-color: $text-dark;
+    }
+  }
+}
+
+.hasDetailIndicator {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: rgba($text-dark, 0.4);
+  transition: all $transition-base ease;
 }
 
 .projectPeriod {
@@ -326,7 +390,6 @@
   display: inline-flex;
   align-items: center;
   gap: $spacing-1;
-  margin-top: $spacing-3;
   padding: 0;
   border: none;
   background: transparent;
@@ -377,6 +440,47 @@
   width: 12px;
   height: 12px;
   transition: transform $transition-base ease;
+}
+
+.descriptionPopover {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 100;
+  min-width: 280px;
+  max-width: 400px;
+  margin-top: $spacing-2;
+  padding: $spacing-4;
+  background: rgba($text-dark, 0.95);
+  border-radius: $radius-lg;
+  box-shadow: $shadow-xl;
+  backdrop-filter: blur(8px);
+  animation: popoverFadeIn 0.2s ease-out;
+
+  .projectDescription {
+    margin: 0;
+    padding-left: $spacing-4;
+    color: rgba($color-cream, 0.9);
+
+    li {
+      margin-bottom: $spacing-2;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+@keyframes popoverFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes float {

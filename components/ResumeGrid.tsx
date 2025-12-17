@@ -3,7 +3,7 @@
 import { INTERESTS_DATA } from '@/lib/data/home';
 import { EXPERIENCE_DATA, TECHNICAL_SKILLS } from '@/lib/data/resume';
 import { calculateDuration } from '@/lib/utils/date';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import FadeIn from './animations/FadeIn';
 import StaggerContainer, { StaggerItem } from './animations/StaggerContainer';
 import styles from './ResumeGrid.module.scss';
@@ -11,9 +11,7 @@ import styles from './ResumeGrid.module.scss';
 export default function ResumeGrid() {
   const [expandedItems, setExpandedItems] = useState<number[]>([]);
   const [isExperienceExpanded, setIsExperienceExpanded] = useState(false);
-  const [expandedDescriptions, setExpandedDescriptions] = useState<string[]>(
-    []
-  );
+  const [activePopover, setActivePopover] = useState<string | null>(null);
 
   const toggleExpand = (index: number) => {
     setExpandedItems((prev) =>
@@ -22,12 +20,36 @@ export default function ResumeGrid() {
   };
 
   const toggleDescription = (projectKey: string) => {
-    setExpandedDescriptions((prev) =>
-      prev.includes(projectKey)
-        ? prev.filter((k) => k !== projectKey)
-        : [...prev, projectKey]
-    );
+    setActivePopover((prev) => (prev === projectKey ? null : projectKey));
   };
+
+  const closePopover = () => {
+    setActivePopover(null);
+  };
+
+  // 외부 클릭 및 스크롤 시 팝오버 닫기
+  useEffect(() => {
+    if (!activePopover) return;
+
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest(`.${styles.projectItem}`)) {
+        closePopover();
+      }
+    };
+
+    const handleScroll = () => {
+      closePopover();
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [activePopover]);
 
   return (
     <section className={styles.resumeGrid} id="resume">
@@ -69,19 +91,29 @@ export default function ResumeGrid() {
                       </p>
                       {displayedProjects && (
                         <div className={styles.projectList}>
-                          {displayedProjects.map((project, pIndex) => (
-                            <div key={pIndex} className={styles.projectItem}>
-                              <span className={styles.projectName}>
-                                {project.name}
-                              </span>
-                              <span className={styles.projectPeriod}>
-                                {project.period}
-                              </span>
-                              {project.description && (
-                                <>
-                                  {expandedDescriptions.includes(
-                                    `${index}-${pIndex}`
-                                  ) && (
+                          {displayedProjects.map((project, pIndex) => {
+                            const popoverKey = `${index}-${pIndex}`;
+                            const isPopoverOpen = activePopover === popoverKey;
+
+                            return (
+                              <div key={pIndex} className={styles.projectItem}>
+                                <div className={styles.detailWrapper}>
+                                  <button
+                                    className={`${styles.projectNameButton} ${isPopoverOpen ? styles.active : ''
+                                      }`}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      toggleDescription(popoverKey);
+                                    }}
+                                    aria-expanded={isPopoverOpen}
+                                  >
+                                    {project.name}
+                                    {project.description && (
+                                      <span className={styles.hasDetailIndicator} />
+                                    )}
+                                  </button>
+                                  {project.description && isPopoverOpen && (
+                                    <div className={styles.descriptionPopover}>
                                       <ul className={styles.projectDescription}>
                                         {project.description.map(
                                           (desc, dIndex) => (
@@ -89,41 +121,15 @@ export default function ResumeGrid() {
                                           )
                                         )}
                                       </ul>
-                                    )}
-                                  <button
-                                    className={styles.descriptionToggle}
-                                    onClick={() =>
-                                      toggleDescription(`${index}-${pIndex}`)
-                                    }
-                                    aria-expanded={expandedDescriptions.includes(
-                                      `${index}-${pIndex}`
-                                    )}
-                                  >
-                                    {expandedDescriptions.includes(
-                                      `${index}-${pIndex}`
-                                    )
-                                      ? '접기'
-                                      : '상세 보기'}
-                                    <svg
-                                      className={styles.toggleIcon}
-                                      viewBox="0 0 12 12"
-                                      fill="none"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      aria-hidden="true"
-                                    >
-                                      <path
-                                        d="M2.5 4.5L6 8L9.5 4.5"
-                                        stroke="currentColor"
-                                        strokeWidth="1.5"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                      />
-                                    </svg>
-                                  </button>
-                                </>
-                              )}
-                            </div>
-                          ))}
+                                    </div>
+                                  )}
+                                </div>
+                                <span className={styles.projectPeriod}>
+                                  {project.period}
+                                </span>
+                              </div>
+                            );
+                          })}
                           {hasMoreProjects && (
                             <button
                               className={styles.moreButton}
