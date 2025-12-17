@@ -27,21 +27,19 @@
 }
 
 // ============================================
-// LEFT COLUMN - EXPERIENCE
+// EXPERIENCE SECTION
 // ============================================
 
-.leftColumn {
-  display: flex;
-  justify-content: center;
-  padding-top: $spacing-16; // 통일: 64px
-}
-
 .experienceSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: relative;
   z-index: 10;
   max-width: 600px;
   width: 100%;
-  padding: $spacing-8; // 32px (변수 사용)
+  margin: 0 auto;
+  padding: $spacing-8 $spacing-8 $spacing-6;
   background-color: $color-orange;
   color: $text-dark;
   box-shadow: $shadow-lg;
@@ -152,18 +150,6 @@
   @media (min-width: $breakpoint-md) {
     font-size: $font-size-4xl; // 48px (데스크탑)
   }
-}
-
-.sectionTitleSkills {
-  @extend .sectionTitle;
-  position: relative;
-  z-index: 2;
-}
-
-.sectionTitleHobbies {
-  @extend .sectionTitle;
-  position: relative;
-  z-index: 2;
 }
 
 // ============================================
@@ -332,112 +318,55 @@
 }
 
 // ============================================
-// RIGHT COLUMN - SKILLS & HOBBIES
-// ============================================
-
-.rightColumn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-  max-width: 500px;
-  width: 100%;
-  margin: 0 auto;
-  padding-top: $spacing-16; // 통일: 64px
-  padding-bottom: $spacing-16; // 통일: 64px
-}
-
-// ============================================
 // SKILLS SECTION
 // ============================================
 
-.skillsGrid {
-  display: grid;
-  grid-template-columns: 1fr;
-  position: relative;
-  z-index: 2;
-  gap: $spacing-12;
-}
-
-.skillCategory {
+.skillsSection {
   display: flex;
   flex-direction: column;
-  gap: $spacing-6;
+  align-items: center;
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+  padding-top: $spacing-16;
 }
-
-.softwareGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: $spacing-4;
+.skillsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  gap: $spacing-3;
 
   @media (min-width: $breakpoint-md) {
-    grid-template-columns: repeat(4, 1fr);
-    gap: $spacing-6;
+    gap: $spacing-4;
   }
 }
 
-.softwareItem {
+.skillItem {
   display: flex;
   align-items: center;
   justify-content: center;
-  aspect-ratio: 2/1;
-  padding: $spacing-2;
-  border-radius: $radius-xl;
+  padding: $spacing-2 $spacing-4;
+  border-radius: $radius-full;
   background-color: $bg-primary;
   font-family: $font-sans;
   font-size: $font-size-sm;
-  font-weight: $font-weight-bold;
+  font-weight: $font-weight-semibold;
   color: $bg-secondary;
   text-align: center;
-  white-space: pre-line;
-  line-height: $line-height-snug;
+  white-space: nowrap;
   transition: all $transition-slow $ease-in-out;
   cursor: default;
 
   @media (min-width: $breakpoint-md) {
+    padding: $spacing-3 $spacing-5;
     font-size: $font-size-base;
   }
 
   &:hover {
-    transform: translateY(-0.25rem) scale(1.02);
+    transform: translateY(-0.25rem) scale(1.05);
     box-shadow: $shadow-md;
-  }
-}
-
-.codingContent {
-  color: $text-light;
-  padding-top: $spacing-4;
-}
-
-.codingGrid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: $spacing-2;
-
-  @media (min-width: $breakpoint-md) {
-    gap: $spacing-3;
-  }
-}
-
-.codingGrid span {
-  padding: $spacing-2 $spacing-3;
-  border: 1px solid rgba($text-light, 0.3);
-  border-radius: $radius-full;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: $font-size-sm;
-  letter-spacing: -0.02em;
-  transition: all $transition-base ease;
-  cursor: default;
-
-  @media (min-width: $breakpoint-md) {
-    padding: $spacing-2 $spacing-4;
-  }
-
-  &:hover {
-    background-color: $text-light;
-    color: $bg-secondary;
-    border-color: $text-light;
-    transform: translateY(-2px);
   }
 }
 
@@ -446,7 +375,14 @@
 // ============================================
 
 .hobbiesSection {
-  margin-top: $spacing-16; // 통일: 64px
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+  padding-top: $spacing-16;
+  padding-bottom: $spacing-16;
 }
 
 .hobbiesGrid {
@@ -497,9 +433,20 @@
 }
 
 .hobbyName {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  line-height: $line-height-snug;
+  color: $text-light;
+
+  @media (min-width: $breakpoint-md) {
+    font-size: $font-size-base;
+  }
+}
+
+.hobbyDesc {
   font-size: $font-size-xs;
   line-height: $line-height-base;
-  color: $text-light;
+  color: rgba($text-light, 0.7);
 
   @media (min-width: $breakpoint-md) {
     font-size: $font-size-sm;

@@ -21,162 +21,139 @@ export default function ResumeGrid() {
   return (
     <section className={styles.resumeGrid} id="resume">
       <div className={styles.container}>
-        {/* Left Column: Education & Experience */}
-        <div className={styles.leftColumn}>
-          {/* Experience Section */}
-          <div className={styles.experienceSection}>
-            <FadeIn direction="up" delay={0.2}>
-              <h2 className={styles.sectionTitle}>Experience</h2>
-            </FadeIn>
-            <div
-              className={`${styles.list} ${
-                !isExperienceExpanded ? styles.collapsed : ''
-              }`}
-            >
-              {EXPERIENCE_DATA.slice(
-                0,
-                isExperienceExpanded ? EXPERIENCE_DATA.length : 1
-              ).map((item, index) => {
-                const isExpanded = expandedItems.includes(index);
-                const hasMoreProjects =
-                  item.projects && item.projects.length > 2;
-                const displayedProjects =
-                  item.projects &&
-                  (isExpanded || !hasMoreProjects
-                    ? item.projects
-                    : item.projects.slice(0, 2));
+        {/* Experience Section */}
+        <div className={styles.experienceSection}>
+          <FadeIn direction="up" delay={0.2}>
+            <h2 className={styles.sectionTitle}>Experience</h2>
+          </FadeIn>
+          <div
+            className={`${styles.list} ${
+              !isExperienceExpanded ? styles.collapsed : ''
+            }`}
+          >
+            {EXPERIENCE_DATA.slice(
+              0,
+              isExperienceExpanded ? EXPERIENCE_DATA.length : 1
+            ).map((item, index) => {
+              const isExpanded = expandedItems.includes(index);
+              const hasMoreProjects = item.projects && item.projects.length > 2;
+              const displayedProjects =
+                item.projects &&
+                (isExpanded || !hasMoreProjects
+                  ? item.projects
+                  : item.projects.slice(0, 2));
 
-                return (
-                  <div key={index} className={styles.item}>
-                    <div className={styles.marker}>✦</div>
-                    <div className={styles.content}>
-                      <span className={styles.period}>{item.period}</span>
-                      <h3 className={styles.itemTitle}>{item.title}</h3>
-                      <p className={styles.subtitle}>
-                        {item.subtitle}
-                        {item.subtitle
-                          ? ` · ${calculateDuration(item.period)}`
-                          : calculateDuration(item.period)}
-                      </p>
-                      {displayedProjects && (
-                        <div className={styles.projectList}>
-                          {displayedProjects.map((project, pIndex) => (
-                            <div key={pIndex} className={styles.projectItem}>
-                              <span className={styles.projectName}>
-                                {project.name}
-                              </span>
-                              <span className={styles.projectPeriod}>
-                                {project.period}
-                              </span>
-                            </div>
-                          ))}
-                          {hasMoreProjects && (
-                            <button
-                              className={styles.moreButton}
-                              onClick={() => toggleExpand(index)}
-                            >
-                              {isExpanded ? '접기' : '더보기'}
-                            </button>
-                          )}
-                        </div>
-                      )}
-                    </div>
+              return (
+                <div key={index} className={styles.item}>
+                  <div className={styles.marker}>✦</div>
+                  <div className={styles.content}>
+                    <span className={styles.period}>{item.period}</span>
+                    <h3 className={styles.itemTitle}>{item.title}</h3>
+                    <p className={styles.subtitle}>
+                      {item.subtitle}
+                      {item.subtitle
+                        ? ` · ${calculateDuration(item.period)}`
+                        : calculateDuration(item.period)}
+                    </p>
+                    {displayedProjects && (
+                      <div className={styles.projectList}>
+                        {displayedProjects.map((project, pIndex) => (
+                          <div key={pIndex} className={styles.projectItem}>
+                            <span className={styles.projectName}>
+                              {project.name}
+                            </span>
+                            <span className={styles.projectPeriod}>
+                              {project.period}
+                            </span>
+                          </div>
+                        ))}
+                        {hasMoreProjects && (
+                          <button
+                            className={styles.moreButton}
+                            onClick={() => toggleExpand(index)}
+                          >
+                            {isExpanded ? '접기' : '더보기'}
+                          </button>
+                        )}
+                      </div>
+                    )}
                   </div>
-                );
-              })}
-            </div>
-            <div className={styles.expandSectionWrapper}>
-              <button
-                className={`${styles.expandSectionButton} ${
-                  isExperienceExpanded ? styles.expanded : ''
-                }`}
-                onClick={() => setIsExperienceExpanded(!isExperienceExpanded)}
-              >
-                {isExperienceExpanded ? (
-                  <>
-                    접기
-                    <svg
-                      width="12"
-                      height="12"
-                      viewBox="0 0 12 12"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M6 2.5L2 6.5L3.4 7.9L6 5.3L8.6 7.9L10 6.5L6 2.5Z"
-                        fill="currentColor"
-                      />
-                    </svg>
-                  </>
-                ) : (
-                  <>
-                    더보기
-                    <svg
-                      width="12"
-                      height="12"
-                      viewBox="0 0 12 12"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M6 9.5L2 5.5L3.4 4.1L6 6.7L8.6 4.1L10 5.5L6 9.5Z"
-                        fill="currentColor"
-                      />
-                    </svg>
-                  </>
-                )}
-              </button>
-            </div>
+                </div>
+              );
+            })}
+          </div>
+          <div className={styles.expandSectionWrapper}>
+            <button
+              className={`${styles.expandSectionButton} ${
+                isExperienceExpanded ? styles.expanded : ''
+              }`}
+              onClick={() => setIsExperienceExpanded(!isExperienceExpanded)}
+            >
+              {isExperienceExpanded ? (
+                <>
+                  접기
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 12 12"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M6 2.5L2 6.5L3.4 7.9L6 5.3L8.6 7.9L10 6.5L6 2.5Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </>
+              ) : (
+                <>
+                  더보기
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 12 12"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M6 9.5L2 5.5L3.4 4.1L6 6.7L8.6 4.1L10 5.5L6 9.5Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </>
+              )}
+            </button>
           </div>
         </div>
 
-        {/* Right Column: Contact & Technical Skills */}
-        <div className={styles.rightColumn}>
+        {/* Skills Section */}
+        <div className={styles.skillsSection}>
           <FadeIn direction="up" delay={0.3}>
-            <h2 className={styles.sectionTitleSkills}>Technical skills</h2>
+            <h2 className={styles.sectionTitle}>Technical skills</h2>
           </FadeIn>
-
           <StaggerContainer className={styles.skillsGrid} delay={0.4}>
-            <StaggerItem className={styles.skillCategory}>
-              <div className={styles.softwareGrid}>
-                {TECHNICAL_SKILLS.software.map((skill, index) => (
-                  <div key={index} className={styles.softwareItem}>
-                    {skill}
-                  </div>
-                ))}
-              </div>
-              <div className={styles.codingContent}>
-                <div className={styles.codingGrid}>
-                  {TECHNICAL_SKILLS.coding.map((skill, index) => (
-                    <span key={index}>{skill}</span>
-                  ))}
-                </div>
-              </div>
-            </StaggerItem>
+            {TECHNICAL_SKILLS.map((skill, index) => (
+              <StaggerItem key={index} className={styles.skillItem}>
+                {skill}
+              </StaggerItem>
+            ))}
           </StaggerContainer>
+        </div>
 
-          {/* Hobbies Section */}
-          <div className={styles.hobbiesSection}>
-            <FadeIn direction="up" delay={0.6}>
-              <h2 className={styles.sectionTitleHobbies}>
-                Hobbies & Interests
-              </h2>
-            </FadeIn>
-            <StaggerContainer className={styles.hobbiesGrid} delay={0.7}>
-              {INTERESTS_DATA.hobbies.map((hobby, index) => (
-                <StaggerItem key={index} className={styles.hobbyItem}>
-                  <div className={styles.iconWrapper}>{hobby.icon}</div>
-                  <span className={styles.hobbyName}>
-                    {hobby.name}
-                    <br />
-                    <span style={{ fontSize: '0.8em', opacity: 0.8 }}>
-                      {hobby.description}
-                    </span>
-                  </span>
-                </StaggerItem>
-              ))}
-            </StaggerContainer>
-          </div>
+        {/* Hobbies Section */}
+        <div className={styles.hobbiesSection}>
+          <FadeIn direction="up" delay={0.6}>
+            <h2 className={styles.sectionTitle}>Hobbies & Interests</h2>
+          </FadeIn>
+          <StaggerContainer className={styles.hobbiesGrid} delay={0.7}>
+            {INTERESTS_DATA.hobbies.map((hobby, index) => (
+              <StaggerItem key={index} className={styles.hobbyItem}>
+                <div className={styles.iconWrapper}>{hobby.icon}</div>
+                <span className={styles.hobbyName}>{hobby.name}</span>
+                <span className={styles.hobbyDesc}>{hobby.description}</span>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
         </div>
       </div>
     </section>

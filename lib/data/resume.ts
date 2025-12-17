@@ -165,26 +165,24 @@ export const EXPERIENCE_DATA: ExperienceItem[] = [
   },
 ];
 
-export const TECHNICAL_SKILLS = {
-  software: [
-    'React',
-    'Next.js',
-    'Vue.js',
-    'TypeScript',
-    'JavaScript',
-    'HTML5',
-    'SCSS',
-  ],
-  coding: [
-    'Git',
-    'GitHub',
-    'Figma',
-    'Tailwind CSS',
-    'React Query',
-    'Zustand',
-    'Node.js',
-    'Vercel',
-    'Storybook',
-    'Jira',
-  ],
-};
+export const TECHNICAL_SKILLS = [
+  // Frontend Core
+  'React',
+  'Next.js',
+  'Vue.js',
+  'TypeScript',
+  'JavaScript',
+  'HTML5',
+  'SCSS',
+  // Tools & Libraries
+  'Git',
+  'GitHub',
+  'Figma',
+  'Tailwind CSS',
+  'React Query',
+  'Zustand',
+  'Node.js',
+  'Vercel',
+  'Storybook',
+  'Jira',
+];
