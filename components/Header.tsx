@@ -76,10 +76,10 @@ export default function Header() {
           initial={false}
           animate={{
             opacity: isTopHidden ? 0 : 1,
-            y: isTopHidden ? -30 : 0,
-            scale: isTopHidden ? 0.8 : 1,
+            y: isTopHidden ? -80 : 0,
+            scale: isTopHidden ? 0.5 : 1,
           }}
-          transition={SPRING_CONFIG}
+          transition={BOUNCY_SPRING_CONFIG}
           style={{ pointerEvents: isTopHidden ? 'none' : 'auto' }}
           aria-hidden={isTopHidden}
         >
