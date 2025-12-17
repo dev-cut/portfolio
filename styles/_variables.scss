@@ -5,7 +5,7 @@
 // ============================================
 
 // --------------------------------------------
-// Colors - Primary Palette
+// Colors - Base Palette
 // --------------------------------------------
 $color-cream: #f5f0e6;
 $color-dark-green: #2d4338;
@@ -13,6 +13,13 @@ $color-orange: #ffb400;
 $color-orange-light: #f4a261;
 $color-black: #1a1a1a;
 $color-white: #ffffff;
+
+// --------------------------------------------
+// Colors - Brand (Logo Colors)
+// --------------------------------------------
+$brand-blue: #2f73ff;
+$brand-green: #52c77a;
+$brand-lime: #c8e64a; // 연두색 (오렌지 배경에서 더 잘 보이도록 조정)
 
 // --------------------------------------------
 // Colors - Functional Names

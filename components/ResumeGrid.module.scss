@@ -71,16 +71,13 @@
     text-align: center;
   }
 
-  // 로고 색상 순환 적용
+  // 로고 색상 순환 적용 (파란색, 초록색)
   .timelineItem {
-    &:nth-child(3n + 1) .marker {
-      color: #2f73ff; // 파란색
+    &:nth-child(2n + 1) .marker {
+      color: $brand-blue;
     }
-    &:nth-child(3n + 2) .marker {
-      color: #52c77a; // 초록색
-    }
-    &:nth-child(3n + 3) .marker {
-      color: #e6ff3a; // 연두색
+    &:nth-child(2n) .marker {
+      color: $brand-green;
     }
   }
 
@@ -197,16 +194,6 @@
   position: relative;
   gap: $spacing-10;
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: $spacing-2;
-    bottom: 0;
-    left: 0.6rem;
-    width: 1px;
-    background-color: rgba($text-light, 0.2);
-  }
-
   &.collapsed {
     &::after {
       content: '';
@@ -254,16 +241,13 @@
   animation: float-marker 3s ease-in-out infinite;
 }
 
-// 일반 타임라인(어두운 배경) 마커 색상 순환
+// 일반 타임라인(어두운 배경) 마커 색상 순환 (파란색, 초록색)
 .item {
-  &:nth-child(3n + 1) .marker {
-    color: #2f73ff; // 파란색
+  &:nth-child(2n + 1) .marker {
+    color: $brand-blue;
   }
-  &:nth-child(3n + 2) .marker {
-    color: #52c77a; // 초록색
-  }
-  &:nth-child(3n + 3) .marker {
-    color: #e6ff3a; // 연두색
+  &:nth-child(2n) .marker {
+    color: $brand-green;
   }
 }
 
@@ -307,7 +291,7 @@
   gap: $spacing-2;
   margin-top: $spacing-4;
   padding-left: $spacing-4;
-  border-left: 2px solid rgba($text-dark, 0.2);
+  border-left: 1px solid rgba($text-dark, 0.15);
 }
 
 .projectItem {
@@ -393,21 +377,17 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background-color: #2f73ff;
+  background-color: $brand-blue;
   animation: pulse-dot 2s ease-in-out infinite;
   transition: all $transition-base ease;
 }
 
 .indicatorColor1 {
-  background-color: #2f73ff; // 파란색
+  background-color: $brand-blue;
 }
 
 .indicatorColor2 {
-  background-color: #52c77a; // 초록색
-}
-
-.indicatorColor3 {
-  background-color: #e6ff3a; // 연두색
+  background-color: $brand-green;
 }
 
 .projectPeriod {

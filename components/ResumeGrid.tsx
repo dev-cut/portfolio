@@ -110,7 +110,7 @@ export default function ResumeGrid() {
                                     {project.name}
                                     {project.description && (
                                       <span
-                                        className={`${styles.hasDetailIndicator} ${styles[`indicatorColor${(pIndex % 3) + 1}`]
+                                        className={`${styles.hasDetailIndicator} ${styles[`indicatorColor${(pIndex % 2) + 1}`]
                                           }`}
                                       />
                                     )}
