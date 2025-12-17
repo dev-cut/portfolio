@@ -322,6 +322,63 @@
   }
 }
 
+.descriptionToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-1;
+  margin-top: $spacing-3;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  color: rgba($text-dark, 0.6);
+  cursor: pointer;
+  transition: all $transition-base ease;
+  position: relative;
+
+  // 밑줄 애니메이션
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: $text-dark;
+    transition: width $transition-base ease;
+  }
+
+  &:hover {
+    color: $text-dark;
+
+    &::after {
+      width: 100%;
+    }
+
+    .toggleIcon {
+      transform: translateX(2px);
+    }
+  }
+
+  &[aria-expanded='true'] {
+    .toggleIcon {
+      transform: rotate(180deg);
+    }
+
+    &:hover .toggleIcon {
+      transform: rotate(180deg) translateX(-2px);
+    }
+  }
+}
+
+.toggleIcon {
+  display: inline-flex;
+  width: 12px;
+  height: 12px;
+  transition: transform $transition-base ease;
+}
+
 @keyframes float {
   0% {
     transform: translateY(0);

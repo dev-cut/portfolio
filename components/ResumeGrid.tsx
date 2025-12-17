@@ -11,10 +11,21 @@ import styles from './ResumeGrid.module.scss';
 export default function ResumeGrid() {
   const [expandedItems, setExpandedItems] = useState<number[]>([]);
   const [isExperienceExpanded, setIsExperienceExpanded] = useState(false);
+  const [expandedDescriptions, setExpandedDescriptions] = useState<string[]>(
+    []
+  );
 
   const toggleExpand = (index: number) => {
     setExpandedItems((prev) =>
       prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+    );
+  };
+
+  const toggleDescription = (projectKey: string) => {
+    setExpandedDescriptions((prev) =>
+      prev.includes(projectKey)
+        ? prev.filter((k) => k !== projectKey)
+        : [...prev, projectKey]
     );
   };
 
@@ -28,9 +39,8 @@ export default function ResumeGrid() {
               <h2 className={styles.sectionTitle}>경력</h2>
             </FadeIn>
             <div
-              className={`${styles.list} ${
-                !isExperienceExpanded ? styles.collapsed : ''
-              }`}
+              className={`${styles.list} ${!isExperienceExpanded ? styles.collapsed : ''
+                }`}
             >
               {EXPERIENCE_DATA.slice(
                 0,
@@ -68,11 +78,49 @@ export default function ResumeGrid() {
                                 {project.period}
                               </span>
                               {project.description && (
-                                <ul className={styles.projectDescription}>
-                                  {project.description.map((desc, dIndex) => (
-                                    <li key={dIndex}>{desc}</li>
-                                  ))}
-                                </ul>
+                                <>
+                                  {expandedDescriptions.includes(
+                                    `${index}-${pIndex}`
+                                  ) && (
+                                      <ul className={styles.projectDescription}>
+                                        {project.description.map(
+                                          (desc, dIndex) => (
+                                            <li key={dIndex}>{desc}</li>
+                                          )
+                                        )}
+                                      </ul>
+                                    )}
+                                  <button
+                                    className={styles.descriptionToggle}
+                                    onClick={() =>
+                                      toggleDescription(`${index}-${pIndex}`)
+                                    }
+                                    aria-expanded={expandedDescriptions.includes(
+                                      `${index}-${pIndex}`
+                                    )}
+                                  >
+                                    {expandedDescriptions.includes(
+                                      `${index}-${pIndex}`
+                                    )
+                                      ? '접기'
+                                      : '상세 보기'}
+                                    <svg
+                                      className={styles.toggleIcon}
+                                      viewBox="0 0 12 12"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      aria-hidden="true"
+                                    >
+                                      <path
+                                        d="M2.5 4.5L6 8L9.5 4.5"
+                                        stroke="currentColor"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      />
+                                    </svg>
+                                  </button>
+                                </>
                               )}
                             </div>
                           ))}
@@ -99,9 +147,8 @@ export default function ResumeGrid() {
             </div>
             <div className={styles.expandSectionWrapper}>
               <button
-                className={`${styles.expandSectionButton} ${
-                  isExperienceExpanded ? styles.expanded : ''
-                }`}
+                className={`${styles.expandSectionButton} ${isExperienceExpanded ? styles.expanded : ''
+                  }`}
                 onClick={() => setIsExperienceExpanded(!isExperienceExpanded)}
                 aria-expanded={isExperienceExpanded}
                 aria-label={
