@@ -132,52 +132,50 @@ export default function ResumeGrid() {
 
         {/* Right Column: Contact & Technical Skills */}
         <div className={styles.rightColumn}>
-          <div className={styles.skillsContent}>
-            <FadeIn direction="up" delay={0.3}>
-              <h2 className={styles.sectionTitleSkills}>Technical skills</h2>
-            </FadeIn>
+          <FadeIn direction="up" delay={0.3}>
+            <h2 className={styles.sectionTitleSkills}>Technical skills</h2>
+          </FadeIn>
 
-            <StaggerContainer className={styles.skillsGrid} delay={0.4}>
-              <StaggerItem className={styles.skillCategory}>
-                <div className={styles.softwareGrid}>
-                  {TECHNICAL_SKILLS.software.map((skill, index) => (
-                    <div key={index} className={styles.softwareItem}>
-                      {skill}
-                    </div>
+          <StaggerContainer className={styles.skillsGrid} delay={0.4}>
+            <StaggerItem className={styles.skillCategory}>
+              <div className={styles.softwareGrid}>
+                {TECHNICAL_SKILLS.software.map((skill, index) => (
+                  <div key={index} className={styles.softwareItem}>
+                    {skill}
+                  </div>
+                ))}
+              </div>
+              <div className={styles.codingContent}>
+                <div className={styles.codingGrid}>
+                  {TECHNICAL_SKILLS.coding.map((skill, index) => (
+                    <span key={index}>{skill}</span>
                   ))}
                 </div>
-                <div className={styles.codingContent}>
-                  <div className={styles.codingGrid}>
-                    {TECHNICAL_SKILLS.coding.map((skill, index) => (
-                      <span key={index}>{skill}</span>
-                    ))}
-                  </div>
-                </div>
-              </StaggerItem>
-            </StaggerContainer>
+              </div>
+            </StaggerItem>
+          </StaggerContainer>
 
-            {/* Hobbies Section */}
-            <div className={styles.hobbiesSection}>
-              <FadeIn direction="up" delay={0.6}>
-                <h2 className={styles.sectionTitleHobbies}>
-                  Hobbies & Interests
-                </h2>
-              </FadeIn>
-              <StaggerContainer className={styles.hobbiesGrid} delay={0.7}>
-                {INTERESTS_DATA.hobbies.map((hobby, index) => (
-                  <StaggerItem key={index} className={styles.hobbyItem}>
-                    <div className={styles.iconWrapper}>{hobby.icon}</div>
-                    <span className={styles.hobbyName}>
-                      {hobby.name}
-                      <br />
-                      <span style={{ fontSize: '0.8em', opacity: 0.8 }}>
-                        {hobby.description}
-                      </span>
+          {/* Hobbies Section */}
+          <div className={styles.hobbiesSection}>
+            <FadeIn direction="up" delay={0.6}>
+              <h2 className={styles.sectionTitleHobbies}>
+                Hobbies & Interests
+              </h2>
+            </FadeIn>
+            <StaggerContainer className={styles.hobbiesGrid} delay={0.7}>
+              {INTERESTS_DATA.hobbies.map((hobby, index) => (
+                <StaggerItem key={index} className={styles.hobbyItem}>
+                  <div className={styles.iconWrapper}>{hobby.icon}</div>
+                  <span className={styles.hobbyName}>
+                    {hobby.name}
+                    <br />
+                    <span style={{ fontSize: '0.8em', opacity: 0.8 }}>
+                      {hobby.description}
                     </span>
-                  </StaggerItem>
-                ))}
-              </StaggerContainer>
-            </div>
+                  </span>
+                </StaggerItem>
+              ))}
+            </StaggerContainer>
           </div>
         </div>
       </div>

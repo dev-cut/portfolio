@@ -8,6 +8,7 @@ export default function Home() {
     <>
       <main className={styles.main}>
         <Hero />
+        <Header />
         <ResumeGrid />
       </main>
     </>

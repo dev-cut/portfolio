@@ -9,8 +9,8 @@
 }
 
 .container {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
   position: relative;
   max-width: $container-max-width;
   gap: $spacing-16;
@@ -18,14 +18,13 @@
   padding: 0 $container-padding;
 
   @media (min-width: 992px) {
-    grid-template-columns: 1fr 1fr;
     gap: $spacing-24;
   }
 }
 
 .leftColumn {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   padding-top: $spacing-20;
 }
 
@@ -36,14 +35,16 @@
 .experienceSection {
   position: relative;
   z-index: 10;
-  margin-bottom: -20rem;
-  padding: $spacing-12 $spacing-12 $spacing-24;
+  max-width: 600px;
+  width: 100%;
+  padding: 20px;
   background-color: $color-orange;
   color: $text-dark;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 
   .sectionTitle {
     color: $text-dark;
+    text-align: center;
   }
 
   .marker {
@@ -296,8 +297,13 @@
 .rightColumn {
   display: flex;
   flex-direction: column;
+  align-items: center;
   position: relative;
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
   padding-top: $spacing-20;
+  padding-bottom: $spacing-20;
 }
 
 .contactList {
@@ -325,7 +331,7 @@
 .skillsContent {
   position: relative;
   z-index: 1;
-  padding-top: 20rem;
+  padding-top: 5rem;
   width: 100%;
 }
 
@@ -344,7 +350,6 @@
   position: relative;
   z-index: 2;
   gap: $spacing-16;
-  margin-bottom: $spacing-16;
 }
 
 .skillCategory {
@@ -437,7 +442,7 @@
   position: relative;
   z-index: 2;
   margin-bottom: $spacing-12;
-  font-size: $font-size-5xl;
+  font-size: 50px;
   font-weight: $font-weight-bold;
   color: $accent-color;
 }
