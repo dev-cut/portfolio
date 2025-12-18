@@ -148,28 +148,6 @@ h3 {
 }
 
 // ============================================
-// SCROLLBAR
-// ============================================
-::-webkit-scrollbar {
-  width: $spacing-2;
-}
-
-::-webkit-scrollbar-track {
-  background-color: var(--color-bg-secondary);
-  transition: background-color $transition-slow ease;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: var(--color-scrollbar-thumb);
-  border-radius: $radius-full;
-  transition: background-color $transition-slow ease;
-
-  &:hover {
-    background-color: var(--color-scrollbar-thumb-hover);
-  }
-}
-
-// ============================================
 // ANIMATIONS
 // ============================================
 @keyframes fadeInUp {
