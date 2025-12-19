@@ -1,0 +1,85 @@
+@use '../../styles/variables' as *;
+
+@keyframes pulse-orange {
+  0% {
+    box-shadow: 0 0 0 0 rgba($color-white, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba($color-white, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba($color-white, 0);
+  }
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-2;
+  padding: $spacing-2 $spacing-4;
+
+  // 기본 스타일 (통일됨)
+  background: rgba($color-white, 0.6);
+  border: none;
+  border-radius: $radius-full;
+
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  color: $text-dark;
+  cursor: pointer;
+
+  transition: all $transition-slow $ease-in-out;
+  backdrop-filter: blur(8px);
+  box-shadow: $shadow-md;
+
+  @media (min-width: $breakpoint-md) {
+    padding: $spacing-3 $spacing-6;
+    font-size: $font-size-sm;
+  }
+
+  // Hover 효과
+  &:hover {
+    background: $color-white;
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: $shadow-lg;
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  // 아이콘 애니메이션
+  svg {
+    transition: transform $transition-slow ease;
+  }
+
+  &:hover svg {
+    transform: translateY(3px);
+  }
+
+  // Expanded 상태
+  &.expanded {
+    background: rgba($color-white, 0.6);
+
+    // Pulse 애니메이션 제거
+    animation: none;
+
+    &:hover {
+      background: $color-white;
+      svg {
+        transform: translateY(-3px);
+      }
+    }
+  }
+
+  // 펄스 애니메이션 (선택적)
+  &.pulse {
+    animation: pulse-orange 2s infinite;
+
+    &:hover,
+    &.expanded {
+      animation: none;
+    }
+  }
+}
