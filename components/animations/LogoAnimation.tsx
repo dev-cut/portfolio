@@ -260,87 +260,139 @@ export default function LogoAnimation({
 
       // 2. 뱀꼬리처럼 이어져서 떨어짐 + 바닥에 튕김
       await domAnimate([
-        ['.item-1', { y: 0, opacity: 1 }, { duration: 0.9, type: 'spring', bounce: 0.5 }],
-        ['.item-2', { y: 0, opacity: 1 }, { duration: 0.9, type: 'spring', bounce: 0.5, at: 0.12 }],
-        ['.item-3', { y: 0, opacity: 1 }, { duration: 0.9, type: 'spring', bounce: 0.5, at: 0.24 }],
+        [
+          '.item-1',
+          { y: 0, opacity: 1 },
+          { duration: 0.9, type: 'spring', bounce: 0.5 },
+        ],
+        [
+          '.item-2',
+          { y: 0, opacity: 1 },
+          { duration: 0.9, type: 'spring', bounce: 0.5, at: 0.12 },
+        ],
+        [
+          '.item-3',
+          { y: 0, opacity: 1 },
+          { duration: 0.9, type: 'spring', bounce: 0.5, at: 0.24 },
+        ],
       ]);
       if (stale()) return;
 
       // 잠깐 대기 후 펼침
-      await new Promise(r => setTimeout(r, 80));
+      await new Promise((r) => setTimeout(r, 80));
 
       // 3. 양옆으로 펼침 (Spread)
       await domAnimate([
-        ['.item-1', { x: -GAP }, { duration: 0.5, type: 'spring', bounce: 0.4 }],
-        ['.item-2', { x: 0 }, { duration: 0.5, type: 'spring', bounce: 0.4, at: 0.05 }],
-        ['.item-3', { x: GAP }, { duration: 0.5, type: 'spring', bounce: 0.4, at: 0.1 }],
+        [
+          '.item-1',
+          { x: -GAP },
+          { duration: 0.5, type: 'spring', bounce: 0.4 },
+        ],
+        [
+          '.item-2',
+          { x: 0 },
+          { duration: 0.5, type: 'spring', bounce: 0.4, at: 0.05 },
+        ],
+        [
+          '.item-3',
+          { x: GAP },
+          { duration: 0.5, type: 'spring', bounce: 0.4, at: 0.1 },
+        ],
       ]);
       if (stale()) return;
 
-      // 4. J 그리기
-      {
-        const start = getPathStart(jReady.el, jXfRef.current);
-        await Promise.all([
-          fmAnimate(jX, start.x, { duration: 0.35, ease: 'easeInOut' })
-            .finished,
-          fmAnimate(jY, start.y, { duration: 0.35, ease: 'easeInOut' })
-            .finished,
-        ]);
-        if (stale()) return;
+      // 4. J, H, R 그리기 (오버랩 애니메이션)
+      // 각 글자가 70% 정도 그려졌을 때 다음 글자 시작
+      const OVERLAP_THRESHOLD = 0.65; // 65% 진행 시 다음 글자 시작
 
-        jProg.set(0);
-        await domAnimate('.j-group', { opacity: 1 }, { duration: 0.01 });
-
-        setJPhase('drawing');
-        setFollowJ(true);
-        await fmAnimate(jProg, 1, { duration: 1.1, ease: 'easeInOut' })
-          .finished;
-        setJPhase('done');
-      }
+      // J 그리기 시작
+      const jStart = getPathStart(jReady.el, jXfRef.current);
+      await Promise.all([
+        fmAnimate(jX, jStart.x, { duration: 0.35, ease: 'easeInOut' }).finished,
+        fmAnimate(jY, jStart.y, { duration: 0.35, ease: 'easeInOut' }).finished,
+      ]);
       if (stale()) return;
 
-      // 5. H 그리기
-      {
-        const start = getPathStart(hReady.el, hXfRef.current);
-        await Promise.all([
-          fmAnimate(hX, start.x, { duration: 0.35, ease: 'easeInOut' })
-            .finished,
-          fmAnimate(hY, start.y, { duration: 0.35, ease: 'easeInOut' })
-            .finished,
-        ]);
-        if (stale()) return;
+      jProg.set(0);
+      await domAnimate('.j-group', { opacity: 1 }, { duration: 0.01 });
+      setJPhase('drawing');
+      setFollowJ(true);
 
-        hProg.set(0);
-        await domAnimate('.h-group', { opacity: 1 }, { duration: 0.01 });
+      // J 애니메이션 시작 (await 하지 않음)
+      const jAnimation = fmAnimate(jProg, 1, {
+        duration: 1.1,
+        ease: 'easeInOut',
+      });
 
-        setHPhase('drawing');
-        setFollowH(true);
-        await fmAnimate(hProg, 1, { duration: 1.0, ease: 'easeInOut' })
-          .finished;
-        setHPhase('done');
-      }
+      // J가 OVERLAP_THRESHOLD 진행되면 H 시작
+      await new Promise<void>((resolve) => {
+        const unsub = jProg.on('change', (v) => {
+          if (v >= OVERLAP_THRESHOLD) {
+            unsub();
+            resolve();
+          }
+        });
+      });
       if (stale()) return;
 
-      // 6. R 그리기
-      {
-        const start = getPathStart(rReady.el, rXfRef.current);
-        await Promise.all([
-          fmAnimate(rX, start.x, { duration: 0.35, ease: 'easeInOut' })
-            .finished,
-          fmAnimate(rY, start.y, { duration: 0.35, ease: 'easeInOut' })
-            .finished,
-        ]);
-        if (stale()) return;
+      // H 그리기 시작
+      const hStart = getPathStart(hReady.el, hXfRef.current);
+      await Promise.all([
+        fmAnimate(hX, hStart.x, { duration: 0.25, ease: 'easeInOut' }).finished,
+        fmAnimate(hY, hStart.y, { duration: 0.25, ease: 'easeInOut' }).finished,
+      ]);
+      if (stale()) return;
 
-        rProg.set(0);
-        await domAnimate('.r-group', { opacity: 1 }, { duration: 0.01 });
+      hProg.set(0);
+      await domAnimate('.h-group', { opacity: 1 }, { duration: 0.01 });
+      setHPhase('drawing');
+      setFollowH(true);
 
-        setRPhase('drawing');
-        setFollowR(true);
-        await fmAnimate(rProg, 1, { duration: 1.1, ease: 'easeInOut' })
-          .finished;
-        setRPhase('done');
-      }
+      // H 애니메이션 시작 (await 하지 않음)
+      const hAnimation = fmAnimate(hProg, 1, {
+        duration: 1.0,
+        ease: 'easeInOut',
+      });
+
+      // H가 OVERLAP_THRESHOLD 진행되면 R 시작
+      await new Promise<void>((resolve) => {
+        const unsub = hProg.on('change', (v) => {
+          if (v >= OVERLAP_THRESHOLD) {
+            unsub();
+            resolve();
+          }
+        });
+      });
+      if (stale()) return;
+
+      // R 그리기 시작
+      const rStart = getPathStart(rReady.el, rXfRef.current);
+      await Promise.all([
+        fmAnimate(rX, rStart.x, { duration: 0.25, ease: 'easeInOut' }).finished,
+        fmAnimate(rY, rStart.y, { duration: 0.25, ease: 'easeInOut' }).finished,
+      ]);
+      if (stale()) return;
+
+      rProg.set(0);
+      await domAnimate('.r-group', { opacity: 1 }, { duration: 0.01 });
+      setRPhase('drawing');
+      setFollowR(true);
+
+      // R 애니메이션 시작
+      const rAnimation = fmAnimate(rProg, 1, {
+        duration: 1.1,
+        ease: 'easeInOut',
+      });
+
+      // 모든 애니메이션 완료 대기
+      await Promise.all([
+        jAnimation.finished,
+        hAnimation.finished,
+        rAnimation.finished,
+      ]);
+      setJPhase('done');
+      setHPhase('done');
+      setRPhase('done');
 
       // 애니메이션 완료 후 호버 활성화
       setIsInteractive(true);
