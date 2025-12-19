@@ -8,6 +8,7 @@ export interface ProjectItem {
   role: string;
   client: string;
   description?: string[];
+  detailedDescription?: string;
 }
 
 export interface ExperienceItem {

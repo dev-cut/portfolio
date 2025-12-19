@@ -207,14 +207,13 @@ export default function ResumeGrid() {
                     height: 'auto',
                     transition: {
                       height: {
-                        type: 'spring',
-                        stiffness: 120,
-                        damping: 20,
-                        mass: 1.2,
+                        type: 'tween',
+                        duration: 0.5,
+                        ease: 'easeInOut',
                       },
                       opacity: {
-                        duration: 0.4,
-                        ease: 'easeOut',
+                        duration: 0.5,
+                        ease: 'easeInOut',
                       },
                     },
                   }}
@@ -223,12 +222,13 @@ export default function ResumeGrid() {
                     height: 0,
                     transition: {
                       height: {
-                        type: 'spring',
-                        stiffness: 300,
-                        damping: 30,
+                        type: 'tween',
+                        duration: 0.5,
+                        ease: 'easeInOut',
                       },
                       opacity: {
-                        duration: 0.2,
+                        duration: 0.5,
+                        ease: 'easeInOut',
                       },
                     },
                   }}
@@ -371,7 +371,7 @@ export default function ResumeGrid() {
               <LayoutGroup>
                 <div className={styles.list}>
                   {/* 첫 번째 경력 (항상 표시) */}
-                  <motion.div className={styles.item} layout="position">
+                  <motion.div className={styles.item}>
                     <motion.div
                       className={styles.marker}
                       animate={{ rotate: [0, 10, -10, 0] }}
@@ -391,20 +391,20 @@ export default function ResumeGrid() {
                     {isExperienceExpanded && restExperiences.length > 0 && (
                       <motion.div
                         key="rest-experiences-container"
+                        className={styles.expandedContent}
                         initial={{ opacity: 0, height: 0 }}
                         animate={{
                           opacity: 1,
                           height: 'auto',
                           transition: {
                             height: {
-                              type: 'spring',
-                              stiffness: 120,
-                              damping: 20,
-                              mass: 1.2,
+                              type: 'tween',
+                              duration: 0.5,
+                              ease: 'easeInOut',
                             },
                             opacity: {
-                              duration: 0.4,
-                              ease: 'easeOut',
+                              duration: 0.5,
+                              ease: 'easeInOut',
                             },
                           },
                         }}
@@ -413,17 +413,16 @@ export default function ResumeGrid() {
                           height: 0,
                           transition: {
                             height: {
-                              type: 'spring',
-                              stiffness: 300,
-                              damping: 30,
+                              type: 'tween',
+                              duration: 0.5,
+                              ease: 'easeInOut',
                             },
                             opacity: {
-                              duration: 0.2,
+                              duration: 0.5,
+                              ease: 'easeInOut',
                             },
                           },
                         }}
-                        style={{ overflow: 'hidden' }}
-                        className={styles.restExperiencesContainer}
                       >
                         {restExperiences.map((item, idx) => (
                           <motion.div

@@ -132,12 +132,30 @@
 // ============================================
 // EXPERIENCE LIST
 // ============================================
+// 확장된 콘텐츠 (나머지 경력 리스트 컨테이너)
+.expandedContent {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-10; // 아이템 간 간격
+  // padding-top 제거: 첫 번째 아이템의 마진으로 대체
+
+  // GPU 가속 힌트
+  will-change: height, opacity;
+  // 레이아웃 격리
+  contain: layout style;
+  overflow: hidden; // 애니메이션 중 콘텐츠 노출 방지
+}
 
 .list {
   display: flex;
   flex-direction: column;
   position: relative;
   overflow: visible;
+
+  // 첫 번째 경력 아이템에만 하단 여백 적용 (나머지 리스트와의 간격)
+  > .item {
+    margin-bottom: $spacing-10;
+  }
 }
 
 // ...
@@ -147,12 +165,6 @@
   align-items: flex-start;
   position: relative;
   gap: $spacing-6;
-  margin-bottom: $spacing-10; // gap 대신 마진으로 간격 처리
-
-  // 마지막 아이템은 마진 제거 (단, 첫 번째 아이템은 항상 마진 유지)
-  &:last-child:not(:first-child) {
-    margin-bottom: 0;
-  }
 }
 
 @keyframes float-marker {
