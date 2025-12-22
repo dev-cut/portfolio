@@ -176,22 +176,97 @@
 // ============================================
 // EXPERIENCE LIST
 // ============================================
-// 확장된 콘텐츠 (나머지 경력 리스트 컨테이너)
-.expandedContent {
-  display: flex;
-  flex-direction: column;
-  // padding-top 제거: 첫 번째 아이템의 마진으로 대체
+// ============================================
+// EXPERIENCE LIST WRAPPER
+// ============================================
 
-  // GPU 가속 힌트
-  will-change: height, opacity;
-  margin-top: $spacing-10;
+.listContainer {
+  position: relative;
+  overflow: hidden;
+  // max-height는 인라인 스타일로 제어됨 (use scrollHeight if needed later)
+  will-change: max-height;
 }
 
+.fadeOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 180px; // 페이드 영역 높이
+  background: linear-gradient(
+    to bottom,
+    rgba($color-orange, 0) 0%,
+    rgba($color-orange, 0.8) 40%,
+    $color-orange 100%
+  );
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom-left-radius: 0; // 카드 radius 따라가기
+  border-bottom-right-radius: 0;
+
+  @media (min-width: $breakpoint-md) {
+    border-bottom-left-radius: $radius-2xl;
+    border-bottom-right-radius: $radius-2xl;
+  }
+}
+
+.overlayButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba($color-black, 0.1);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba($color-black, 0.1);
+  color: $text-dark;
+  cursor: pointer;
+  transition: all $transition-base ease;
+  margin-top: 40px; // 그라데이션 하단부로 위치 조정
+
+  &:hover {
+    background: rgba($color-black, 0.2);
+    transform: scale(1.1);
+  }
+
+  .overlayIcon {
+    display: flex;
+    animation: bounce 2s infinite;
+  }
+}
+
+.collapseButtonWrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: $spacing-8;
+  padding-bottom: $spacing-4;
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-5px);
+  }
+  60% {
+    transform: translateY(-3px);
+  }
+}
+
+// 기존 expandedContent 제거
 .list {
   display: flex;
   flex-direction: column;
   position: relative;
-  overflow: visible;
+  padding-bottom: $spacing-8; // 하단 여백 추가
 }
 
 // ...
@@ -203,18 +278,8 @@
   gap: $spacing-6; // 마커와 컨텐츠 사이 간격
   margin-bottom: $spacing-10; // 2.5rem (40px)
 
-  // 3번째 아이템(초기 노출의 마지막)은 마진 제거
-  &:nth-child(3) {
+  &:last-child {
     margin-bottom: 0;
-  }
-
-  // 4번째부터(펼쳐진 아이템들)는 다시 마진 적용하되, 진짜 마지막은 제거
-  &:nth-child(n + 4) {
-    margin-bottom: $spacing-10;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
   }
 }
 

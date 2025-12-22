@@ -81,23 +81,18 @@ export default function Experience() {
     };
   }, [activePopover]);
 
-  // 초기 표시 개수 설정
-  const INITIAL_VISIBLE_COUNT = 3;
+  // Experience 전체 데이터 사용 (분리 로직 제거)
+  const experiences = EXPERIENCE_DATA;
 
-  // 항상 표시할 경력들
-  const visibleExperiences = EXPERIENCE_DATA.slice(0, INITIAL_VISIBLE_COUNT);
-  // 펼쳤을 때 추가로 표시할 경력들
-  const hiddenExperiences = EXPERIENCE_DATA.slice(INITIAL_VISIBLE_COUNT);
-
+  // renderExperienceItem 함수는 그대로 유지
   const renderExperienceItem = (
     item: (typeof EXPERIENCE_DATA)[0],
     index: number
   ) => {
+    // ... 기존 내부 로직 유지 (isExpanded, hasMoreProjects 등 변수 사용 주의)
     const isExpanded = expandedItems.includes(index);
     const hasMoreProjects = item.projects && item.projects.length > 2;
-    // 항상 처음 2개만 visibleProjects
     const visibleProjects = item.projects?.slice(0, 2) || [];
-    // 나머지는 hiddenProjects (펼쳐질 때 보여짐)
     const hiddenProjects = hasMoreProjects ? item.projects!.slice(2) : [];
 
     return (
@@ -110,9 +105,10 @@ export default function Experience() {
             ? ` · ${calculateDuration(item.period)}`
             : calculateDuration(item.period)}
         </p>
+
+        {/* 프로젝트 리스트 렌더링 */}
         {item.projects && (
           <div className={styles.projectList}>
-            {/* 항상 보이는 프로젝트들 */}
             {visibleProjects?.map((project, pIndex) => {
               const popoverKey = `${index}-${pIndex}`;
               const isPopoverOpen = activePopover === popoverKey;
@@ -122,18 +118,12 @@ export default function Experience() {
                   key={pIndex}
                   className={styles.projectItem}
                   layout
-                  transition={{
-                    layout: {
-                      type: 'spring',
-                      stiffness: 300,
-                      damping: 30,
-                    },
-                  }}
                   style={{
                     zIndex: isPopoverOpen ? 200 : 1,
                     position: 'relative',
                   }}
                 >
+                  {/* ... 프로젝트 상세 렌더링 ... */}
                   <div className={styles.detailWrapper}>
                     <motion.button
                       className={`${styles.projectNameButton} ${
@@ -146,11 +136,6 @@ export default function Experience() {
                       aria-expanded={isPopoverOpen}
                       whileHover={{ x: 4 }}
                       whileTap={{ scale: 0.98 }}
-                      transition={{
-                        type: 'spring',
-                        stiffness: 400,
-                        damping: 25,
-                      }}
                     >
                       {project.name}
                       {project.description && (
@@ -158,10 +143,7 @@ export default function Experience() {
                           className={`${styles.hasDetailIndicator} ${
                             styles[`indicatorColor${(pIndex % 2) + 1}`]
                           }`}
-                          animate={{
-                            scale: isPopoverOpen ? 1.4 : 1,
-                          }}
-                          transition={{ type: 'spring', stiffness: 300 }}
+                          animate={{ scale: isPopoverOpen ? 1.4 : 1 }}
                         />
                       )}
                     </motion.button>
@@ -195,42 +177,14 @@ export default function Experience() {
               );
             })}
 
-            {/* 펼쳐졌을 때 추가로 보이는 프로젝트들 */}
+            {/* 숨겨진 프로젝트 (내부 더보기) */}
             <AnimatePresence initial={false}>
               {isExpanded && hiddenProjects.length > 0 && (
                 <motion.div
                   key="hidden-projects-container"
                   initial={{ opacity: 0, height: 0 }}
-                  animate={{
-                    opacity: 1,
-                    height: 'auto',
-                    transition: {
-                      height: {
-                        type: 'tween',
-                        duration: 0.5,
-                        ease: 'easeInOut',
-                      },
-                      opacity: {
-                        duration: 0.5,
-                        ease: 'easeInOut',
-                      },
-                    },
-                  }}
-                  exit={{
-                    opacity: 0,
-                    height: 0,
-                    transition: {
-                      height: {
-                        type: 'tween',
-                        duration: 0.5,
-                        ease: 'easeInOut',
-                      },
-                      opacity: {
-                        duration: 0.5,
-                        ease: 'easeInOut',
-                      },
-                    },
-                  }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
                   className={styles.hiddenProjectsContainer}
                 >
                   {hiddenProjects.map((project, pIndex) => {
@@ -242,16 +196,6 @@ export default function Experience() {
                       <motion.div
                         key={`hidden-${pIndex}`}
                         className={styles.projectItem}
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{
-                          opacity: 1,
-                          y: 0,
-                          transition: {
-                            delay: pIndex * 0.05,
-                            duration: 0.3,
-                            ease: [0.23, 1, 0.32, 1],
-                          },
-                        }}
                         style={{
                           zIndex: isPopoverOpen ? 200 : 1,
                           position: 'relative',
@@ -269,11 +213,6 @@ export default function Experience() {
                             aria-expanded={isPopoverOpen}
                             whileHover={{ x: 4 }}
                             whileTap={{ scale: 0.98 }}
-                            transition={{
-                              type: 'spring',
-                              stiffness: 400,
-                              damping: 25,
-                            }}
                           >
                             {project.name}
                             {project.description && (
@@ -283,10 +222,7 @@ export default function Experience() {
                                     `indicatorColor${(actualIndex % 2) + 1}`
                                   ]
                                 }`}
-                                animate={{
-                                  scale: isPopoverOpen ? 1.4 : 1,
-                                }}
-                                transition={{ type: 'spring', stiffness: 300 }}
+                                animate={{ scale: isPopoverOpen ? 1.4 : 1 }}
                               />
                             )}
                           </motion.button>
@@ -301,14 +237,7 @@ export default function Experience() {
                               >
                                 <ul className={styles.projectDescription}>
                                   {project.description.map((desc, dIndex) => (
-                                    <motion.li
-                                      key={dIndex}
-                                      initial={{ opacity: 0, x: -10 }}
-                                      animate={{ opacity: 1, x: 0 }}
-                                      transition={{ delay: dIndex * 0.05 }}
-                                    >
-                                      {desc}
-                                    </motion.li>
+                                    <li key={dIndex}>{desc}</li>
                                   ))}
                                 </ul>
                               </motion.div>
@@ -327,7 +256,7 @@ export default function Experience() {
           </div>
         )}
 
-        {/* 더보기/접기 버튼 - projectList 외부에 배치 */}
+        {/* 내부 프로젝트 더보기 버튼 (#8) */}
         {hasMoreProjects && (
           <ExpandButton
             isExpanded={isExpanded}
@@ -350,7 +279,7 @@ export default function Experience() {
                 />
               </svg>
             }
-            className={styles.moreButton} // 위치 지정을 위해 클래스 유지 (내부 스타일은 제거 예정)
+            className={styles.moreButton}
           />
         )}
       </div>
@@ -360,7 +289,6 @@ export default function Experience() {
   return (
     <section className={styles.section} id="experience">
       <div className={styles.container}>
-        {/* Experience Section */}
         <div className={styles.experienceWrapper} id="experience-content">
           <FadeIn direction="up" delay={0.1} className={styles.header}>
             <span className={styles.subTitle}>WORK EXPERIENCE</span>
@@ -368,6 +296,7 @@ export default function Experience() {
               경력
             </h2>
           </FadeIn>
+
           <FadeIn
             direction="up"
             delay={0.2}
@@ -376,146 +305,117 @@ export default function Experience() {
           >
             <div className={styles.experienceCard}>
               <LayoutGroup>
-                <div className={styles.list}>
-                  {/* 기본 표시 경력들 (최대 3개) */}
-                  {visibleExperiences.map((item, idx) => (
-                    <motion.div key={idx} className={styles.item}>
-                      <motion.div
-                        className={styles.marker}
-                        animate={{ rotate: [0, 10, -10, 0] }}
-                        transition={{
-                          duration: 2,
-                          repeat: Infinity,
-                          repeatDelay: 3,
-                          delay: idx * 0.5, // 마커 애니메이션 시차
-                        }}
-                      >
-                        ✦
+                {/* 
+                  높이 제한 및 그라데이션 컨테이너 
+                  - 접혔을 때: max-height 적용 + overflow hidden
+                  - 펼쳐졌을 때: max-height 해제
+                */}
+                <motion.div
+                  className={styles.listContainer}
+                  initial={false}
+                  animate={{
+                    height: isExperienceExpanded ? 'auto' : 650, // 650px는 약 2.5개 높이
+                  }}
+                  transition={{
+                    height: {
+                      type: 'spring',
+                      stiffness: 60,
+                      damping: 15,
+                      mass: 1,
+                    },
+                    opacity: { duration: 0.3 },
+                  }}
+                >
+                  <div className={styles.list}>
+                    {experiences.map((item, idx) => (
+                      <motion.div key={idx} className={styles.item}>
+                        <motion.div
+                          className={styles.marker}
+                          animate={{ rotate: [0, 10, -10, 0] }}
+                          transition={{
+                            duration: 2,
+                            repeat: Infinity,
+                            repeatDelay: 3 + idx, // 시차를 둠
+                          }}
+                        >
+                          ✦
+                        </motion.div>
+                        {renderExperienceItem(item, idx)}
                       </motion.div>
-                      {renderExperienceItem(item, idx)}
-                    </motion.div>
-                  ))}
+                    ))}
+                  </div>
+                </motion.div>
 
-                  {/* 나머지 경력 (펼쳤을 때만 표시) */}
-                  <AnimatePresence initial={false}>
-                    {isExperienceExpanded && hiddenExperiences.length > 0 && (
-                      <motion.div
-                        key="hidden-experiences-container"
-                        className={styles.expandedContent}
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{
-                          opacity: 1,
-                          height: 'auto',
-                          transition: {
-                            height: {
-                              type: 'tween',
-                              duration: 0.5,
-                              ease: 'easeInOut',
-                            },
-                            opacity: {
-                              duration: 0.5,
-                              ease: 'easeInOut',
-                            },
-                          },
-                        }}
-                        exit={{
-                          opacity: 0,
-                          height: 0,
-                          transition: {
-                            height: {
-                              type: 'tween',
-                              duration: 0.5,
-                              ease: 'easeInOut',
-                            },
-                            opacity: {
-                              duration: 0.5,
-                              ease: 'easeInOut',
-                            },
-                          },
-                        }}
+                {/* 그라데이션 오버레이 및 더보기 버튼 (항상 렌더링하되 opacity로 제어) */}
+                <motion.div
+                  className={styles.fadeOverlay}
+                  initial={{ opacity: 1 }}
+                  animate={{
+                    opacity: isExperienceExpanded ? 0 : 1,
+                    pointerEvents: isExperienceExpanded ? 'none' : 'auto',
+                  }}
+                  transition={{ duration: 0.5, ease: 'easeInOut' }}
+                >
+                  <button
+                    className={styles.overlayButton}
+                    onClick={() => setIsExperienceExpanded(true)}
+                    aria-label="경력 전체 보기"
+                    // 탭 포커스 방지 (펼쳐졌을 때)
+                    tabIndex={isExperienceExpanded ? -1 : 0}
+                  >
+                    <span className={styles.overlayIcon}>
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       >
-                        {hiddenExperiences.map((item, idx) => {
-                          const actualIndex = INITIAL_VISIBLE_COUNT + idx;
-                          return (
-                            <motion.div
-                              key={actualIndex}
-                              className={styles.item}
-                              initial={{ opacity: 0, y: -10 }}
-                              animate={{
-                                opacity: 1,
-                                y: 0,
-                                transition: {
-                                  delay: idx * 0.08,
-                                  duration: 0.3,
-                                  ease: [0.23, 1, 0.32, 1],
-                                },
-                              }}
-                            >
-                              <motion.div
-                                className={styles.marker}
-                                initial={{ scale: 0, rotate: -180 }}
-                                animate={{ scale: 1, rotate: 0 }}
-                                transition={{
-                                  type: 'spring',
-                                  stiffness: 300,
-                                  damping: 20,
-                                  delay: idx * 0.08,
-                                }}
-                              >
-                                ✦
-                              </motion.div>
-                              {renderExperienceItem(item, actualIndex)}
-                            </motion.div>
-                          );
-                        })}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              </LayoutGroup>
+                        <path d="M7 13l5 5 5-5M7 6l5 5 5-5" />
+                      </svg>
+                    </span>
+                  </button>
+                </motion.div>
 
-              {/* 경력 더보기/접기 버튼 */}
-              {hiddenExperiences.length > 0 && (
-                <div className={styles.expandSectionWrapper}>
-                  <ExpandButton
-                    isExpanded={isExperienceExpanded}
-                    onClick={() => {
-                      // 접을 때만 스크롤 이동
-                      if (isExperienceExpanded) {
+                {/* 접기 버튼 (맨 아래, 펼쳐졌을 때만 표시) */}
+                {isExperienceExpanded && (
+                  <div className={styles.collapseButtonWrapper}>
+                    <ExpandButton
+                      isExpanded={true}
+                      onClick={() => {
                         experienceRef.current?.scrollIntoView({
                           behavior: 'smooth',
                           block: 'start',
                         });
+                        setIsExperienceExpanded(false);
+                      }}
+                      collapsedLabel=""
+                      expandedLabel={
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M18 15L12 9L6 15"
+                            stroke="currentColor"
+                            strokeWidth="2.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
                       }
-                      setIsExperienceExpanded(!isExperienceExpanded);
-                    }}
-                    collapsedLabel=""
-                    // expandedLabel은 아이콘으로 처리됨 (아래 svg)
-                    expandedLabel={
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M18 15L12 9L6 15"
-                          stroke="currentColor"
-                          strokeWidth="2.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    }
-                    showIcon={!isExperienceExpanded}
-                    pulse={!isExperienceExpanded} // 초기 상태에서 펄스 효과
-                    className={`${styles.expandSectionButton} ${
-                      isExperienceExpanded ? styles.expanded : ''
-                    }`}
-                  />
-                </div>
-              )}
+                      showIcon={false}
+                      className={styles.expandSectionButton}
+                    />
+                  </div>
+                )}
+              </LayoutGroup>
             </div>
           </FadeIn>
         </div>
