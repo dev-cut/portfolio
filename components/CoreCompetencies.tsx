@@ -9,7 +9,7 @@ export default function CoreCompetencies() {
   return (
     <section className={styles.section} id="competencies">
       <div className={styles.container}>
-        <FadeIn direction="up" className={styles.header}>
+        <FadeIn direction="up" delay={0.4} className={styles.header}>
           <span className={styles.subTitle}>Check Point</span>
           <h2 className={styles.title}>
             핵심 역량
@@ -23,7 +23,7 @@ export default function CoreCompetencies() {
             <FadeIn
               key={index}
               direction="up"
-              delay={index * 0.1}
+              delay={0.6 + index * 0.1}
               className={styles.cardWrapper}
             >
               <div className={styles.card}>

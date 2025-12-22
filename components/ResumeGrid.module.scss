@@ -70,14 +70,16 @@
   z-index: 10;
   max-width: 500px;
   width: 100%;
-  padding: $spacing-5 $spacing-4;
+  padding: $spacing-6 $spacing-6;
+  padding-top: $spacing-12; // 상단 여백 48px로 확대
   background-color: $color-orange;
   color: $text-dark;
   box-shadow: $shadow-lg;
   border-radius: $radius-2xl;
 
   @media (min-width: $breakpoint-md) {
-    padding: $spacing-6 $spacing-8;
+    padding: $spacing-10 $spacing-12;
+    padding-top: $spacing-16; // 데스크탑 상단 64px로 확대
   }
 
   .sectionTitle {
@@ -149,6 +151,7 @@
 
   // GPU 가속 힌트
   will-change: height, opacity;
+  margin-top: $spacing-10;
 }
 
 .list {
@@ -156,11 +159,6 @@
   flex-direction: column;
   position: relative;
   overflow: visible;
-
-  // 첫 번째 경력 아이템에만 하단 여백 적용 (나머지 리스트와의 간격)
-  > .item {
-    margin-bottom: $spacing-10;
-  }
 }
 
 // ...

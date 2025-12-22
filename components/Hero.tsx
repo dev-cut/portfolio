@@ -11,7 +11,7 @@ export default function Hero() {
         </div>
 
         <div className={styles.textSection}>
-          <FadeIn delay={0.8} direction="up">
+          <FadeIn delay={0.2} direction="up">
             <h1 id="hero-title" className={styles.mainText}>
               안녕하세요,
               <br />
