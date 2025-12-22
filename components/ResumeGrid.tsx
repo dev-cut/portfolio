@@ -1,6 +1,5 @@
 'use client';
 
-import { INTERESTS_DATA } from '@/lib/data/home';
 import { EXPERIENCE_DATA, TECHNICAL_SKILLS } from '@/lib/data/resume';
 import { calculateDuration } from '@/lib/utils/date';
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
@@ -530,22 +529,6 @@ export default function ResumeGrid() {
               </BlurRevealItem>
             ))}
           </BlurRevealContainer>
-        </div>
-
-        {/* Hobbies Section */}
-        <div className={styles.hobbiesSection} id="hobbies">
-          <FadeIn direction="up" delay={0.6}>
-            <h2 className={styles.sectionTitle}>취미 & 관심사</h2>
-          </FadeIn>
-          <StaggerContainer className={styles.hobbiesGrid} delay={0.7}>
-            {INTERESTS_DATA.hobbies.map((hobby, index) => (
-              <StaggerItem key={index} className={styles.hobbyItem}>
-                <div className={styles.iconWrapper}>{hobby.icon}</div>
-                <span className={styles.hobbyName}>{hobby.name}</span>
-                <span className={styles.hobbyDesc}>{hobby.description}</span>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
         </div>
       </div>
     </section>

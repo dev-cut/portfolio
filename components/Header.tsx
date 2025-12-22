@@ -9,9 +9,9 @@ import styles from './Header.module.scss';
 // 상수 정의
 // ============================================
 const NAV_ITEMS = [
+  { label: '역량', href: '#competencies' },
   { label: '경력', href: '#experience' },
   { label: '기술', href: '#skills' },
-  { label: '취미', href: '#hobbies' },
 ] as const;
 
 // 헤더 전환 임계값 (px)
