@@ -20,7 +20,7 @@ export default function Hero() {
               <span className={styles.name}>조혁래</span>입니다.
             </h1>
             <div className={styles.subText}>
-              React를 중심으로 웹 프론트엔드를 개발합니다.
+              다양한 기술로 웹 프론트엔드를 개발합니다.
               <br />
               함께 제품을 만들고 성장시킬 곳을 찾고 있습니다.
             </div>

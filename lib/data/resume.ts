@@ -203,7 +203,7 @@ export const EXPERIENCE_DATA: ExperienceItem[] = [
   },
   {
     period: '2015.11 - 2017.02',
-    title: '유엔제컴퍼니 주식회사',
+    title: '유엔씨컴퍼니 주식회사',
     subtitle: 'Publisher',
     projects: [
       {
