@@ -35,12 +35,12 @@ export default function Footer() {
             <div className={styles.contactItem}>
               <span className={styles.label}>Github</span>
               <a
-                href="https://github.com/hyukraeyo"
+                href="https://github.com/dev-cut"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.value}
               >
-                @hyukraeyo
+                @dev-cut
               </a>
             </div>
           </div>

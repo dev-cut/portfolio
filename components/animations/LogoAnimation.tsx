@@ -108,10 +108,14 @@ export default function LogoAnimation({
   const [isInteractive, setIsInteractive] = useState(false); // 애니메이션 끝난 후 호버 활성화용
 
   // 알파벳 경로
-  const J_PATH = 'M 30 22 L 86 22 L 86 62 Q 86 90 56 90 Q 26 90 26 62';
-  const H_PATH = 'M 26 90 L 26 20 L 26 54 L 86 54 L 86 20 L 86 90';
-  const R_PATH =
-    'M 26 90 L 26 20 L 62 20 Q 86 20 86 42 Q 86 64 62 64 L 26 64 L 86 90';
+  // 알파벳 경로 (C, U, T)
+  // J변수 -> C 모양
+  const J_PATH =
+    'M 80 35 Q 80 20 50 20 Q 20 20 20 55 Q 20 90 50 90 Q 80 90 80 65';
+  // H변수 -> U 모양
+  const H_PATH = 'M 26 20 L 26 60 Q 26 90 53 90 Q 80 90 80 60 L 80 20';
+  // R변수 -> T 모양 (한붓그리기: 가로 -> 중앙으로 되돌아옴 -> 세로)
+  const R_PATH = 'M 20 20 L 86 20 L 53 20 L 53 90';
 
   const jPathRef = useRef<SVGPathElement>(null);
   const hPathRef = useRef<SVGPathElement>(null);
