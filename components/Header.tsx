@@ -105,8 +105,10 @@ export default function Header() {
           }
           variants={FADE_IN_VARIANTS}
           transition={BOUNCY_SPRING_CONFIG}
-          style={{ pointerEvents: isTopHidden ? 'none' : 'auto' }}
-          aria-hidden={isTopHidden}
+          style={{
+            pointerEvents: isTopHidden ? 'none' : 'auto',
+            visibility: isTopHidden ? 'hidden' : 'visible',
+          }}
         >
           <Nav />
         </motion.header>
