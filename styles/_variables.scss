@@ -61,7 +61,12 @@ $border-light: rgba($color-white, 0.1);
 // --------------------------------------------
 // Typography
 // --------------------------------------------
-$font-sans: var(--font-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+$font-sans:
+  var(--font-pretendard),
+  -apple-system,
+  BlinkMacSystemFont,
+  system-ui,
+  sans-serif;
 $font-rammetto: var(--font-rammetto-one), cursive;
 
 // Font Sizes
@@ -104,6 +109,7 @@ $spacing-12: 3rem; // 48px
 $spacing-16: 4rem; // 64px
 $spacing-20: 5rem; // 80px
 $spacing-24: 6rem; // 96px
+$spacing-32: 8rem; // 128px
 
 // Section Spacing (섹션 상하 여백 통일)
 $section-padding-y: $spacing-10; // 40px (모바일)

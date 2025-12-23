@@ -10,8 +10,7 @@ export default function Skills() {
     <section className={styles.section} id="skills">
       <div className={styles.container}>
         <FadeIn direction="up" delay={0.2} className={styles.header}>
-          <span className={styles.subTitle}>TECHNICAL SKILLS</span>
-          {/* <h2 className={styles.title}>기술 스택</h2> */}
+          <h2 className={styles.subTitle}>TECHNICAL SKILLS</h2>
         </FadeIn>
         <BlurRevealContainer className={styles.grid} delay={0.1}>
           {TECHNICAL_SKILLS.map((skill: string, index: number) => (

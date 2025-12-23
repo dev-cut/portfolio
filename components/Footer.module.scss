@@ -2,7 +2,7 @@
 
 .footer {
   position: relative;
-  padding: $spacing-20 0 $spacing-20;
+  padding: $spacing-20 0 $spacing-32; // 하단 플로팅 네비게이션 공간 확보
   background-color: var(--color-bg-tertiary);
   color: var(--color-text-primary);
   overflow: hidden;

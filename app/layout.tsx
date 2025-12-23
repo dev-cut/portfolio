@@ -30,6 +30,7 @@ import { SITE_METADATA } from '@/lib/data/site';
 import { ThemeProvider } from '@/lib/context/ThemeContext';
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_METADATA.siteUrl),
   title: SITE_METADATA.title,
   description: SITE_METADATA.description,
   keywords: SITE_METADATA.keywords,
@@ -60,6 +61,10 @@ export const metadata: Metadata = {
   },
   verification: {
     google: 'ig5bwjcdjq-J5t22SEhKa34Kdi-thM38v3zee_uTSVU',
+  },
+  icons: {
+    icon: '/favicon.svg',
+    apple: '/favicon.svg',
   },
   alternates: {
     canonical: SITE_METADATA.siteUrl,
