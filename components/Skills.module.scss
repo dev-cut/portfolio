@@ -1,6 +1,7 @@
 @use '../styles/variables' as *;
 
 .section {
+  background-color: var(--color-bg-secondary);
   position: relative;
   width: 100%;
   padding: $spacing-20 0; // 다른 섹션과 비슷한 패딩
