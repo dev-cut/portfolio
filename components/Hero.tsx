@@ -15,8 +15,8 @@ export default function Hero() {
             <h1 id="hero-title" className={styles.mainText}>
               안녕하세요,
               <br />
-              프론트엔드
-              <span className={styles.name}>개발자</span>입니다.
+              프론트엔드 개발자
+              <span className={styles.name}> Dev.CUT</span>입니다.
             </h1>
             <div className={styles.subText}>
               다양한 기술로 웹 프론트엔드를 개발합니다.

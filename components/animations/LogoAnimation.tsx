@@ -9,7 +9,7 @@ import {
 } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 
-const DOT_SIZE = 20;
+const DOT_SIZE = 30; // 점과 선 두께
 const DOT_R = DOT_SIZE / 2;
 const STROKE = DOT_SIZE;
 
@@ -20,6 +20,8 @@ const GAP = 90;
 type Xform = { s: number; tx: number; ty: number };
 type Phase = 'idle' | 'drawing' | 'done';
 
+// ...
+// (Here I will provide the full content of the missing functions to restore them)
 const raf = () => new Promise<void>((r) => requestAnimationFrame(() => r()));
 
 function safeGetBBox(el: SVGPathElement) {
@@ -105,17 +107,18 @@ export default function LogoAnimation({
 }) {
   const [scope, domAnimate] = useAnimate<HTMLDivElement>();
   const runIdRef = useRef(0);
-  const [isInteractive, setIsInteractive] = useState(false); // 애니메이션 끝난 후 호버 활성화용
+  const [isInteractive, setIsInteractive] = useState(false);
+  // 한글 자음 ㅈ, ㅎ, ㄹ 경로 (한붓그리기 - 굵은 도형 심볼 스타일)
 
-  // 알파벳 경로
-  // 알파벳 경로 (C, U, T)
-  // J변수 -> C 모양
-  const J_PATH =
-    'M 80 35 Q 80 20 50 20 Q 20 20 20 55 Q 20 90 50 90 Q 80 90 80 65';
-  // H변수 -> U 모양
-  const H_PATH = 'M 26 20 L 26 60 Q 26 90 53 90 Q 80 90 80 60 L 80 20';
-  // R변수 -> T 모양 (한붓그리기: 가로 -> 중앙으로 되돌아옴 -> 세로)
-  const R_PATH = 'M 20 20 L 86 20 L 53 20 L 53 90';
+  // ㅈ (Blue): 가로 획 + ㅅ = ㅈ (한붓그리기)
+  const J_PATH = 'M 25 30 L 75 30 L 50 30 L 25 75 L 50 30 L 75 75';
+
+  // ㅎ (Green): 꼭지 + 가로 + 정확한 원형
+  const H_PATH =
+    'M 50 25 L 50 30 L 50 35 L 25 35 L 75 35 L 50 35 L 50 38 A 20 20 0 0 1 50 78 A 20 20 0 0 1 50 38';
+
+  // ㄹ (Yellow): Z자 (크기 조정)
+  const R_PATH = 'M 28 28 L 72 28 L 72 50 L 28 50 L 28 72 L 72 72';
 
   const jPathRef = useRef<SVGPathElement>(null);
   const hPathRef = useRef<SVGPathElement>(null);
@@ -130,6 +133,11 @@ export default function LogoAnimation({
   const [jMatrix, setJMatrix] = useState('matrix(1 0 0 1 0 0)');
   const [hMatrix, setHMatrix] = useState('matrix(1 0 0 1 0 0)');
   const [rMatrix, setRMatrix] = useState('matrix(1 0 0 1 0 0)');
+
+  // scale 값 (strokeWidth 보정용)
+  const [jScale, setJScale] = useState(1);
+  const [hScale, setHScale] = useState(1);
+  const [rScale, setRScale] = useState(1);
 
   // 실제 길이
   const [jLen, setJLen] = useState(0);
@@ -196,7 +204,6 @@ export default function LogoAnimation({
   const rDotOpacity =
     rPhase === 'idle' ? 1 : rPhase === 'done' ? 0 : rPenOpacity;
 
-  // 호버 인터랙션 설정 (스프링 효과)
   const hoverProps = {
     animate: { scale: 1, y: 0 },
     whileHover: { scale: 1.1, y: -10 },
@@ -214,7 +221,6 @@ export default function LogoAnimation({
       if (stale()) return;
       if (!jReady || !hReady || !rReady) return;
 
-      // 정규화
       jXfRef.current = calcNormalizeXformFromBBox(jReady.bbox);
       hXfRef.current = calcNormalizeXformFromBBox(hReady.bbox);
       rXfRef.current = calcNormalizeXformFromBBox(rReady.bbox);
@@ -229,11 +235,15 @@ export default function LogoAnimation({
         `matrix(${rXfRef.current.s} 0 0 ${rXfRef.current.s} ${rXfRef.current.tx} ${rXfRef.current.ty})`
       );
 
+      // scale 값 저장 (strokeWidth 보정용)
+      setJScale(jXfRef.current.s);
+      setHScale(hXfRef.current.s);
+      setRScale(rXfRef.current.s);
+
       setJLen(jReady.el.getTotalLength() * jXfRef.current.s);
       setHLen(hReady.el.getTotalLength() * hXfRef.current.s);
       setRLen(rReady.el.getTotalLength() * rXfRef.current.s);
 
-      // 초기화
       setFollowJ(false);
       setFollowH(false);
       setFollowR(false);
@@ -251,7 +261,7 @@ export default function LogoAnimation({
       rY.set(50);
       setIsInteractive(false);
 
-      // 1. 초기 셋업 (위에서 시작, 안보이는 상태)
+      // 1. 초기 셋업
       await domAnimate([
         ['.item-1', { x: 0, y: -120, opacity: 0 }, { duration: 0 }],
         ['.item-2', { x: 0, y: -120, opacity: 0 }, { duration: 0 }],
@@ -262,7 +272,7 @@ export default function LogoAnimation({
       ]);
       if (stale()) return;
 
-      // 2. 뱀꼬리처럼 이어져서 떨어짐 + 바닥에 튕김
+      // 2. 떨어짐
       await domAnimate([
         [
           '.item-1',
@@ -282,10 +292,9 @@ export default function LogoAnimation({
       ]);
       if (stale()) return;
 
-      // 잠깐 대기 후 펼침
       await new Promise((r) => setTimeout(r, 80));
 
-      // 3. 양옆으로 펼침 (Spread)
+      // 3. 펼침
       await domAnimate([
         [
           '.item-1',
@@ -305,11 +314,9 @@ export default function LogoAnimation({
       ]);
       if (stale()) return;
 
-      // 4. J, H, R 그리기 (오버랩 애니메이션)
-      // 각 글자가 70% 정도 그려졌을 때 다음 글자 시작
-      const OVERLAP_THRESHOLD = 0.65; // 65% 진행 시 다음 글자 시작
+      // 4. 그리기
+      const OVERLAP_THRESHOLD = 0.65;
 
-      // J 그리기 시작
       const jStart = getPathStart(jReady.el, jXfRef.current);
       await Promise.all([
         fmAnimate(jX, jStart.x, { duration: 0.35, ease: 'easeInOut' }).finished,
@@ -322,13 +329,11 @@ export default function LogoAnimation({
       setJPhase('drawing');
       setFollowJ(true);
 
-      // J 애니메이션 시작 (await 하지 않음)
       const jAnimation = fmAnimate(jProg, 1, {
         duration: 1.1,
         ease: 'easeInOut',
       });
 
-      // J가 OVERLAP_THRESHOLD 진행되면 H 시작
       await new Promise<void>((resolve) => {
         const unsub = jProg.on('change', (v) => {
           if (v >= OVERLAP_THRESHOLD) {
@@ -339,7 +344,6 @@ export default function LogoAnimation({
       });
       if (stale()) return;
 
-      // H 그리기 시작
       const hStart = getPathStart(hReady.el, hXfRef.current);
       await Promise.all([
         fmAnimate(hX, hStart.x, { duration: 0.25, ease: 'easeInOut' }).finished,
@@ -352,13 +356,11 @@ export default function LogoAnimation({
       setHPhase('drawing');
       setFollowH(true);
 
-      // H 애니메이션 시작 (await 하지 않음)
       const hAnimation = fmAnimate(hProg, 1, {
         duration: 1.0,
         ease: 'easeInOut',
       });
 
-      // H가 OVERLAP_THRESHOLD 진행되면 R 시작
       await new Promise<void>((resolve) => {
         const unsub = hProg.on('change', (v) => {
           if (v >= OVERLAP_THRESHOLD) {
@@ -369,7 +371,6 @@ export default function LogoAnimation({
       });
       if (stale()) return;
 
-      // R 그리기 시작
       const rStart = getPathStart(rReady.el, rXfRef.current);
       await Promise.all([
         fmAnimate(rX, rStart.x, { duration: 0.25, ease: 'easeInOut' }).finished,
@@ -382,13 +383,11 @@ export default function LogoAnimation({
       setRPhase('drawing');
       setFollowR(true);
 
-      // R 애니메이션 시작
       const rAnimation = fmAnimate(rProg, 1, {
         duration: 1.1,
         ease: 'easeInOut',
       });
 
-      // 모든 애니메이션 완료 대기
       await Promise.all([
         jAnimation.finished,
         hAnimation.finished,
@@ -398,7 +397,6 @@ export default function LogoAnimation({
       setHPhase('done');
       setRPhase('done');
 
-      // 애니메이션 완료 후 호버 활성화
       setIsInteractive(true);
     };
 
@@ -418,11 +416,10 @@ export default function LogoAnimation({
         width: '100%',
       }}
     >
-      {/* J */}
       <motion.div
         className="logo-item item-1"
         style={{ position: 'absolute', zIndex: 3 }}
-        {...(isInteractive ? hoverProps : {})} // 완료 후에만 호버 효과 적용
+        {...(isInteractive ? hoverProps : {})}
       >
         <svg width={BOX} height={BOX} viewBox={`0 0 ${VIEW} ${VIEW}`}>
           <motion.circle
@@ -438,7 +435,7 @@ export default function LogoAnimation({
               d={J_PATH}
               transform={jMatrix}
               stroke="#2F73FF"
-              strokeWidth={STROKE}
+              strokeWidth={STROKE / jScale}
               strokeLinecap="round"
               strokeLinejoin="round"
               fill="none"
@@ -449,7 +446,6 @@ export default function LogoAnimation({
         </svg>
       </motion.div>
 
-      {/* H */}
       <motion.div
         className="logo-item item-2"
         style={{ position: 'absolute', zIndex: 2 }}
@@ -469,7 +465,7 @@ export default function LogoAnimation({
               d={H_PATH}
               transform={hMatrix}
               stroke="#52C77A"
-              strokeWidth={STROKE}
+              strokeWidth={STROKE / hScale}
               strokeLinecap="round"
               strokeLinejoin="round"
               fill="none"
@@ -480,7 +476,6 @@ export default function LogoAnimation({
         </svg>
       </motion.div>
 
-      {/* R */}
       <motion.div
         className="logo-item item-3"
         style={{ position: 'absolute', zIndex: 1 }}
@@ -500,7 +495,7 @@ export default function LogoAnimation({
               d={R_PATH}
               transform={rMatrix}
               stroke="#FFB400"
-              strokeWidth={STROKE}
+              strokeWidth={STROKE / rScale}
               strokeLinecap="round"
               strokeLinejoin="round"
               fill="none"
