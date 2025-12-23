@@ -26,7 +26,12 @@
   --color-border-light: rgba(0, 0, 0, 0.05);
 
   // Header
-  --color-header-bg: rgba(255, 255, 255, 0.85);
+  --color-header-bg: rgba(
+    240,
+    250,
+    245,
+    0.85
+  ); // 아주 연한 초록빛이 감도는 화이트
   --color-header-border: var(--color-border-primary);
   --color-header-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 
@@ -58,7 +63,12 @@
   --color-border-light: rgba(247, 245, 239, 0.05);
 
   // Header
-  --color-header-bg: rgba(26, 46, 35, 0.85);
+  --color-header-bg: rgba(
+    26,
+    46,
+    35,
+    0.9
+  ); // 기존보다 조금 더 진한 딥그린 (초록색감 유지)
   --color-header-border: var(--color-border-primary);
   --color-header-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
