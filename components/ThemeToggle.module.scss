@@ -1,0 +1,55 @@
+@use '../styles/variables' as *;
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  background: rgba($color-white, 0.05);
+  border: 1px solid var(--color-border-primary);
+  padding: $spacing-1 $spacing-3;
+  border-radius: $radius-full;
+  cursor: pointer;
+  transition: all $transition-base ease;
+  color: var(--color-text-primary);
+  height: 34px;
+
+  &:hover {
+    background: rgba($color-white, 0.1);
+    border-color: var(--color-accent);
+  }
+}
+
+.iconContainer {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-accent);
+
+  &.moon {
+    color: var(--color-brand-blue);
+  }
+}
+
+.label {
+  font-size: 10px;
+  font-weight: $font-weight-bold;
+  letter-spacing: 0.05em;
+  opacity: 0.8;
+}
+
+.placeholder {
+  width: 70px;
+  height: 34px;
+}

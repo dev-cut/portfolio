@@ -4,6 +4,7 @@ import { AnimatePresence, motion, useInView } from 'framer-motion';
 import Link from 'next/link';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import styles from './Header.module.scss';
+import ThemeToggle from './ThemeToggle';
 
 // ============================================
 // 상수 정의
@@ -165,6 +166,9 @@ const Nav = memo(function Nav({ isCompact = false }: NavProps) {
           </li>
         ))}
       </ul>
+      <div className={styles.themeToggleWrapper}>
+        <ThemeToggle />
+      </div>
     </nav>
   );
 });

@@ -45,18 +45,18 @@
 .nav {
   display: flex;
   align-items: center;
-  gap: $spacing-6;
-  padding: $spacing-3 $spacing-5;
-  background-color: rgba($color-dark-green, 0.85);
+  gap: $spacing-4;
+  padding: $spacing-2 $spacing-4;
+  background-color: var(--color-header-bg);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-radius: $radius-full;
-  border: 1px solid rgba($color-cream, 0.1);
-  box-shadow: $shadow-lg;
+  border: 1px solid var(--color-header-border);
+  box-shadow: var(--color-header-shadow);
 
   @media (min-width: $breakpoint-md) {
-    gap: $spacing-10;
-    padding: $spacing-3 $spacing-6;
+    gap: $spacing-6;
+    padding: $spacing-2 $spacing-6;
   }
 }
 
@@ -64,18 +64,18 @@
 .stickyNav {
   display: flex;
   align-items: center;
-  gap: $spacing-4;
+  gap: $spacing-3;
   padding: $spacing-2 $spacing-4;
-  background-color: rgba($color-dark-green, 0.92);
+  background-color: var(--color-header-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: $radius-full;
-  border: 1px solid rgba($color-cream, 0.15);
-  box-shadow: $shadow-xl;
+  border: 1px solid var(--color-header-border);
+  box-shadow: var(--color-header-shadow);
   pointer-events: auto;
 
   @media (min-width: $breakpoint-md) {
-    gap: $spacing-6;
+    gap: $spacing-4;
     padding: $spacing-2 $spacing-5;
   }
 }
@@ -92,7 +92,7 @@
   padding: 0;
   padding-right: $spacing-3;
   border: none;
-  border-right: 1px solid rgba($color-cream, 0.15);
+  border-right: 1px solid var(--color-border-primary);
   background: none;
   cursor: pointer;
   transition: transform $transition-base ease;
@@ -162,7 +162,7 @@
   padding: $spacing-1 $spacing-2;
   font-size: $font-size-xs;
   font-weight: $font-weight-medium;
-  color: rgba($color-cream, 0.75);
+  color: var(--color-text-secondary);
   text-decoration: none;
   border-radius: $radius-md;
   transition: all $transition-base ease;
@@ -173,7 +173,18 @@
   }
 
   &:hover {
-    color: $color-cream;
-    background-color: rgba($color-cream, 0.1);
+    color: var(--color-text-primary);
+    background-color: var(--color-border-primary);
+  }
+}
+
+.themeToggleWrapper {
+  display: flex;
+  align-items: center;
+  padding-left: $spacing-2;
+  border-left: 1px solid var(--color-border-primary);
+
+  @media (min-width: $breakpoint-md) {
+    padding-left: $spacing-3;
   }
 }

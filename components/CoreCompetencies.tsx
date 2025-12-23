@@ -41,7 +41,7 @@ export default function CoreCompetencies() {
                       {item.keyword.slice(1)}.
                     </span>
                     <div className={styles.iconWrapper}>
-                      <Icon strokeWidth={1.5} />
+                      <Icon strokeWidth={1.2} />
                     </div>
                   </div>
 

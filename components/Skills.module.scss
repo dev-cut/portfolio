@@ -34,7 +34,7 @@
   display: block;
   font-size: $font-size-xs;
   font-weight: $font-weight-bold;
-  color: $brand-green;
+  color: var(--color-brand-green);
   margin-bottom: $spacing-4;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -44,7 +44,7 @@
   font-family: $font-sans;
   font-size: $font-size-xl;
   font-weight: $font-weight-bold;
-  color: $text-light;
+  color: var(--color-text-primary);
   line-height: 1.4;
   margin-bottom: 0; // 헤더가 여백 담당
 
@@ -70,11 +70,11 @@
   justify-content: center;
   padding: $spacing-2 $spacing-4;
 
-  background: rgba($text-light, 0.05);
-  border: 1px solid rgba($text-light, 0.1);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-primary);
   border-radius: $radius-full;
 
-  color: rgba($text-light, 0.8);
+  color: var(--color-text-secondary);
   font-family: $font-sans;
   font-size: $font-size-xs;
   font-weight: $font-weight-medium;

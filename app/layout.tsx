@@ -20,6 +20,7 @@ const rammettoOne = Rammetto_One({
 });
 
 import { SITE_METADATA } from '@/lib/data/site';
+import { ThemeProvider } from '@/lib/context/ThemeContext';
 
 export const metadata: Metadata = {
   title: SITE_METADATA.title,
@@ -75,26 +76,42 @@ export default function RootLayout({
     >
       <head>
         <link rel="canonical" href={siteUrl} />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var theme = localStorage.getItem('theme');
+                  var supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+                  if (!theme) theme = supportDarkMode ? 'dark' : 'light';
+                  document.documentElement.setAttribute('data-theme', theme);
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
       </head>
       <body suppressHydrationWarning>
-        <a href="#main-content" className="skip-link">
-          본문으로 건너뛰기
-        </a>
-        <Script
-          id="structured-data-website"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(structuredData.website),
-          }}
-        />
-        <Script
-          id="structured-data-person"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(structuredData.person),
-          }}
-        />
-        {children}
+        <ThemeProvider>
+          <a href="#main-content" className="skip-link">
+            본문으로 건너뛰기
+          </a>
+          <Script
+            id="structured-data-website"
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(structuredData.website),
+            }}
+          />
+          <Script
+            id="structured-data-person"
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(structuredData.person),
+            }}
+          />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
