@@ -9,7 +9,7 @@ import {
 } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 
-const DOT_SIZE = 30; // 점과 선 두께
+const DOT_SIZE = 28; // 점과 선 두께
 const DOT_R = DOT_SIZE / 2;
 const STROKE = DOT_SIZE;
 
@@ -117,8 +117,9 @@ export default function LogoAnimation({
   const H_PATH =
     'M 50 25 L 50 30 L 50 35 L 25 35 L 75 35 L 50 35 L 50 38 A 20 20 0 0 1 50 78 A 20 20 0 0 1 50 38';
 
-  // ㄹ (Yellow): Z자 (크기 조정)
-  const R_PATH = 'M 28 28 L 72 28 L 72 50 L 28 50 L 28 72 L 72 72';
+  // ㄹ (Yellow): 모든 모서리 둥글게
+  const R_PATH =
+    'M 28 28 L 65 28 Q 72 28 72 35 L 72 43 Q 72 50 72 50 Q 65 50 58 50 L 42 50 Q 35 50 28 50 Q 28 50 28 57 L 28 65 Q 28 72 35 72 L 72 72';
 
   const jPathRef = useRef<SVGPathElement>(null);
   const hPathRef = useRef<SVGPathElement>(null);
