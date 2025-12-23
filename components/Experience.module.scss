@@ -363,9 +363,8 @@
   flex-direction: column;
   align-items: flex-start;
   margin-top: $spacing-4;
-  padding-left: $spacing-4;
-  border-left: 1px solid rgba($text-dark, 0.15);
-  // 스택 컨텍스트 생성하여 moreButton보다 위에 오도록 설정
+  padding-left: $spacing-5; // 여백 약간 확대
+  border-left: 1.5px solid rgba($text-dark, 0.08); // 더 옅고 부드러운 선
   position: relative;
   z-index: 10;
 }
@@ -600,17 +599,23 @@
 
 .moreButton {
   position: relative;
-  margin-top: $spacing-4;
-  margin-left: $spacing-4; // projectList의 padding-left와 맞춰서 들여쓰기
-  align-self: flex-start; // 명시적으로 stretch 방지
+  margin-top: $spacing-3;
+  margin-left: $spacing-5; // projectList padding-left와 일치
+  align-self: flex-start;
 
-  // 사이즈 축소
-  padding: 0.375rem 0.75rem !important; // $spacing-1.5 $spacing-3 수준
-  font-size: 11px !important;
+  // 극강의 미니멀 스타일 (Glassmorphism)
+  background: rgba($color-white, 0.25) !important;
+  backdrop-filter: blur(4px) !important;
+  border: 1px solid rgba($color-white, 0.3) !important;
+  box-shadow: none !important;
+  padding: 0.25rem 0.625rem !important;
+  font-size: 10px !important;
+  color: rgba($text-dark, 0.8) !important;
 
-  @media (min-width: $breakpoint-md) {
-    padding: $spacing-2 $spacing-4 !important;
-    font-size: $font-size-xs !important;
+  &:hover {
+    background: rgba($color-white, 0.4) !important;
+    transform: translateY(-1px) !important;
+    color: $text-dark !important;
   }
 }
 
