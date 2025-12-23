@@ -292,9 +292,9 @@ export default function Experience() {
         <div className={styles.experienceWrapper} id="experience-content">
           <FadeIn direction="up" delay={0.1} className={styles.header}>
             <span className={styles.subTitle}>WORK EXPERIENCE</span>
-            <h2 ref={experienceRef} className={styles.title}>
+            {/* <h2 ref={experienceRef} className={styles.title}>
               경력
-            </h2>
+            </h2> */}
           </FadeIn>
 
           <FadeIn

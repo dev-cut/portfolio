@@ -19,9 +19,9 @@ const BOX = 80;
 const GAP = 90;
 
 const COLORS = {
-  BLUE: '#5c7ebf', // Muted Steel Blue
-  GREEN: '#689a7c', // Sage Green
-  YELLOW: '#d98c5f', // Sandstone / Terracotta
+  BLUE: '#3d8bff', // Vibrant Blue
+  GREEN: '#48bb78', // Radiant Green
+  YELLOW: '#eb6f3d', // Terracotta
 };
 
 type Xform = { s: number; tx: number; ty: number };
@@ -394,6 +394,7 @@ export default function LogoAnimation({
       {/* ㅈ (Blue) */}
       <motion.div
         className="logo-item item-1"
+        initial={{ opacity: 0, y: -120 }}
         style={{ position: 'absolute', zIndex: 3 }}
         {...(isInteractive ? hoverProps(COLORS.BLUE) : {})}
       >
@@ -404,9 +405,10 @@ export default function LogoAnimation({
             cy={jY}
             r={DOT_R}
             fill={COLORS.BLUE}
+            initial={{ opacity: 0 }}
             style={{ opacity: jDotOpacity }}
           />
-          <motion.g className="j-group">
+          <motion.g className="j-group" initial={{ opacity: 0 }}>
             <motion.path
               ref={jPathRef}
               d={J_PATH}
@@ -426,6 +428,7 @@ export default function LogoAnimation({
       {/* ㅎ (Green) */}
       <motion.div
         className="logo-item item-2"
+        initial={{ opacity: 0, y: -120 }}
         style={{ position: 'absolute', zIndex: 2 }}
         {...(isInteractive ? hoverProps(COLORS.GREEN) : {})}
       >
@@ -436,9 +439,10 @@ export default function LogoAnimation({
             cy={hY}
             r={DOT_R}
             fill={COLORS.GREEN}
+            initial={{ opacity: 0 }}
             style={{ opacity: hDotOpacity }}
           />
-          <motion.g className="h-group">
+          <motion.g className="h-group" initial={{ opacity: 0 }}>
             <motion.path
               ref={hPathRef}
               d={H_PATH}
@@ -458,6 +462,7 @@ export default function LogoAnimation({
       {/* ㄹ (Yellow) */}
       <motion.div
         className="logo-item item-3"
+        initial={{ opacity: 0, y: -120 }}
         style={{ position: 'absolute', zIndex: 1 }}
         {...(isInteractive ? hoverProps(COLORS.YELLOW) : {})}
       >
@@ -468,9 +473,10 @@ export default function LogoAnimation({
             cy={rY}
             r={DOT_R}
             fill={COLORS.YELLOW}
+            initial={{ opacity: 0 }}
             style={{ opacity: rDotOpacity }}
           />
-          <motion.g className="r-group">
+          <motion.g className="r-group" initial={{ opacity: 0 }}>
             <motion.path
               ref={rPathRef}
               d={R_PATH}

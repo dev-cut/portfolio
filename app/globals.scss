@@ -12,21 +12,21 @@
   --color-bg-white: #{$color-white};
 
   --color-text-primary: #{$color-dark-green};
-  --color-text-secondary: #{rgba($color-dark-green, 0.8)};
-  --color-text-tertiary: #{rgba($color-dark-green, 0.6)};
+  --color-text-secondary: #{rgba($color-dark-green, 0.85)};
+  --color-text-tertiary: #{rgba($color-dark-green, 0.65)};
   --color-text-light: #{$color-cream};
   --color-text-white: #{$color-white};
 
-  --color-accent: #{$color-sandstone};
+  --color-accent: #{$color-terracotta};
   --color-brand-blue: #{$brand-blue};
   --color-brand-green: #{$brand-green};
   --color-brand-lime: #{$brand-lime};
 
-  --color-border-primary: #{rgba($color-dark-green, 0.1)};
+  --color-border-primary: #{rgba($color-dark-green, 0.08)};
   --color-border-light: #{rgba($color-white, 0.1)};
 
   // Header
-  --color-header-bg: #{rgba($color-cream, 0.8)};
+  --color-header-bg: #{rgba($color-cream, 0.85)};
   --color-header-border: var(--color-border-primary);
   --color-header-shadow: #{$shadow-base};
 
@@ -38,23 +38,23 @@
 
 [data-theme='dark'] {
   // Base Colors (Dark Mode)
-  --color-bg-primary: #{$color-black};
-  --color-bg-secondary: #{color.adjust($color-dark-green, $lightness: -5%)};
-  --color-bg-tertiary: #0a0a0a;
+  --color-bg-primary: #0f1613; // 너무 찐하지 않은 깊은 딥 블랙 그린
+  --color-bg-secondary: #1a2e23;
+  --color-bg-tertiary: #0a0f0d;
 
-  --color-text-primary: #{$color-cream};
-  --color-text-secondary: #{rgba($color-cream, 0.8)};
-  --color-text-tertiary: #{rgba($color-cream, 0.6)};
-  --color-text-light: #{$color-cream};
+  --color-text-primary: #f0f4f2;
+  --color-text-secondary: #{rgba(#f0f4f2, 0.8)};
+  --color-text-tertiary: #{rgba(#f0f4f2, 0.6)};
+  --color-text-light: #f0f4f2;
 
-  --color-accent: #{color.adjust($color-sandstone, $lightness: 5%)};
-  --color-brand-blue: #{color.adjust($brand-blue, $lightness: 10%)};
-  --color-brand-green: #{color.adjust($brand-green, $lightness: 10%)};
+  --color-accent: #{color.adjust($color-terracotta, $lightness: 5%)};
+  --color-brand-blue: #{color.adjust($brand-blue, $lightness: 5%)};
+  --color-brand-green: #{color.adjust($brand-green, $lightness: 5%)};
 
-  --color-border-primary: #{rgba($color-cream, 0.1)};
+  --color-border-primary: #{rgba(#f0f4f2, 0.1)};
 
   // Header
-  --color-header-bg: #{rgba($color-black, 0.8)};
+  --color-header-bg: #{rgba(#050a08, 0.85)};
   --color-header-border: var(--color-border-primary);
 }
 

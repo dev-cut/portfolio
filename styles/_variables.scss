@@ -5,33 +5,33 @@
 // ============================================
 
 // --------------------------------------------
-// Colors - Base Palette (Adjusted for better harmony)
+// Colors - Base Palette (Adjusted for richness and clarity)
 // --------------------------------------------
-$color-cream: #f2efe6;
-$color-dark-green: #1e2f23; // 더 깊고 차분한 다크 그린
-$color-sandstone: #d98c5f; // 기존 오렌지 대신 테라코타 톤
-$color-black: #121212;
+$color-cream: #f7f5ef; // 너무 밝지 않은 차분한 프리미엄 크림
+$color-dark-green: #1a2e23; // 너무 찐하지 않은 고급스러운 딥 세이지/포레스트 그린
+$color-terracotta: #eb6f3d; // 생동감 있는 오렌지 유지
+$color-black: #0f1412; // 칠흑 같은 검정보다는 힌트가 있는 블랙
 $color-white: #ffffff;
 
 // --------------------------------------------
-// Colors - Brand (Adjusted to be less jarring)
+// Colors - Brand (More vibrant yet premium)
 // --------------------------------------------
-$brand-blue: #5c7ebf; // 뮤트한 스틸 블루
-$brand-green: #689a7c; // 차분한 세이지 그린
-$brand-lime: #b4cc5c; // 조화로운 연두색
+$brand-blue: #3d8bff; // 더 선명한 파스텔 블루
+$brand-green: #48bb78; // 생생한 딥 그린
+$brand-lime: #a3cf42; // 산뜻한 라임
 
 // --------------------------------------------
 // Colors - Functional Names
 // --------------------------------------------
 $primary-color: $color-dark-green;
 $secondary-color: $color-cream;
-$accent-color: $color-sandstone;
+$accent-color: $color-terracotta;
 
 // --------------------------------------------
 // Text Colors
 // --------------------------------------------
 $text-primary: $color-dark-green;
-$text-secondary: rgba($color-dark-green, 0.8);
+$text-secondary: rgba($color-dark-green, 0.85);
 $text-tertiary: rgba($color-dark-green, 0.7);
 $text-light: $color-cream;
 $text-dark: $color-black;

@@ -11,7 +11,7 @@ export default function CoreCompetencies() {
       <div className={styles.container}>
         <FadeIn direction="up" delay={0.2} className={styles.header}>
           <span className={styles.subTitle}>CORE COMPETENCIES</span>
-          <h2 className={styles.title}>핵심 가치와 역량</h2>
+          {/* <h2 className={styles.title}>핵심 가치와 역량</h2> */}
         </FadeIn>
 
         <div className={styles.grid}>
