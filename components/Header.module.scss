@@ -51,8 +51,9 @@
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-radius: $radius-full;
-  border: 1px solid var(--color-header-border);
+  border: 1px solid rgba($brand-green, 0.2); // 포인트 초록색 반영 (아주 부드럽게)
   box-shadow: var(--color-header-shadow);
+  border-top: 1px solid rgba($brand-green, 0.4); // 상단에 조금 더 강조된 포인트라인
 
   @media (min-width: $breakpoint-md) {
     gap: $spacing-6;
@@ -70,8 +71,9 @@
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: $radius-full;
-  border: 1px solid var(--color-header-border);
+  border: 1px solid rgba($brand-green, 0.2);
   box-shadow: var(--color-header-shadow);
+  border-top: 1px solid rgba($brand-green, 0.4);
   pointer-events: auto;
 
   @media (min-width: $breakpoint-md) {
@@ -173,8 +175,8 @@
   }
 
   &:hover {
-    color: var(--color-text-primary);
-    background-color: var(--color-border-primary);
+    color: var(--color-brand-green);
+    background-color: rgba($brand-green, 0.08);
   }
 }
 
