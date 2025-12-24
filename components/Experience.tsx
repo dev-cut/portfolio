@@ -8,6 +8,15 @@ import FadeIn from './animations/FadeIn';
 import styles from './Experience.module.scss';
 import ExpandButton from './ui/ExpandButton';
 
+// 문자열을 숫자로 변환하여 일관된 "랜덤" 색상 선택을 돕는 헬퍼 함수
+const getStringHash = (str: string) => {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return Math.abs(hash);
+};
+
 // 애니메이션 variants
 const popoverVariants = {
   hidden: {
@@ -141,7 +150,9 @@ export default function Experience() {
                       {project.description && (
                         <motion.span
                           className={`${styles.hasDetailIndicator} ${
-                            styles[`indicatorColor${(pIndex % 2) + 1}`]
+                            styles[
+                              `indicatorColor${(getStringHash(project.name) % 3) + 1}`
+                            ]
                           }`}
                           animate={{ scale: isPopoverOpen ? 1.4 : 1 }}
                         />
@@ -219,7 +230,9 @@ export default function Experience() {
                               <motion.span
                                 className={`${styles.hasDetailIndicator} ${
                                   styles[
-                                    `indicatorColor${(actualIndex % 2) + 1}`
+                                    `indicatorColor${
+                                      (getStringHash(project.name) % 3) + 1
+                                    }`
                                   ]
                                 }`}
                                 animate={{ scale: isPopoverOpen ? 1.4 : 1 }}
@@ -330,6 +343,13 @@ export default function Experience() {
                       <motion.div key={idx} className={styles.item}>
                         <motion.div
                           className={styles.marker}
+                          style={{
+                            color: [
+                              'var(--color-brand-blue)',
+                              'var(--color-brand-green)',
+                              'var(--color-accent)',
+                            ][getStringHash(item.title) % 3],
+                          }}
                           animate={{ rotate: [0, 10, -10, 0] }}
                           transition={{
                             duration: 2,

@@ -125,13 +125,16 @@
     text-align: center;
   }
 
-  // 로고 색상 순환 적용 (파란색, 초록색)
+  // 로고 색환 적용 (파란색, 초록색, 주황색)
   .item {
-    &:nth-child(2n + 1) .marker {
+    &:nth-child(3n + 1) .marker {
       color: $brand-blue;
     }
-    &:nth-child(2n) .marker {
+    &:nth-child(3n + 2) .marker {
       color: $brand-green;
+    }
+    &:nth-child(3n) .marker {
+      color: $accent-color;
     }
   }
 
@@ -327,13 +330,16 @@
   animation: float-marker 3s ease-in-out infinite;
 }
 
-// 일반 타임라인(어두운 배경) 마커 색상 순환 (파란색, 초록색)
+// 일반 타임라인(어두운 배경) 마커 색상 순환 (파란색, 초록색, 주황색)
 .item {
-  &:nth-child(2n + 1) .marker {
+  &:nth-child(3n + 1) .marker {
     color: $brand-blue;
   }
-  &:nth-child(2n) .marker {
+  &:nth-child(3n + 2) .marker {
     color: $brand-green;
+  }
+  &:nth-child(3n) .marker {
+    color: $accent-color;
   }
 }
 
@@ -477,6 +483,10 @@
 
 .indicatorColor2 {
   background-color: $brand-green;
+}
+
+.indicatorColor3 {
+  background-color: $accent-color;
 }
 
 .projectPeriod {
