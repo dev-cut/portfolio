@@ -354,6 +354,7 @@ export default function LogoAnimation({
         fmAnimate(rX, rStart.x, { duration: 0.25, ease: 'easeInOut' }).finished,
         fmAnimate(rY, rStart.y, { duration: 0.25, ease: 'easeInOut' }).finished,
       ]);
+      if (!scope.current) return; // 컴포넌트 언마운트 시 중단
       await domAnimate('.r-group', { opacity: 1 }, { duration: 0.01 });
       setRPhase('drawing');
       setFollowR(true);
