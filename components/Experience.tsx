@@ -9,10 +9,11 @@ import styles from './Experience.module.scss';
 import ExpandButton from './ui/ExpandButton';
 
 // 문자열을 숫자로 변환하여 일관된 "랜덤" 색상 선택을 돕는 헬퍼 함수
-const getStringHash = (str: string) => {
-  let hash = 0;
+const getStringHash = (str: string, seed: number = 0) => {
+  let hash = seed;
   for (let i = 0; i < str.length; i++) {
     hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    hash = hash & hash; // 32비트 정수로 변환
   }
   return Math.abs(hash);
 };
@@ -53,8 +54,8 @@ export default function Experience() {
   const experienceRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
-    // 페이지 마운트 시 랜덤 오프셋 설정 (새로고침마다 다른 색상 조합 유도)
-    setColorOffset(Math.floor(Math.random() * 3));
+    // 페이지 마운트 시 큰 숫자의 랜덤 시드 설정 (새로고침마다 패턴 자체가 바뀌도록 함)
+    setColorOffset(Math.floor(Math.random() * 1000000));
   }, []);
 
   // 메모이제이션된 이벤트 핸들러들
@@ -158,8 +159,7 @@ export default function Experience() {
                           className={`${styles.hasDetailIndicator} ${
                             styles[
                               `indicatorColor${
-                                ((getStringHash(project.name) + colorOffset) %
-                                  3) +
+                                (getStringHash(project.name, colorOffset) % 3) +
                                 1
                               }`
                             ]
@@ -241,8 +241,10 @@ export default function Experience() {
                                 className={`${styles.hasDetailIndicator} ${
                                   styles[
                                     `indicatorColor${
-                                      ((getStringHash(project.name) +
-                                        colorOffset) %
+                                      (getStringHash(
+                                        project.name,
+                                        colorOffset
+                                      ) %
                                         3) +
                                       1
                                     }`
@@ -361,7 +363,7 @@ export default function Experience() {
                               'var(--color-brand-blue)',
                               'var(--color-brand-green)',
                               'var(--color-accent)',
-                            ][(getStringHash(item.title) + colorOffset) % 3],
+                            ][getStringHash(item.title, colorOffset) % 3],
                           }}
                           animate={{ rotate: [0, 10, -10, 0] }}
                           transition={{
