@@ -10,7 +10,7 @@ export default function CoreCompetencies() {
     <section id="competencies" className={styles.section}>
       <div className={styles.container}>
         <FadeIn direction="up" delay={0.2} className={styles.header}>
-          <h2 className={styles.title}>CORE COMPETENCIES</h2>
+          <h2 className={styles.subTitle}>CORE COMPETENCIES</h2>
         </FadeIn>
 
         <div className={styles.grid}>
