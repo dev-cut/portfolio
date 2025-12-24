@@ -43,7 +43,7 @@
   width: 100%;
   max-width: 500px; // experienceCard와 동일한 max-width
   margin: 0 auto;
-  padding: $spacing-20 0;
+  padding: $spacing-20 $spacing-4; // 좌우 여백 추가
 
   @media (min-width: $breakpoint-md) {
     padding: $spacing-24 0;
@@ -106,7 +106,7 @@
   border: 1px solid var(--color-border-primary);
   color: var(--color-text-primary);
   box-shadow: var(--color-header-shadow);
-  border-radius: 0;
+  border-radius: $radius-2xl; // 모바일에서도 둥근 모서리 적용
 
   [data-theme='dark'] & {
     background-color: rgba($color-white, 0.02);
