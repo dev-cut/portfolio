@@ -48,9 +48,9 @@
 }
 
 .mainText {
-  font-family: $font-sans;
+  font-family: $font-aggro;
   font-size: $font-size-2xl; // 24px (모바일)
-  font-weight: $font-weight-bold;
+  font-weight: 700;
   line-height: 1.4;
   color: var(--color-text-primary);
   text-align: center;

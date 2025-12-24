@@ -381,7 +381,7 @@ export default function LogoAnimation({
       ref={scope}
       className={className}
       role="img"
-      aria-label="JHR Logo Animation: 프론트엔드 개발자 정혁래의 정체성을 담은 ㅈ, ㅎ, ㄹ 애니메이션"
+      aria-label="JHR Logo Animation: 프론트엔드 개발자 hyukraeyo의 정체성을 담은 ㅈ, ㅎ, ㄹ 애니메이션"
       style={{
         position: 'relative',
         display: 'flex',

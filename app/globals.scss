@@ -1,6 +1,32 @@
 @use 'sass:color';
 @use '../styles/variables' as *;
 
+// --- Web Fonts ---
+@font-face {
+  font-family: 'SBAggroB';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff')
+    format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SBAggroM';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroM.woff')
+    format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SBAggroL';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroL.woff')
+    format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
 // ============================================
 // CSS VARIABLES FOR THEME
 // ============================================
@@ -91,7 +117,12 @@ html {
 }
 
 body {
-  font-family: var(--font-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-family:
+    var(--font-pretendard),
+    -apple-system,
+    BlinkMacSystemFont,
+    system-ui,
+    sans-serif;
   background-color: var(--color-bg-primary);
   color: var(--color-text-primary);
   line-height: $line-height-relaxed;

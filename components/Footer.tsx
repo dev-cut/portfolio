@@ -48,7 +48,7 @@ export default function Footer() {
 
         <FadeIn direction="up" delay={0.4}>
           <p className={styles.copyright}>
-            © 2024 Jo Hyukrae. All rights reserved.
+            © 2024 hyukraeyo. All rights reserved.
           </p>
         </FadeIn>
       </div>

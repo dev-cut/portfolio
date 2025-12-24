@@ -74,7 +74,7 @@ const nextConfig: NextConfig = {
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob: https:",
       "connect-src 'self' https://*.supabase.co wss://*.supabase.co",
-      "font-src 'self' data:",
+      "font-src 'self' data: https://fastly.jsdelivr.net https://cdn.jsdelivr.net",
       "frame-ancestors 'none'",
       "worker-src 'self' blob:",
     ].join('; ');

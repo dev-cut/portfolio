@@ -77,7 +77,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const structuredData = generateStructuredData([]); // Pass empty array or update utility
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || SITE_METADATA.siteUrl;
 
   return (
     <html
@@ -87,7 +87,6 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
     >
       <head>
-        <link rel="canonical" href={siteUrl} />
         <script
           dangerouslySetInnerHTML={{
             __html: `
