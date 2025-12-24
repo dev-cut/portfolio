@@ -1,5 +1,5 @@
 import Footer from '@/components/Footer';
-import Footer from '@/components/Footer';
+
 import Hero from '@/components/Hero';
 import Experience from '@/components/Experience';
 import CoreCompetencies from '@/components/CoreCompetencies';
