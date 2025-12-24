@@ -274,6 +274,7 @@
   position: relative;
   gap: $spacing-6; // 마커와 컨텐츠 사이 간격
   margin-bottom: $spacing-10; // 2.5rem (40px)
+  z-index: 1;
 
   &:last-child {
     margin-bottom: 0;
@@ -365,6 +366,12 @@
   gap: $spacing-1; // 프로젝트 이름과 날짜 사이 간격
   margin-bottom: $spacing-2;
   // 레이아웃 변경 시 다른 요소에 영향 최소화
+  z-index: 1;
+
+  // 팝업이 활성화된 아이템은 z-index를 높게 설정하여 다음 아이템 위로 올라오게 함
+  &:has(.projectNameButton[aria-expanded='true']) {
+    z-index: 20;
+  }
 }
 
 // 숨겨진 프로젝트들이 펼쳐지는 컨테이너
