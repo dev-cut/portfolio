@@ -276,6 +276,11 @@
   margin-bottom: $spacing-10; // 2.5rem (40px)
   z-index: 1;
 
+  // 활성화된 팝오버를 가진 아이템은 다른 아이템들보다 무조건 위에 와야 함
+  &.activeItem {
+    z-index: 20;
+  }
+
   &:last-child {
     margin-bottom: 0;
   }

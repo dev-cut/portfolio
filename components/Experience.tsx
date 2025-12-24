@@ -356,29 +356,40 @@ export default function Experience() {
                   }}
                 >
                   <div className={styles.list}>
-                    {experiences.map((item, idx) => (
-                      <motion.div key={idx} className={styles.item}>
+                    {experiences.map((item, idx) => {
+                      // 현재 아이템 내부에 활성화된 팝오버가 있는지 확인
+                      const hasActivePopoverInItem =
+                        activePopover && activePopover.startsWith(`${idx}-`);
+
+                      return (
                         <motion.div
-                          className={styles.marker}
-                          style={{
-                            color: [
-                              'var(--color-brand-blue)',
-                              'var(--color-brand-green)',
-                              'var(--color-accent)',
-                            ][getStringHash(item.title, colorOffset) % 3],
-                          }}
-                          animate={{ rotate: [0, 10, -10, 0] }}
-                          transition={{
-                            duration: 2,
-                            repeat: Infinity,
-                            repeatDelay: 3 + idx, // 시차를 둠
-                          }}
+                          key={idx}
+                          className={`${styles.item} ${
+                            hasActivePopoverInItem ? styles.activeItem : ''
+                          }`}
                         >
-                          ✦
+                          <motion.div
+                            className={styles.marker}
+                            style={{
+                              color: [
+                                'var(--color-brand-blue)',
+                                'var(--color-brand-green)',
+                                'var(--color-accent)',
+                              ][getStringHash(item.title, colorOffset) % 3],
+                            }}
+                            animate={{ rotate: [0, 10, -10, 0] }}
+                            transition={{
+                              duration: 2,
+                              repeat: Infinity,
+                              repeatDelay: 3 + idx, // 시차를 둠
+                            }}
+                          >
+                            ✦
+                          </motion.div>
+                          {renderExperienceItem(item, idx)}
                         </motion.div>
-                        {renderExperienceItem(item, idx)}
-                      </motion.div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </motion.div>
 
