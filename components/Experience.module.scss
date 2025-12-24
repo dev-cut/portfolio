@@ -148,50 +148,20 @@
     opacity: 0.7;
   }
 
-  .expandSectionWrapper {
-    display: flex;
-    justify-content: center;
-    position: relative;
-    z-index: 5; // 팝오버(100)보다 아래, 하지만 카드의 배경보다는 위에 오도록 설정
-    margin-top: $spacing-6; // 상단 요소(경력 리스트)와의 간격 추가
-
-    @media (min-width: $breakpoint-md) {
-      margin-top: $spacing-8;
-    }
-  }
-
   // pulse-orange keyframe moved to ExpandButton.module.scss
 }
 
-// ============================================
-// SECTION TITLES - 통일된 스타일
-// ============================================
-
-.sectionTitle {
-  margin-bottom: $spacing-8; // 32px
-  font-size: $font-size-2xl; // 24px (모바일)
-  font-weight: $font-weight-semibold;
-  line-height: $line-height-snug;
-  letter-spacing: 0.02em;
-  color: $text-light;
-
-  @media (min-width: $breakpoint-md) {
-    font-size: $font-size-3xl; // 32px (데스크탑)
-  }
-}
-
-// ============================================
-// EXPERIENCE LIST
-// ============================================
-// ============================================
-// EXPERIENCE LIST WRAPPER
-// ============================================
-
 .listContainer {
   position: relative;
+  z-index: $z-index-base; // 기본 z-index 설정
   overflow: hidden;
-  // max-height는 인라인 스타일로 제어됨 (use scrollHeight if needed later)
   will-change: max-height;
+
+  // 팝업이 열렸을 때 오버레이보다 위로 올라오도록 설정
+  &.hasActivePopover {
+    z-index: $z-index-dropdown; // 오버레이(30)보다 높은 값
+    overflow: visible; // 팝업이 컨테이너 밖으로 나갈 수 있게 허용
+  }
 }
 
 .fadeOverlay {
@@ -573,7 +543,7 @@
   position: absolute;
   top: 100%;
   left: 0;
-  z-index: 100;
+  z-index: $z-index-popover; // 60
   min-width: 280px;
   max-width: 400px;
   margin-top: $spacing-2;

@@ -338,7 +338,9 @@ export default function Experience() {
                   - 펼쳐졌을 때: max-height 해제
                 */}
                 <motion.div
-                  className={styles.listContainer}
+                  className={`${styles.listContainer} ${
+                    activePopover ? styles.hasActivePopover : ''
+                  }`}
                   initial={false}
                   animate={{
                     height: isExperienceExpanded ? 'auto' : 650, // 650px는 약 2.5개 높이
