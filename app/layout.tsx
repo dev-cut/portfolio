@@ -71,6 +71,8 @@ export const metadata: Metadata = {
   },
 };
 
+import Header from '@/components/Header';
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -121,6 +123,7 @@ export default function RootLayout({
               __html: JSON.stringify(structuredData.person),
             }}
           />
+          <Header />
           {children}
         </ThemeProvider>
       </body>
