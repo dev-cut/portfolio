@@ -188,13 +188,12 @@
   z-index: 30;
   display: block;
   padding: 0;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-
-  @media (min-width: $breakpoint-md) {
-    border-bottom-left-radius: $radius-2xl;
-    border-bottom-right-radius: $radius-2xl;
-  }
+  z-index: 30;
+  display: block;
+  padding: 0;
+  // 모바일에서도 둥근 모서리 적용
+  border-bottom-left-radius: $radius-2xl;
+  border-bottom-right-radius: $radius-2xl;
 }
 
 .fullAreaButton {
