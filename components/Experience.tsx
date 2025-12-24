@@ -49,7 +49,13 @@ export default function Experience() {
   const [expandedItems, setExpandedItems] = useState<number[]>([]);
   const [isExperienceExpanded, setIsExperienceExpanded] = useState(false);
   const [activePopover, setActivePopover] = useState<string | null>(null);
+  const [colorOffset, setColorOffset] = useState(0);
   const experienceRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    // 페이지 마운트 시 랜덤 오프셋 설정 (새로고침마다 다른 색상 조합 유도)
+    setColorOffset(Math.floor(Math.random() * 3));
+  }, []);
 
   // 메모이제이션된 이벤트 핸들러들
   const toggleExpand = useCallback((index: number) => {
@@ -151,7 +157,11 @@ export default function Experience() {
                         <motion.span
                           className={`${styles.hasDetailIndicator} ${
                             styles[
-                              `indicatorColor${(getStringHash(project.name) % 3) + 1}`
+                              `indicatorColor${
+                                ((getStringHash(project.name) + colorOffset) %
+                                  3) +
+                                1
+                              }`
                             ]
                           }`}
                           animate={{ scale: isPopoverOpen ? 1.4 : 1 }}
@@ -231,7 +241,10 @@ export default function Experience() {
                                 className={`${styles.hasDetailIndicator} ${
                                   styles[
                                     `indicatorColor${
-                                      (getStringHash(project.name) % 3) + 1
+                                      ((getStringHash(project.name) +
+                                        colorOffset) %
+                                        3) +
+                                      1
                                     }`
                                   ]
                                 }`}
@@ -348,7 +361,7 @@ export default function Experience() {
                               'var(--color-brand-blue)',
                               'var(--color-brand-green)',
                               'var(--color-accent)',
-                            ][getStringHash(item.title) % 3],
+                            ][(getStringHash(item.title) + colorOffset) % 3],
                           }}
                           animate={{ rotate: [0, 10, -10, 0] }}
                           transition={{
