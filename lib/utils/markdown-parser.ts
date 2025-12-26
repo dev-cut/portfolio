@@ -1,3 +1,5 @@
+import { cache } from 'react';
+
 export interface ProjectMetadata {
   id: string;
   title: string;
@@ -6,10 +8,10 @@ export interface ProjectMetadata {
   summary: string;
 }
 
-export function parseProjectMarkdown(
+export const parseProjectMarkdown = cache((
   id: string,
   markdown: string
-): ProjectMetadata {
+): ProjectMetadata => {
   const lines = markdown.split('\n');
   let title = 'Untitled Project';
   let period = '';
@@ -76,4 +78,4 @@ export function parseProjectMarkdown(
     techStack,
     summary,
   };
-}
+});

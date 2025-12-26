@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion, useInView } from 'framer-motion';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { memo, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import styles from './Header.module.scss';
 import ThemeToggle from './ThemeToggle';
@@ -126,6 +126,20 @@ export default function Header({ variant = 'default' }: HeaderProps) {
     };
   }, [handleScroll, pathname]);
 
+  // 페이지 이동 후 해시 링크 스크롤 처리
+  useEffect(() => {
+    if (pathname === '/' && window.location.hash) {
+      const hash = window.location.hash.replace('#', '');
+      const timer = setTimeout(() => {
+        const element = document.getElementById(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 600); // template 전환 애니메이션(0.5s) 이후에 실행되도록 설정
+      return () => clearTimeout(timer);
+    }
+  }, [pathname]);
+
   return (
     <>
       {/* 상단 헤더 - 숨겨져도 높이 유지 */}
@@ -185,13 +199,13 @@ const Nav = memo(function Nav({ isCompact = false }: NavProps) {
   const pathname = usePathname();
   const isMainPage = pathname === '/';
 
+  const router = useRouter();
+
   const handleLogoClick = () => {
     if (isMainPage) {
-      // 메인 페이지에서는 스크롤 상단으로
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-      // 다른 페이지에서는 메인으로 이동
-      window.location.href = '/';
+      router.push('/');
     }
   };
 
@@ -213,11 +227,8 @@ const Nav = memo(function Nav({ isCompact = false }: NavProps) {
         window.history.pushState(null, '', href);
       }
     } else {
-      // 다른 페이지로 이동하는 경우:
-      // Next.js Link의 SPA 이동 시 앵커 스크롤이 실패하는 경우를 방지하기 위해
-      // window.location.href를 사용하여 확실하게 이동 처리
       e.preventDefault();
-      window.location.href = href;
+      router.push(href);
     }
   };
 

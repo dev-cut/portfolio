@@ -37,6 +37,8 @@ export async function generateStaticParams() {
   }));
 }
 
+import DetailFadeIn from './DetailFadeIn';
+
 export default async function ProjectBoardPage({ params }: PageProps) {
   const { id } = await params;
   const content = PROJECT_DESCRIPTIONS[id as keyof typeof PROJECT_DESCRIPTIONS];
@@ -51,9 +53,11 @@ export default async function ProjectBoardPage({ params }: PageProps) {
         ← Back to Board
       </Link>
 
-      <article className={styles.content}>
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
-      </article>
+      <DetailFadeIn>
+        <article className={styles.content}>
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+        </article>
+      </DetailFadeIn>
     </main>
   );
 }
