@@ -45,7 +45,11 @@ export default function BoardGrid({ projects }: BoardGridProps) {
             animate="show"
         >
             {projects.map((project) => (
-                <motion.div key={project.id} variants={item}>
+                <motion.div
+                    key={project.id}
+                    variants={item}
+                    onViewportEnter={() => router.prefetch(`/board/${project.id}`)}
+                >
                     <div
                         onClick={() => handleCardClick(project.id)}
                         className={`${styles.card} ${activeId === project.id && isPending ? styles.loading : ''
