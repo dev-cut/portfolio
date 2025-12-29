@@ -62,7 +62,7 @@ export const metadata: Metadata = {
   verification: {
     google: 'ig5bwjcdjq-J5t22SEhKa34Kdi-thM38v3zee_uTSVU',
   },
-  manifest: '/manifest.json',
+
   icons: {
     icon: '/favicon.svg',
     apple: '/favicon.svg',

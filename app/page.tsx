@@ -32,18 +32,6 @@ export default function Home() {
         <Skills />
         <Experience />
 
-        <div style={{ textAlign: 'center', padding: '20px' }}>
-          <a
-            href="/push-test"
-            style={{
-              fontSize: '14px',
-              textDecoration: 'underline',
-              opacity: 0.6,
-            }}
-          >
-            🔔 푸시 알림 테스트 페이지로 이동
-          </a>
-        </div>
         <Footer />
       </main>
     </>
