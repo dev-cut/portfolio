@@ -380,7 +380,7 @@ export default function LogoAnimation({
     };
 
     run();
-  }, [domAnimate, jProg, hProg, rProg, jX, jY, hX, hY, rX, rY]);
+  }, [domAnimate, scope, jProg, hProg, rProg, jX, jY, hX, hY, rX, rY]);
 
   return (
     <div
