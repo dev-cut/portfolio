@@ -1,50 +1,13 @@
 'use client';
 
 import { EXPERIENCE_DATA } from '@/lib/data/resume';
-import { calculateDuration } from '@/lib/utils/date';
-import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
+import { LayoutGroup, motion } from 'framer-motion';
 import { useCallback, useEffect, useState, useRef } from 'react';
 import FadeIn from './animations/FadeIn';
 import styles from './Experience.module.scss';
 import ExpandButton from './ui/ExpandButton';
-
-// 문자열을 숫자로 변환하여 일관된 "랜덤" 색상 선택을 돕는 헬퍼 함수
-const getStringHash = (str: string, seed: number = 0) => {
-  let hash = seed;
-  for (let i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-    hash = hash & hash; // 32비트 정수로 변환
-  }
-  return Math.abs(hash);
-};
-
-// 애니메이션 variants
-const popoverVariants = {
-  hidden: {
-    opacity: 0,
-    scale: 0.9,
-    y: -8,
-  },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: {
-      type: 'spring' as const,
-      stiffness: 400,
-      damping: 25,
-    },
-  },
-  exit: {
-    opacity: 0,
-    scale: 0.9,
-    y: -8,
-    transition: {
-      duration: 0.15,
-      ease: 'easeOut' as const,
-    },
-  },
-};
+import ExperienceItem from './Experience/ExperienceItem';
+import { getStringHash } from './Experience/utils';
 
 export default function Experience() {
   const [expandedItems, setExpandedItems] = useState<number[]>([]);
@@ -97,222 +60,7 @@ export default function Experience() {
     };
   }, [activePopover, closePopover]);
 
-  // Experience 전체 데이터 사용 (분리 로직 제거)
   const experiences = EXPERIENCE_DATA;
-
-  // renderExperienceItem 함수는 그대로 유지
-  const renderExperienceItem = (
-    item: (typeof EXPERIENCE_DATA)[0],
-    index: number
-  ) => {
-    // ... 기존 내부 로직 유지 (isExpanded, hasMoreProjects 등 변수 사용 주의)
-    const isExpanded = expandedItems.includes(index);
-    const hasMoreProjects = item.projects && item.projects.length > 2;
-    const visibleProjects = item.projects?.slice(0, 2) || [];
-    const hiddenProjects = hasMoreProjects ? item.projects!.slice(2) : [];
-
-    return (
-      <div className={styles.content}>
-        <span className={styles.period}>{item.period}</span>
-        <h3 className={styles.itemTitle}>{item.title}</h3>
-        <p className={styles.subtitle}>
-          {item.subtitle}
-          {item.subtitle
-            ? ` · ${calculateDuration(item.period)}`
-            : calculateDuration(item.period)}
-        </p>
-
-        {/* 프로젝트 리스트 렌더링 */}
-        {item.projects && (
-          <div className={styles.projectList}>
-            {visibleProjects?.map((project, pIndex) => {
-              const popoverKey = `${index}-${pIndex}`;
-              const isPopoverOpen = activePopover === popoverKey;
-
-              return (
-                <motion.div
-                  key={pIndex}
-                  className={styles.projectItem}
-                  layout
-                  style={{
-                    zIndex: isPopoverOpen ? 200 : 1,
-                    position: 'relative',
-                  }}
-                >
-                  {/* ... 프로젝트 상세 렌더링 ... */}
-                  <div className={styles.detailWrapper}>
-                    <motion.button
-                      className={`${styles.projectNameButton} ${
-                        isPopoverOpen ? styles.active : ''
-                      }`}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggleDescription(popoverKey);
-                      }}
-                      aria-expanded={isPopoverOpen}
-                      whileHover={{ x: 4 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      {project.name}
-                      {project.description && (
-                        <motion.span
-                          className={`${styles.hasDetailIndicator} ${
-                            styles[
-                              `indicatorColor${
-                                (getStringHash(project.name, colorOffset) % 3) +
-                                1
-                              }`
-                            ]
-                          }`}
-                          animate={{ scale: isPopoverOpen ? 1.4 : 1 }}
-                        />
-                      )}
-                    </motion.button>
-                    <AnimatePresence mode="wait">
-                      {project.description && isPopoverOpen && (
-                        <motion.div
-                          className={styles.descriptionPopover}
-                          variants={popoverVariants}
-                          initial="hidden"
-                          animate="visible"
-                          exit="exit"
-                        >
-                          <ul className={styles.projectDescription}>
-                            {project.description.map((desc, dIndex) => (
-                              <motion.li
-                                key={dIndex}
-                                initial={{ opacity: 0, x: -10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: dIndex * 0.05 }}
-                              >
-                                {desc}
-                              </motion.li>
-                            ))}
-                          </ul>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                  <span className={styles.projectPeriod}>{project.period}</span>
-                </motion.div>
-              );
-            })}
-
-            {/* 숨겨진 프로젝트 (내부 더보기) */}
-            <AnimatePresence initial={false}>
-              {isExpanded && hiddenProjects.length > 0 && (
-                <motion.div
-                  key="hidden-projects-container"
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  className={styles.hiddenProjectsContainer}
-                >
-                  {hiddenProjects.map((project, pIndex) => {
-                    const actualIndex = 2 + pIndex;
-                    const popoverKey = `${index}-${actualIndex}`;
-                    const isPopoverOpen = activePopover === popoverKey;
-
-                    return (
-                      <motion.div
-                        key={`hidden-${pIndex}`}
-                        className={styles.projectItem}
-                        style={{
-                          zIndex: isPopoverOpen ? 200 : 1,
-                          position: 'relative',
-                        }}
-                      >
-                        <div className={styles.detailWrapper}>
-                          <motion.button
-                            className={`${styles.projectNameButton} ${
-                              isPopoverOpen ? styles.active : ''
-                            }`}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              toggleDescription(popoverKey);
-                            }}
-                            aria-expanded={isPopoverOpen}
-                            whileHover={{ x: 4 }}
-                            whileTap={{ scale: 0.98 }}
-                          >
-                            {project.name}
-                            {project.description && (
-                              <motion.span
-                                className={`${styles.hasDetailIndicator} ${
-                                  styles[
-                                    `indicatorColor${
-                                      (getStringHash(
-                                        project.name,
-                                        colorOffset
-                                      ) %
-                                        3) +
-                                      1
-                                    }`
-                                  ]
-                                }`}
-                                animate={{ scale: isPopoverOpen ? 1.4 : 1 }}
-                              />
-                            )}
-                          </motion.button>
-                          <AnimatePresence mode="wait">
-                            {project.description && isPopoverOpen && (
-                              <motion.div
-                                className={styles.descriptionPopover}
-                                variants={popoverVariants}
-                                initial="hidden"
-                                animate="visible"
-                                exit="exit"
-                              >
-                                <ul className={styles.projectDescription}>
-                                  {project.description.map((desc, dIndex) => (
-                                    <li key={dIndex}>{desc}</li>
-                                  ))}
-                                </ul>
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </div>
-                        <span className={styles.projectPeriod}>
-                          {project.period}
-                        </span>
-                      </motion.div>
-                    );
-                  })}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        )}
-
-        {/* 내부 프로젝트 더보기 버튼 (#8) */}
-        {hasMoreProjects && (
-          <ExpandButton
-            isExpanded={isExpanded}
-            onClick={() => toggleExpand(index)}
-            collapsedLabel={`+${item.projects!.length - 2}`}
-            expandedLabel={
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M18 15L12 9L6 15"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            }
-            className={styles.moreButton}
-          />
-        )}
-      </div>
-    );
-  };
 
   return (
     <section className={styles.section} id="experience">
@@ -332,18 +80,13 @@ export default function Experience() {
           >
             <div className={styles.experienceCard}>
               <LayoutGroup>
-                {/* 
-                  높이 제한 및 그라데이션 컨테이너 
-                  - 접혔을 때: max-height 적용 + overflow hidden
-                  - 펼쳐졌을 때: max-height 해제
-                */}
                 <motion.div
                   className={`${styles.listContainer} ${
                     activePopover ? styles.hasActivePopover : ''
                   }`}
                   initial={false}
                   animate={{
-                    height: isExperienceExpanded ? 'auto' : 650, // 650px는 약 2.5개 높이
+                    height: isExperienceExpanded ? 'auto' : 650,
                   }}
                   transition={{
                     height: {
@@ -357,7 +100,6 @@ export default function Experience() {
                 >
                   <div className={styles.list}>
                     {experiences.map((item, idx) => {
-                      // 현재 아이템 내부에 활성화된 팝오버가 있는지 확인
                       const hasActivePopoverInItem =
                         activePopover && activePopover.startsWith(`${idx}-`);
 
@@ -381,19 +123,27 @@ export default function Experience() {
                             transition={{
                               duration: 2,
                               repeat: Infinity,
-                              repeatDelay: 3 + idx, // 시차를 둠
+                              repeatDelay: 3 + idx,
                             }}
                           >
                             ✦
                           </motion.div>
-                          {renderExperienceItem(item, idx)}
+                          <ExperienceItem
+                            item={item}
+                            index={idx}
+                            expandedItems={expandedItems}
+                            activePopover={activePopover}
+                            colorOffset={colorOffset}
+                            onToggleExpand={toggleExpand}
+                            onTogglePopover={toggleDescription}
+                          />
                         </motion.div>
                       );
                     })}
                   </div>
                 </motion.div>
 
-                {/* 그라데이션 오버레이 및 더보기 버튼 (항상 렌더링하되 opacity로 제어) */}
+                {/* 그라데이션 오버레이 및 더보기 버튼 */}
                 <motion.div
                   className={styles.fadeOverlay}
                   initial={{ opacity: 1 }}
@@ -409,7 +159,6 @@ export default function Experience() {
                     style={{ position: 'relative', zIndex: 30 }}
                     onClick={() => setIsExperienceExpanded(true)}
                     aria-label="경력 전체 보기"
-                    // 탭 포커스 방지 (펼쳐졌을 때)
                     tabIndex={isExperienceExpanded ? -1 : 0}
                   >
                     <div className={styles.buttonContent}>
@@ -431,7 +180,7 @@ export default function Experience() {
                   </button>
                 </motion.div>
 
-                {/* 접기 버튼 (맨 아래, 펼쳐졌을 때만 표시) */}
+                {/* 접기 버튼 */}
                 {isExperienceExpanded && (
                   <div className={styles.collapseButtonWrapper}>
                     <ExpandButton

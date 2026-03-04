@@ -1,4 +1,4 @@
-'use client';
+
 
 import FadeIn from './animations/FadeIn';
 import styles from './Footer.module.scss';
@@ -42,7 +42,7 @@ export default function Footer() {
 
         <FadeIn direction="up" delay={0.4}>
           <p className={styles.copyright}>
-            © 2024 hyukraeyo. All rights reserved.
+            © {new Date().getFullYear()} hyukraeyo. All rights reserved.
           </p>
         </FadeIn>
       </div>

@@ -119,7 +119,7 @@ export default function Header({ variant = 'default' }: HeaderProps) {
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, { passive: true });
 
-    // 초기 상태 체크 (약간의 지연으로 ScrollToTop 완료 보장)
+    // 초기 상태 체크
     const timer = setTimeout(() => {
       handleScroll();
     }, 100);

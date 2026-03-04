@@ -1,4 +1,4 @@
-'use client';
+
 
 import { TECHNICAL_SKILLS } from '@/lib/data/skills';
 import BlurRevealContainer, { BlurRevealItem } from './animations/BlurReveal';

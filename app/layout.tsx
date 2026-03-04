@@ -3,6 +3,8 @@ import Script from 'next/script';
 import localFont from 'next/font/local';
 import { Rammetto_One } from 'next/font/google';
 
+import { SITE_METADATA } from '@/lib/data/site';
+import { ThemeProvider } from '@/lib/context/ThemeContext';
 import { generateStructuredData } from '@/lib/utils/structured-data';
 import './globals.scss';
 
@@ -26,8 +28,27 @@ const rammettoOne = Rammetto_One({
   variable: '--font-rammetto-one',
 });
 
-import { SITE_METADATA } from '@/lib/data/site';
-import { ThemeProvider } from '@/lib/context/ThemeContext';
+const sbAggro = localFont({
+  src: [
+    {
+      path: '../public/fonts/SBAggroL.woff',
+      weight: '300',
+      style: 'normal',
+    },
+    {
+      path: '../public/fonts/SBAggroM.woff',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: '../public/fonts/SBAggroB.woff',
+      weight: '700',
+      style: 'normal',
+    },
+  ],
+  display: 'swap',
+  variable: '--font-aggro',
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_METADATA.siteUrl),
@@ -77,13 +98,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const structuredData = generateStructuredData([]); // Pass empty array or update utility
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || SITE_METADATA.siteUrl;
+  const structuredData = generateStructuredData([]);
 
   return (
     <html
       lang="ko"
-      className={`${pretendard.variable} ${rammettoOne.variable}`}
+      className={`${pretendard.variable} ${rammettoOne.variable} ${sbAggro.variable}`}
       suppressHydrationWarning
     >
       <head>

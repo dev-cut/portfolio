@@ -3,6 +3,12 @@
 // ============================================
 // DESIGN SYSTEM VARIABLES
 // ============================================
+//
+// 📌 컨벤션 가이드:
+// - 색상: 컴포넌트에서는 CSS 변수(var(--color-*))를 사용 (테마 대응)
+//         SCSS 변수($color-*)는 globals.scss에서 CSS 변수 정의 시에만 사용
+// - 레이아웃/타이포: SCSS 변수($spacing-*, $font-size-* 등)를 직접 사용
+// ============================================
 
 // --------------------------------------------
 // Colors - Base Palette (Adjusted for richness and clarity)
@@ -68,7 +74,7 @@ $font-sans:
   system-ui,
   sans-serif;
 $font-rammetto: var(--font-rammetto-one), cursive;
-$font-aggro: 'SBAggroB', 'SBAggroM', 'SBAggroL', sans-serif;
+$font-aggro: var(--font-aggro), sans-serif;
 
 // Font Sizes
 $font-size-xs: 0.75rem; // 12px
