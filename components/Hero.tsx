@@ -5,9 +5,10 @@ import { useEffect, useRef, useState } from 'react';
 import LogoAnimation from './animations/LogoAnimation';
 import styles from './Hero.module.scss';
 
-const LANDING_EASE = [0.22, 1, 0.36, 1] as const;
-const LANDING_DURATION = 0.82;
-const TEXT_REVEAL_DELAY = 260;
+// 부드러운 "스~~~~윽!" 전환을 위한 이징 & 듀레이션
+const SWOOP_EASE = [0.12, 0.98, 0.22, 1] as const;
+const SWOOP_DURATION = 2.2;
+const TEXT_REVEAL_DELAY = 600;
 
 export default function Hero() {
   const [phase, setPhase] = useState<'intro' | 'landing' | 'settled'>('intro');
@@ -44,21 +45,26 @@ export default function Hero() {
       className={styles.hero}
       aria-labelledby="hero-title"
       transition={{
-        layout: { duration: LANDING_DURATION, ease: LANDING_EASE },
+        layout: { duration: SWOOP_DURATION, ease: SWOOP_EASE },
       }}
     >
       <m.div
-        layout
-        className={`${styles.content} ${usesSettledLayout ? styles.contentSettled : styles.contentIntro}`}
+        className={styles.content}
+        initial={false}
+        animate={{
+          minHeight: usesSettledLayout ? '0px' : '100svh',
+        }}
         transition={{
-          layout: { duration: LANDING_DURATION, ease: LANDING_EASE },
+          minHeight: { duration: SWOOP_DURATION, ease: SWOOP_EASE },
         }}
       >
         <m.div
-          layout
           className={styles.logoStage}
+          initial={false}
           animate={{ scale: usesSettledLayout ? 1 : 1.45 }}
-          transition={{ duration: LANDING_DURATION, ease: LANDING_EASE }}
+          transition={{
+            scale: { duration: SWOOP_DURATION, ease: SWOOP_EASE },
+          }}
         >
           <div className={styles.logoWrapper}>
             <LogoAnimation onComplete={handleLogoComplete} />
@@ -70,10 +76,12 @@ export default function Hero() {
           initial={false}
           animate={{
             height: usesSettledLayout ? 'auto' : 0,
+            marginTop: usesSettledLayout ? 32 : 0,
           }}
           style={{ pointerEvents: isSettled ? 'auto' : 'none' }}
           transition={{
-            height: { duration: LANDING_DURATION, ease: LANDING_EASE },
+            height: { duration: SWOOP_DURATION, ease: SWOOP_EASE },
+            marginTop: { duration: SWOOP_DURATION, ease: SWOOP_EASE },
           }}
         >
           <m.div
@@ -84,8 +92,8 @@ export default function Hero() {
               filter: isSettled ? 'blur(0px)' : 'blur(6px)',
             }}
             transition={{
-              opacity: { duration: 0.35, delay: isSettled ? 0.1 : 0 },
-              filter: { duration: 0.35, delay: isSettled ? 0.1 : 0 },
+              opacity: { duration: 0.4, delay: isSettled ? 0.15 : 0 },
+              filter: { duration: 0.4, delay: isSettled ? 0.15 : 0 },
             }}
           >
             <h1 id="hero-title" className={styles.mainText}>
