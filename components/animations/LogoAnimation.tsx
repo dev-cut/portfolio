@@ -101,12 +101,19 @@ function useDotFollowPath(
 // --- Main Component ---
 export default function LogoAnimation({
   className = '',
+  onComplete,
 }: {
   className?: string;
+  onComplete?: () => void;
 }) {
   const [scope, domAnimate] = useAnimate<HTMLDivElement>();
   const runIdRef = useRef(0);
   const [isInteractive, setIsInteractive] = useState(false);
+  const onCompleteRef = useRef(onComplete);
+
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
 
   // Path Definitions
   const J_PATH = 'M 25 35 L 75 35 L 50 35 L 25 75 L 50 35 L 75 75';
@@ -377,6 +384,7 @@ export default function LogoAnimation({
       setHPhase('done');
       setRPhase('done');
       setIsInteractive(true);
+      onCompleteRef.current?.();
     };
 
     run();
