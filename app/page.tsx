@@ -3,6 +3,7 @@ import Hero from '@/components/Hero';
 import Header from '@/components/Header';
 import CoreCompetencies from '@/components/CoreCompetencies';
 import Skills from '@/components/Skills';
+import { PageFlow, PageFlowItem } from '@/components/animations/PageFlow';
 import styles from './page.module.scss';
 
 // 하단 섹션들만 dynamic import 유지
@@ -24,15 +25,26 @@ export default function Home() {
   return (
     <>
       <main id="main-content" className={styles.main}>
-        <Hero />
-        <Header />
+        <PageFlow>
+          <Hero />
+          <PageFlowItem>
+            <Header />
+          </PageFlowItem>
 
-        {/* 모든 섹션을 세로로 순차 배치 */}
-        <CoreCompetencies />
-        <Skills />
-        <Experience />
-
-        <Footer />
+          {/* 모든 섹션을 세로로 순차 배치 */}
+          <PageFlowItem>
+            <CoreCompetencies />
+          </PageFlowItem>
+          <PageFlowItem>
+            <Skills />
+          </PageFlowItem>
+          <PageFlowItem>
+            <Experience />
+          </PageFlowItem>
+          <PageFlowItem>
+            <Footer />
+          </PageFlowItem>
+        </PageFlow>
       </main>
     </>
   );

@@ -58,13 +58,18 @@
 }
 
 .textSection {
+  width: 100%;
+  text-align: center;
+  overflow: hidden;
+}
+
+.textContent {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
-  text-align: center;
-  overflow: hidden;
+  will-change: opacity, filter;
 }
 
 .mainText {

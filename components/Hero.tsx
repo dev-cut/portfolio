@@ -35,8 +35,8 @@ export default function Hero() {
     });
   };
 
-  const isIntro = phase === 'intro';
   const isSettled = phase === 'settled';
+  const usesSettledLayout = phase !== 'intro';
 
   return (
     <motion.section
@@ -49,7 +49,7 @@ export default function Hero() {
     >
       <motion.div
         layout
-        className={`${styles.content} ${isIntro ? styles.contentIntro : styles.contentSettled}`}
+        className={`${styles.content} ${usesSettledLayout ? styles.contentSettled : styles.contentIntro}`}
         transition={{
           layout: { duration: LANDING_DURATION, ease: LANDING_EASE },
         }}
@@ -57,7 +57,7 @@ export default function Hero() {
         <motion.div
           layout
           className={styles.logoStage}
-          animate={{ scale: isIntro ? 1.45 : 1 }}
+          animate={{ scale: usesSettledLayout ? 1 : 1.45 }}
           transition={{ duration: LANDING_DURATION, ease: LANDING_EASE }}
         >
           <div className={styles.logoWrapper}>
@@ -66,38 +66,40 @@ export default function Hero() {
         </motion.div>
 
         <motion.div
-          layout
           className={styles.textSection}
           initial={false}
           animate={{
-            opacity: isSettled ? 1 : 0,
-            y: isSettled ? 0 : 32,
-            filter: isSettled ? 'blur(0px)' : 'blur(10px)',
-            height: isSettled ? 'auto' : 0,
+            height: usesSettledLayout ? 'auto' : 0,
           }}
+          style={{ pointerEvents: isSettled ? 'auto' : 'none' }}
           transition={{
-            opacity: { duration: 0.45, delay: isSettled ? 0.08 : 0 },
-            y: {
-              duration: 0.55,
-              ease: LANDING_EASE,
-              delay: isSettled ? 0.08 : 0,
-            },
-            filter: { duration: 0.45, delay: isSettled ? 0.08 : 0 },
-            height: { duration: 0.55, ease: LANDING_EASE },
-            layout: { duration: LANDING_DURATION, ease: LANDING_EASE },
+            height: { duration: LANDING_DURATION, ease: LANDING_EASE },
           }}
         >
-          <h1 id="hero-title" className={styles.mainText}>
-            안녕하세요,
-            <br />
-            프론트엔드
-            <span className={styles.name}> 개발자</span>입니다.
-          </h1>
-          <div className={styles.subText}>
-            다양한 기술로 웹 프론트엔드를 개발합니다.
-            <br />
-            함께 서비스를 만들고 성장시킬 곳을 찾고 있습니다.
-          </div>
+          <motion.div
+            className={styles.textContent}
+            initial={false}
+            animate={{
+              opacity: isSettled ? 1 : 0,
+              filter: isSettled ? 'blur(0px)' : 'blur(6px)',
+            }}
+            transition={{
+              opacity: { duration: 0.35, delay: isSettled ? 0.1 : 0 },
+              filter: { duration: 0.35, delay: isSettled ? 0.1 : 0 },
+            }}
+          >
+            <h1 id="hero-title" className={styles.mainText}>
+              안녕하세요,
+              <br />
+              프론트엔드
+              <span className={styles.name}> 개발자</span>입니다.
+            </h1>
+            <div className={styles.subText}>
+              다양한 기술로 웹 프론트엔드를 개발합니다.
+              <br />
+              함께 서비스를 만들고 성장시킬 곳을 찾고 있습니다.
+            </div>
+          </motion.div>
         </motion.div>
       </motion.div>
     </motion.section>
