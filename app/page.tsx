@@ -1,8 +1,10 @@
+import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import Hero from '@/components/Hero';
 import Header from '@/components/Header';
 import CoreCompetencies from '@/components/CoreCompetencies';
 import Skills from '@/components/Skills';
+import TrendingKeywords from '@/components/TrendingKeywords';
 import { PageFlow, PageFlowItem } from '@/components/animations/PageFlow';
 import styles from './page.module.scss';
 
@@ -40,6 +42,26 @@ export default function Home() {
           </PageFlowItem>
           <PageFlowItem>
             <Experience />
+          </PageFlowItem>
+          <PageFlowItem>
+            <Suspense
+              fallback={
+                <div
+                  style={{
+                    height: '200px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'var(--color-text-tertiary)',
+                    fontSize: '0.875rem',
+                  }}
+                >
+                  실시간 트렌드 로딩 중...
+                </div>
+              }
+            >
+              <TrendingKeywords />
+            </Suspense>
           </PageFlowItem>
           <PageFlowItem>
             <Footer />
