@@ -21,7 +21,7 @@ const NAV_ITEMS = [
   { label: '역량', href: '/#competencies' },
   { label: '기술', href: '/#skills' },
   { label: '경력', href: '/#experience' },
-  { label: '보드', href: '/board' },
+  { label: '로그', href: '/board' },
 ] as const;
 
 // 헤더 전환 임계값 (px)
