@@ -9,6 +9,11 @@ export const EXPERIENCE_DATA: ExperienceItem[] = [
     period: '2022.06 - 재직중',
     title: '(주)디플루이드',
     subtitle: 'Frontend Developer',
+    summary: [
+      'Next.js, TypeScript를 활용해 유플러스, 삼성서울병원 등 대규모 엔터프라이즈 및 의료 플랫폼 고도화 주도',
+      '레거시 시스템(Vue.js)의 모던 스택 마이그레이션과 디자인 시스템 구축으로 개발 생산성 및 UI/UX 품질 향상',
+      '성능 최적화, 웹 접근성 준수 및 복잡한 상태 관리 아키텍처 설계를 통한 안정적인 서비스 구현',
+    ],
     projects: [
       {
         name: '유플러스 고객 편의성 증대 개발 체계 구축',
@@ -134,7 +139,11 @@ export const EXPERIENCE_DATA: ExperienceItem[] = [
   {
     period: '2021.02 - 2021.09',
     title: '주식회사 쏠쏠',
-    subtitle: 'Publisher',
+    subtitle: 'Frontend Developer',
+    summary: [
+      '자사 플랫폼의 전반적인 웹 퍼블리싱을 전담하여 사용자 인터페이스 구축',
+      '유지보수가 용이한 시맨틱 마크업 및 모듈형 CSS 구조 설계를 통한 웹 표준 준수',
+    ],
     projects: [
       {
         name: '쏠쏠 자사 플랫폼 개발',
@@ -147,7 +156,11 @@ export const EXPERIENCE_DATA: ExperienceItem[] = [
   {
     period: '2018.11 - 2020.12',
     title: '주식회사 알디엠체인',
-    subtitle: 'Publisher',
+    subtitle: 'Frontend Developer',
+    summary: [
+      '블록체인 기반 서비스 사이트 개발 및 프론트엔드 퍼블리싱 담당',
+      '디자인 가이드를 충실히 반영한 크로스 브라우징 및 반응형 웹 구현',
+    ],
     projects: [
       {
         name: 'RDMChain 사이트 개발',
@@ -161,6 +174,10 @@ export const EXPERIENCE_DATA: ExperienceItem[] = [
     period: '2018.07 - 2018.10',
     title: '프리랜서',
     subtitle: 'Publisher',
+    summary: [
+      '서울특별시, 선영 법률사무소 등 공공 및 전문 서비스 사이트 구축 및 리뉴얼',
+      '다양한 고객사 요구사항에 맞춘 유연한 협업 및 고품질 웹 퍼블리싱 결과물 제공',
+    ],
     projects: [
       {
         name: '서울특별시 회의록 사이트 리뉴얼',
@@ -180,6 +197,10 @@ export const EXPERIENCE_DATA: ExperienceItem[] = [
     period: '2018.04 - 2018.07',
     title: '기본좋은커뮤니케이션',
     subtitle: 'Publisher',
+    summary: [
+      '성균관대학교, SK 코원 에너지, KT 등 교육 및 기업용 대형 웹사이트 리뉴얼 및 운영',
+      '복잡한 구조의 UI/UX 구현 및 웹 접근성 강화 작업 수행',
+    ],
     projects: [
       {
         name: '성균관대학교 사이트 리뉴얼',
@@ -205,6 +226,10 @@ export const EXPERIENCE_DATA: ExperienceItem[] = [
     period: '2015.11 - 2017.02',
     title: '유엔씨컴퍼니 주식회사',
     subtitle: 'Publisher',
+    summary: [
+      '더현대닷컴 중국 사이트 리뉴얼 및 자재 관리 등 핵심 시스템 운영 지원',
+      '안정적인 사이트 개발 및 운영을 통한 업무 효율성 증대에 기여',
+    ],
     projects: [
       {
         name: '더현대닷컴 중국 사이트 리뉴얼',

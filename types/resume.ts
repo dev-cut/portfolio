@@ -15,5 +15,6 @@ export interface ExperienceItem {
   period: string;
   title: string;
   subtitle: string;
+  summary?: string[];
   projects?: ProjectItem[];
 }

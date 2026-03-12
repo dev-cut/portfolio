@@ -7,9 +7,11 @@ import FadeIn from './animations/FadeIn';
 import styles from './Experience.module.scss';
 import ExpandButton from './ui/ExpandButton';
 import ExperienceItem from './Experience/ExperienceItem';
+import ProjectPopover from './Experience/ProjectPopover';
 import { getStringHash } from './Experience/utils';
 
 export default function Experience() {
+  const [activeTab, setActiveTab] = useState<'career' | 'projects'>('career');
   const [expandedItems, setExpandedItems] = useState<number[]>([]);
   const [isExperienceExpanded, setIsExperienceExpanded] = useState(false);
   const [activePopover, setActivePopover] = useState<string | null>(null);
@@ -20,6 +22,14 @@ export default function Experience() {
     // 페이지 마운트 시 큰 숫자의 랜덤 시드 설정 (새로고침마다 패턴 자체가 바뀌도록 함)
     setColorOffset(Math.floor(Math.random() * 1000000));
   }, []);
+
+  // 모든 프로젝트 평탄화 (프로젝트 탭용)
+  const allProjects = EXPERIENCE_DATA.flatMap((exp, expIdx) =>
+    exp.projects?.map((proj, projIdx) => ({
+      ...proj,
+      popoverKey: `all-${expIdx}-${projIdx}`,
+    })) || []
+  );
 
   // 메모이제이션된 이벤트 핸들러들
   const toggleExpand = useCallback((index: number) => {
@@ -78,6 +88,37 @@ export default function Experience() {
             </h2>
           </FadeIn>
 
+          {/* 탭 전환 버튼 */}
+          <FadeIn direction="up" delay={0.15} className={styles.tabContainer}>
+            <div className={styles.tabWrapper}>
+              <m.div
+                className={styles.activeTabBackground}
+                initial={false}
+                animate={{
+                  x: activeTab === 'career' ? 0 : '100%',
+                  width: 'calc(50% - 4px)', // $spacing-1 (4px) 만큼 제외한 너비
+                }}
+                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+              />
+              <button
+                className={`${styles.tab} ${
+                  activeTab === 'career' ? styles.active : ''
+                }`}
+                onClick={() => setActiveTab('career')}
+              >
+                경력
+              </button>
+              <button
+                className={`${styles.tab} ${
+                  activeTab === 'projects' ? styles.active : ''
+                }`}
+                onClick={() => setActiveTab('projects')}
+              >
+                프로젝트
+              </button>
+            </div>
+          </FadeIn>
+
           <FadeIn
             direction="up"
             delay={0.2}
@@ -104,49 +145,64 @@ export default function Experience() {
                     opacity: { duration: 0.3 },
                   }}
                 >
-                  <div className={styles.list}>
-                    {experiences.map((item, idx) => {
-                      const hasActivePopoverInItem =
-                        activePopover && activePopover.startsWith(`${idx}-`);
+                  <m.div
+                    key={activeTab}
+                    className={styles.list}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    {activeTab === 'career' ? (
+                      experiences.map((item, idx) => {
+                        const hasActivePopoverInItem =
+                          activePopover && activePopover.startsWith(`${idx}-`);
 
-                      return (
-                        <m.div
-                          key={idx}
-                          className={`${styles.item} ${
-                            hasActivePopoverInItem ? styles.activeItem : ''
-                          }`}
-                        >
+                        return (
                           <m.div
-                            className={styles.marker}
-                            style={{
-                              color: [
-                                'var(--color-brand-blue)',
-                                'var(--color-brand-green)',
-                                'var(--color-accent)',
-                              ][getStringHash(item.title, colorOffset) % 3],
-                            }}
-                            animate={{ rotate: [0, 10, -10, 0] }}
-                            transition={{
-                              duration: 2,
-                              repeat: Infinity,
-                              repeatDelay: 3 + idx,
-                            }}
+                            key={`career-${idx}`}
+                            className={`${styles.item} ${
+                              hasActivePopoverInItem ? styles.activeItem : ''
+                            }`}
                           >
-                            ✦
+                            <m.div
+                              className={styles.marker}
+                              style={{
+                                color: [
+                                  'var(--color-brand-blue)',
+                                  'var(--color-brand-green)',
+                                  'var(--color-accent)',
+                                ][getStringHash(item.title, colorOffset) % 3],
+                              }}
+                              animate={{ rotate: [0, 10, -10, 0] }}
+                              transition={{
+                                duration: 2,
+                                repeat: Infinity,
+                                repeatDelay: 3 + idx,
+                              }}
+                            >
+                              ✦
+                            </m.div>
+                            <ExperienceItem
+                              item={item}
+                            />
                           </m.div>
-                          <ExperienceItem
-                            item={item}
-                            index={idx}
-                            expandedItems={expandedItems}
-                            activePopover={activePopover}
+                        );
+                      })
+                    ) : (
+                      <div className={`${styles.projectList} ${styles.unified}`}>
+                        {allProjects.map((project, idx) => (
+                          <ProjectPopover
+                            key={`proj-${idx}`}
+                            project={project}
+                            popoverKey={project.popoverKey}
+                            isPopoverOpen={activePopover === project.popoverKey}
                             colorOffset={colorOffset}
-                            onToggleExpand={toggleExpand}
-                            onTogglePopover={toggleDescription}
+                            onToggle={toggleDescription}
                           />
-                        </m.div>
-                      );
-                    })}
-                  </div>
+                        ))}
+                      </div>
+                    )}
+                  </m.div>
                 </m.div>
 
                 {/* 그라데이션 오버레이 및 더보기 버튼 */}

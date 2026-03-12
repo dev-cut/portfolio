@@ -6,8 +6,6 @@ import CoreCompetencies from '@/components/CoreCompetencies';
 import Skills from '@/components/Skills';
 import TrendingKeywords from '@/components/TrendingKeywords';
 import { PageFlow, PageFlowItem } from '@/components/animations/PageFlow';
-import styles from './page.module.scss';
-
 // 하단 섹션들만 dynamic import 유지
 const Experience = dynamic(() => import('@/components/Experience'), {
   ssr: true, // SEO 유지
@@ -26,7 +24,7 @@ const Footer = dynamic(() => import('@/components/Footer'));
 export default function Home() {
   return (
     <>
-      <main id="main-content" className={styles.main}>
+      <main id="main-content" className="main-container">
         <PageFlow>
           <Hero />
           <PageFlowItem>

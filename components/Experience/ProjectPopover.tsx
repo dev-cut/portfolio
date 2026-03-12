@@ -27,66 +27,59 @@ export default function ProjectPopover({
 }: ProjectPopoverProps) {
   return (
     <m.div
-      className={styles.projectItem}
+      className={`${styles.projectItem} ${isPopoverOpen ? styles.active : ''}`}
       layout
-      style={{
-        zIndex: isPopoverOpen ? 200 : 1,
-        position: 'relative',
-      }}
+      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
     >
-      <div className={styles.detailWrapper}>
+      <div className={styles.projectMain}>
         <m.button
-          className={`${styles.projectNameButton} ${
-            isPopoverOpen ? styles.active : ''
-          }`}
+          className={styles.projectNameButton}
           onClick={(e) => {
             e.stopPropagation();
             onToggle(popoverKey);
           }}
           aria-expanded={isPopoverOpen}
-          whileHover={{ x: 4 }}
-          whileTap={{ scale: 0.98 }}
         >
-          {project.name}
-          {project.description && (
-            <m.span
-              className={`${styles.hasDetailIndicator} ${
-                styles[
-                  `indicatorColor${
-                    (getStringHash(project.name, colorOffset) % 3) + 1
-                  }`
-                ]
-              }`}
-              animate={{ scale: isPopoverOpen ? 1.4 : 1 }}
-            />
-          )}
+          <div className={styles.nameHeader}>
+            <span className={styles.projectNameText}>{project.name}</span>
+            {project.description && (
+              <m.span
+                className={styles.expandIcon}
+                animate={{ rotate: isPopoverOpen ? 45 : 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                +
+              </m.span>
+            )}
+          </div>
         </m.button>
-        <AnimatePresence mode="wait">
-          {project.description && isPopoverOpen && (
-            <m.div
-              className={styles.descriptionPopover}
-              variants={popoverVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-            >
-              <ul className={styles.projectDescription}>
-                {project.description.map((desc, dIndex) => (
-                  <m.li
-                    key={dIndex}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: dIndex * 0.05 }}
-                  >
-                    {desc}
-                  </m.li>
-                ))}
-              </ul>
-            </m.div>
-          )}
-        </AnimatePresence>
+        <span className={styles.projectPeriod}>{project.period}</span>
       </div>
-      <span className={styles.projectPeriod}>{project.period}</span>
+
+      <AnimatePresence>
+        {project.description && isPopoverOpen && (
+          <m.div
+            className={styles.projectDetails}
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+          >
+            <ul className={styles.projectDescription}>
+              {project.description.map((desc, dIndex) => (
+                <m.li
+                  key={dIndex}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: dIndex * 0.05 }}
+                >
+                  {desc}
+                </m.li>
+              ))}
+            </ul>
+          </m.div>
+        )}
+      </AnimatePresence>
     </m.div>
   );
 }

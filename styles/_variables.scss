@@ -75,6 +75,7 @@ $font-sans:
   sans-serif;
 $font-rammetto: var(--font-rammetto-one), cursive;
 $font-aggro: var(--font-aggro), sans-serif;
+$font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
 // Font Sizes
 $font-size-xs: 0.75rem; // 12px
@@ -104,6 +105,7 @@ $line-height-loose: 1.7;
 // --------------------------------------------
 // Spacing Scale (based on 0.25rem = 4px)
 // --------------------------------------------
+$spacing-0-5: 0.125rem; // 2px
 $spacing-1: 0.25rem; // 4px
 $spacing-2: 0.5rem; // 8px
 $spacing-3: 0.75rem; // 12px

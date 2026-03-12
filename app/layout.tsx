@@ -107,7 +107,6 @@ export default function RootLayout({
       className={`${pretendard.variable} ${rammettoOne.variable} ${sbAggro.variable}`}
       suppressHydrationWarning
     >
-      <head />
       <body suppressHydrationWarning>
         <ThemeProvider>
           <MotionProvider>
