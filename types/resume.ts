@@ -3,6 +3,7 @@
  */
 
 export interface ProjectItem {
+  id?: string;
   name: string;
   period: string;
   role: string;

@@ -526,9 +526,10 @@
   flex-direction: column;
   position: relative;
   width: 100%;
-  padding: $spacing-4 $spacing-3;
+  padding: $spacing-5 $spacing-4;
   border-bottom: 1px solid var(--color-border-primary);
-  transition: all $transition-base ease;
+  background-color: transparent;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
   overflow: hidden;
 
   &:last-child {
@@ -536,23 +537,21 @@
   }
 
   &:hover {
-    background-color: var(--color-bg-secondary);
-    border-radius: $radius-lg;
-    transform: translateX(4px);
-    border-bottom-color: transparent;
+    background-color: rgba($color-white, 0.02);
+    transform: translateY(-2px);
+    border-bottom-color: rgba($brand-green, 0.2);
 
-    + .projectItem {
-      border-top-color: transparent;
+    [data-theme='light'] & {
+      background-color: rgba($color-black, 0.02);
     }
   }
 
   &.active {
-    background-color: var(--color-bg-secondary);
-    border-radius: $radius-lg;
-    border-bottom-color: transparent;
+    background-color: rgba($color-white, 0.03);
+    border-bottom-color: rgba($brand-green, 0.3);
 
-    + .projectItem {
-      border-top-color: transparent;
+    [data-theme='light'] & {
+      background-color: rgba($color-black, 0.03);
     }
   }
 }
@@ -593,7 +592,8 @@
   font-weight: $font-weight-bold;
   line-height: $line-height-snug;
   color: var(--color-text-primary);
-  transition: color $transition-base ease;
+  transition: all 0.3s ease;
+  letter-spacing: -0.02em;
 
   @media (min-width: $breakpoint-md) {
     font-size: $font-size-lg;
@@ -604,13 +604,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
-  font-size: $font-size-xl;
-  font-weight: 200; // 정의되지 않은 $font-weight-light 대신 직접 수치 입력
+  width: $spacing-4;
+  height: $spacing-4;
+  font-size: $font-size-lg;
+  font-weight: 200;
   color: var(--color-text-tertiary);
-  opacity: 0.5;
-  transition: all $transition-base ease;
+  opacity: 0.3;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .projectItem:hover .expandIcon,
@@ -630,9 +630,9 @@
 
 .projectDetails {
   overflow: hidden;
-  margin-top: $spacing-4;
-  padding-left: $spacing-4;
-  border-left: 2px solid var(--color-border-primary);
+  margin-top: $spacing-6;
+  padding-left: $spacing-5;
+  border-left: 1px solid rgba($brand-green, 0.2);
 }
 
 .projectDescription {
@@ -645,22 +645,73 @@
 
   li {
     font-size: $font-size-sm;
-    color: var(--color-text-secondary);
-    line-height: $line-height-relaxed;
+    color: var(--color-text-tertiary);
+    line-height: $line-height-loose;
     position: relative;
     padding-left: $spacing-4;
+    transition: color 0.3s ease;
 
     &::before {
       content: '';
       position: absolute;
       left: 0;
-      top: 0.6em;
-      width: 4px;
-      height: 4px;
+      top: 0.7em;
+      width: 3px;
+      height: 3px;
       border-radius: 50%;
-      background-color: var(--color-text-tertiary);
-      opacity: 0.3;
+      background-color: $brand-green;
+      opacity: 0.4;
     }
+
+    &:hover {
+      color: var(--color-text-primary);
+    }
+  }
+}
+
+.detailLinkWrapper {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: $spacing-6;
+  padding-bottom: $spacing-2;
+}
+
+.detailLink {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  color: var(--color-text-tertiary);
+  text-decoration: none;
+  padding: $spacing-2 $spacing-4;
+  background-color: rgba($color-white, 0.05);
+  border: 1px solid var(--color-border-primary);
+  border-radius: $radius-full;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  opacity: 0.8;
+
+  [data-theme='light'] & {
+    background-color: rgba($color-black, 0.03);
+  }
+
+  &:hover {
+    opacity: 1;
+    color: $brand-green;
+    border-color: rgba($brand-green, 0.4);
+    background-color: rgba($brand-green, 0.05);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover svg {
+    transform: translateX(3px);
   }
 }
 

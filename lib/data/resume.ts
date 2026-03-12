@@ -16,6 +16,7 @@ export const EXPERIENCE_DATA: ExperienceItem[] = [
     ],
     projects: [
       {
+        id: 'uplus',
         name: '유플러스 고객 편의성 증대 개발 체계 구축',
         period: '2024.01 ~ 2025.08',
         role: '프론트엔드 개발',
@@ -29,6 +30,7 @@ export const EXPERIENCE_DATA: ExperienceItem[] = [
         detailedDescription: PROJECT_DESCRIPTIONS.uplus,
       },
       {
+        id: 'samsung_hospital',
         name: '삼성서울병원 구강암 극복하기 2차',
         period: '2023.11 ~ 2024.01',
         role: '프론트엔드 개발',
@@ -42,6 +44,7 @@ export const EXPERIENCE_DATA: ExperienceItem[] = [
         detailedDescription: PROJECT_DESCRIPTIONS.samsung_hospital,
       },
       {
+        id: 'kyobo',
         name: '교보생명 웹 접근성 개선',
         period: '2023.11 ~ 2023.12',
         role: '프론트엔드 개발',
@@ -55,6 +58,7 @@ export const EXPERIENCE_DATA: ExperienceItem[] = [
         detailedDescription: PROJECT_DESCRIPTIONS.kyobo,
       },
       {
+        id: 'mirae',
         name: '미래에셋생명 사이버창구 개선 구축',
         period: '2023.08 ~ 2023.11',
         role: '프론트엔드 개발',
@@ -67,6 +71,7 @@ export const EXPERIENCE_DATA: ExperienceItem[] = [
         detailedDescription: PROJECT_DESCRIPTIONS.mirae,
       },
       {
+        id: 'wemix',
         name: '위믹스 3.0 퍼블리싱',
         period: '2023.04 ~ 2023.07',
         role: '프론트엔드 개발',
@@ -79,6 +84,7 @@ export const EXPERIENCE_DATA: ExperienceItem[] = [
         detailedDescription: PROJECT_DESCRIPTIONS.wemix,
       },
       {
+        id: 'kbs',
         name: 'KBS 뉴스홈페이지 연간운영',
         period: '2023.01 ~ 2023.03',
         role: '프론트엔드 개발',
@@ -91,6 +97,7 @@ export const EXPERIENCE_DATA: ExperienceItem[] = [
         detailedDescription: PROJECT_DESCRIPTIONS.kbs,
       },
       {
+        id: 'colorverse',
         name: '컬러버스 아이템 빌더 개발',
         period: '2022.11 ~ 2022.12',
         role: '프론트엔드 개발',
@@ -103,6 +110,7 @@ export const EXPERIENCE_DATA: ExperienceItem[] = [
         detailedDescription: PROJECT_DESCRIPTIONS.colorverse,
       },
       {
+        id: 'mydata',
         name: '마이데이터 데이터잇 프로젝트',
         period: '2022.09 ~ 2022.11',
         role: '프론트엔드 개발',
@@ -115,6 +123,7 @@ export const EXPERIENCE_DATA: ExperienceItem[] = [
         detailedDescription: PROJECT_DESCRIPTIONS.mydata,
       },
       {
+        id: 'samsung_sds',
         name: '삼성SDS 안전관리 앱 개발',
         period: '2022.07 ~ 2022.08',
         role: '프론트엔드 개발',
@@ -127,6 +136,7 @@ export const EXPERIENCE_DATA: ExperienceItem[] = [
         detailedDescription: PROJECT_DESCRIPTIONS.samsung_sds,
       },
       {
+        id: 'shinhan',
         name: '신한 MIZI 앱 구축',
         period: '2022.01 ~ 2022.06',
         role: '프론트엔드 개발',

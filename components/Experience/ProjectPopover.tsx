@@ -1,10 +1,12 @@
 'use client';
 
 import { AnimatePresence, m } from 'framer-motion';
+import Link from 'next/link';
 import { getStringHash, popoverVariants } from './utils';
 import styles from '../Experience.module.scss';
 
 interface ProjectDescription {
+  id?: string;
   name: string;
   period: string;
   description?: string[];
@@ -77,6 +79,29 @@ export default function ProjectPopover({
                 </m.li>
               ))}
             </ul>
+
+            {project.id && (
+              <m.div
+                className={styles.detailLinkWrapper}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+              >
+                <Link href={`/board/${project.id}`} className={styles.detailLink}>
+                  <span>자세히 보기?</span>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </Link>
+              </m.div>
+            )}
           </m.div>
         )}
       </AnimatePresence>
