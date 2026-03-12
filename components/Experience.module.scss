@@ -263,8 +263,8 @@
   [data-theme='dark'] & {
     background: linear-gradient(
       to bottom,
-      rgba($color-bg-primary, 0) 0%,
-      rgba($color-bg-primary, 0.9) 70%,
+      rgba($color-dark-green, 0) 0%,
+      rgba($color-dark-green, 0.9) 70%,
       var(--color-bg-primary) 100%
     );
   }
@@ -339,33 +339,9 @@
   display: flex;
   flex-direction: column;
   position: relative;
+  gap: $spacing-4; // 아이템 간 간격 추가
   padding-bottom: $spacing-8;
-  padding-left: $spacing-4; // 타임라인 선을 위한 왼쪽 여백
-
-  @media (min-width: $breakpoint-md) {
-    padding-left: $spacing-6;
-  }
-
-  // 타임라인 수직선
-  &::before {
-    content: '';
-    position: absolute;
-    left: $spacing-6; // 마커 중심에 맞춤
-    top: $spacing-4;
-    bottom: $spacing-12;
-    width: 1px;
-    background: linear-gradient(
-      to bottom,
-      var(--color-border-primary) 0%,
-      var(--color-border-primary) 80%,
-      transparent 100%
-    );
-    opacity: 0.5;
-
-    @media (min-width: $breakpoint-md) {
-      left: $spacing-8;
-    }
-  }
+  padding-left: 0;
 }
 
 // ...
@@ -374,13 +350,24 @@
   display: flex;
   align-items: flex-start;
   position: relative;
-  gap: $spacing-6; // 마커와 컨텐츠 사이 간격
-  margin-bottom: $spacing-10; // 2.5rem (40px)
+  gap: $spacing-6;
+  padding: $spacing-6;
+  background-color: transparent;
+  border: 1px solid var(--color-border-primary);
+  border-radius: $radius-xl;
+  transition: all 0.3s $ease-out;
   z-index: 1;
+
+  &:hover {
+    border-color: rgba($brand-green, 0.3);
+    background-color: rgba($color-white, 0.01);
+  }
 
   // 활성화된 팝오버를 가진 아이템은 다른 아이템들보다 무조건 위에 와야 함
   &.activeItem {
     z-index: 20;
+    border-color: $brand-green;
+    background-color: rgba($brand-green, 0.02);
   }
 
   &:last-child {
@@ -401,16 +388,22 @@
 }
 
 .marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
-  z-index: 2; // 선보다 위에 오도록
+  z-index: 2;
+  width: $spacing-6; // 고정 너비 (24px)
+  height: $spacing-6;
   font-size: $font-size-xl;
   line-height: 1;
-  background-color: var(--color-bg-primary); // 선을 가리기 위한 배경
-  padding: 2px;
-  margin-top: -2px;
+  background-color: var(--color-bg-primary);
+  border-radius: $radius-full;
   animation: float-marker 3s ease-in-out infinite;
 
   @media (min-width: $breakpoint-md) {
+    width: $spacing-8; // 32px
+    height: $spacing-8;
     font-size: $font-size-2xl;
   }
 }
@@ -544,32 +537,36 @@
   flex-direction: column;
   position: relative;
   width: 100%;
-  padding: $spacing-5 $spacing-4;
-  border-bottom: 1px solid var(--color-border-primary);
+  padding: $spacing-5 $spacing-6;
+  margin-bottom: $spacing-4;
+  border: 1px solid var(--color-border-primary);
+  border-radius: $radius-xl;
   background-color: transparent;
   transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
   overflow: hidden;
+  cursor: pointer;
 
   &:last-child {
-    border-bottom: none;
+    margin-bottom: 0;
   }
 
   &:hover {
-    background-color: rgba($color-white, 0.02);
-    transform: translateY(-2px);
-    border-bottom-color: rgba($brand-green, 0.2);
+    border-color: rgba($brand-green, 0.3);
+    background-color: rgba($color-white, 0.015);
 
     [data-theme='light'] & {
-      background-color: rgba($color-black, 0.02);
+      background-color: rgba($color-black, 0.015);
     }
   }
 
   &.active {
-    background-color: rgba($color-white, 0.03);
-    border-bottom-color: rgba($brand-green, 0.3);
+    border-color: $brand-green;
+    background-color: rgba($brand-green, 0.03);
+    box-shadow: 0 10px 30px -10px rgba($color-black, 0.1);
 
     [data-theme='light'] & {
-      background-color: rgba($color-black, 0.03);
+      background-color: rgba($brand-green, 0.05);
+      box-shadow: 0 10px 30px -10px rgba($brand-green, 0.1);
     }
   }
 }
@@ -594,9 +591,9 @@
   padding: 0;
   border: none;
   background: transparent;
-  cursor: pointer;
   text-align: left;
   flex: 1;
+  pointer-events: none; // 부모 div에서 클릭을 처리하므로 비활성화
 }
 
 .nameHeader {

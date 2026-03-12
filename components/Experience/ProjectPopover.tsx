@@ -32,16 +32,10 @@ export default function ProjectPopover({
       className={`${styles.projectItem} ${isPopoverOpen ? styles.active : ''}`}
       layout
       transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+      onClick={() => project.description && onToggle(popoverKey)}
     >
       <div className={styles.projectMain}>
-        <m.button
-          className={styles.projectNameButton}
-          onClick={(e) => {
-            e.stopPropagation();
-            onToggle(popoverKey);
-          }}
-          aria-expanded={isPopoverOpen}
-        >
+        <div className={styles.projectNameButton}>
           <div className={styles.nameHeader}>
             <span className={styles.projectNameText}>{project.name}</span>
             {project.description && (
@@ -54,7 +48,7 @@ export default function ProjectPopover({
               </m.span>
             )}
           </div>
-        </m.button>
+        </div>
         <span className={styles.projectPeriod}>{project.period}</span>
       </div>
 
@@ -66,6 +60,7 @@ export default function ProjectPopover({
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
+            onClick={(e) => e.stopPropagation()} // 상세 내용 영역 클릭 시 닫히지 않도록 방지
           >
             <ul className={styles.projectDescription}>
               {project.description.map((desc, dIndex) => (
@@ -87,7 +82,11 @@ export default function ProjectPopover({
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
               >
-                <Link href={`/board/${project.id}`} className={styles.detailLink}>
+                <Link
+                  href={`/board/${project.id}`}
+                  className={styles.detailLink}
+                  onClick={(e) => e.stopPropagation()} // 상세 보기 링크 클릭 시 버블링 방지
+                >
                   <span>자세히 보기</span>
                   <svg
                     viewBox="0 0 24 24"
