@@ -88,7 +88,7 @@ export default function ProjectPopover({
                 transition={{ delay: 0.2 }}
               >
                 <Link href={`/board/${project.id}`} className={styles.detailLink}>
-                  <span>자세히 보기?</span>
+                  <span>자세히 보기</span>
                   <svg
                     viewBox="0 0 24 24"
                     fill="none"
