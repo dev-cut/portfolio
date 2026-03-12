@@ -241,7 +241,7 @@ const Nav = memo(function Nav({ isCompact = false }: NavProps) {
       if (element) {
         // setTimeout을 사용하여 이벤트 루프 충돌 방지 및 확실한 스크롤 실행
         setTimeout(() => {
-          const headerOffset = 80; // 헤더 높이 고려
+          const headerOffset = 0; // 하단 바 형태이므로 상단 오프셋 불필요
           const elementPosition = element.getBoundingClientRect().top;
           const offsetPosition =
             elementPosition + window.scrollY - headerOffset;

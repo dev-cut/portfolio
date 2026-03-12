@@ -35,6 +35,13 @@
 // EXPERIENCE SECTION
 // ============================================
 
+.section {
+  scroll-margin-top: $spacing-8;
+  @media (min-width: $breakpoint-md) {
+    scroll-margin-top: $spacing-12;
+  }
+}
+
 // Wrapper: 상하 여백 담당
 .experienceWrapper {
   display: flex;
@@ -43,10 +50,10 @@
   width: 100%;
   max-width: 500px; // experienceCard와 동일한 max-width
   margin: 0 auto;
-  padding: $spacing-20 $spacing-4; // 좌우 여백 추가
+  padding: $spacing-12 $spacing-4 $spacing-20; // 상단 여백 축소
 
   @media (min-width: $breakpoint-md) {
-    padding: $spacing-24 0;
+    padding: $spacing-16 0 $spacing-24;
   }
 }
 
