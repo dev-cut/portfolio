@@ -573,14 +573,13 @@
 
 .projectMain {
   display: flex;
-  flex-direction: column;
+  flex-direction: row; // 모바일에서도 + 아이콘이 오른쪽 끝에 오도록 항상 row
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   gap: $spacing-2;
 
   @media (min-width: $breakpoint-md) {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
     gap: $spacing-4;
   }
 }
@@ -598,8 +597,14 @@
 
 .nameHeader {
   display: flex;
-  align-items: center;
-  gap: $spacing-3;
+  flex-direction: row; // 항상 제목 옆에 기간이 나란히 위치
+  align-items: center; // 중앙 정렬
+  flex-wrap: wrap; // 좁은 화면에서는 자연스럽게 줄바꿈됨
+  gap: $spacing-2;
+  
+  @media (min-width: $breakpoint-md) {
+    gap: $spacing-3;
+  }
 }
 
 .projectNameText {

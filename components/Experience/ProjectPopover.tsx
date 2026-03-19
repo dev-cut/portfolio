@@ -38,18 +38,18 @@ export default function ProjectPopover({
         <div className={styles.projectNameButton}>
           <div className={styles.nameHeader}>
             <span className={styles.projectNameText}>{project.name}</span>
-            {project.description && (
-              <m.span
-                className={styles.expandIcon}
-                animate={{ rotate: isPopoverOpen ? 45 : 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                +
-              </m.span>
-            )}
+            <span className={styles.projectPeriod}>{project.period}</span>
           </div>
         </div>
-        <span className={styles.projectPeriod}>{project.period}</span>
+        {project.description && (
+          <m.span
+            className={styles.expandIcon}
+            animate={{ rotate: isPopoverOpen ? 45 : 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            +
+          </m.span>
+        )}
       </div>
 
       <AnimatePresence>
