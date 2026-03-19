@@ -196,7 +196,7 @@
   outline: none; // 기본 포커스 링 제거
 
   &.active {
-    color: var(--color-text-primary);
+    color: var(--color-text-light); // 오렌지 배경에서 글씨가 잘 보이도록 밝은 색상(흰색 계열) 사용
   }
 
   &:hover:not(.active) {
@@ -222,15 +222,14 @@
   bottom: $spacing-1;
   left: $spacing-1;
   // width는 인라인 스타일(framer-motion)에서 계산됨
-  background-color: var(--color-bg-primary);
-  border: 1px solid var(--color-border-primary);
+  background-color: var(--color-accent); // 로고의 주황색 통일
   border-radius: $radius-full;
   box-shadow: $shadow-sm;
   z-index: 0;
 
   [data-theme='dark'] & {
-    background-color: rgba($accent-color, 0.2);
-    border-color: rgba($accent-color, 0.4);
+    background-color: var(--color-accent); // 갈색이 아닌 선명한 주황색 (opacity 제거)
+    border: none; // 테두리 제거로 더 깔끔하게
   }
 }
 
